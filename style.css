@@ -1,0 +1,251 @@
+*{
+    box-sizing: border-box;
+}
+
+
+div,h1,h2,body,nav,input,body,header{
+    margin: 0;
+    padding: 0;
+}
+
+/*----BODY STYLE----*/
+
+body{
+    --nav-color: color-mix(in srgb, #12B3A8 100%, #fff);
+    --bc-color: color-mix(in srgb, #fff 100%, #fff);
+    font-family: Montserrat;
+    background-color: var(--bc-color);
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+/*---HEADER----*/
+
+header{
+    display: flex;
+    flex-direction: column;
+}
+
+/*----HEADER IMG STYLE----*/
+
+.header_img{
+    width: 150px;
+    max-height: 100px;
+    max-width: 100%;
+    margin: 10px 20px;
+    box-shadow: 0 0 40px 0 #0006;
+}
+
+/*----HEADER CONTACT BAR----*/
+
+.contact_bar{
+    display: none;
+}
+
+@media screen and (min-width:700px) {
+
+    .contact_bar{ 
+        font-size: 13px; 
+        display: flex;
+        width: 100%; 
+        background-color: #eee;
+        padding: 2px 10px; 
+        justify-content: center;
+        align-items: center;
+    } 
+
+    .contact_list{ 
+        margin:0; 
+        padding:0;
+        display: flex; 
+        flex-direction: row; 
+        list-style: none; 
+        gap:50px; 
+        justify-content: center;
+        align-items: center;
+    } 
+    
+    .contact_list_item_a { 
+        color: inherit; 
+        text-decoration: none; 
+        font-size: 14px; 
+    } 
+
+    .contact_list_item{
+        display: flex;
+        text-align: center;
+        height: auto;
+    }
+
+    .contact_list_item_a span{ 
+        font-size: 14px; 
+        margin-right:5px ;
+    } 
+
+    .whatsapp{
+        color:green;
+    }
+
+        .contact_list_item_a:hover{
+        text-decoration: underline; 
+    }
+
+    .contact_list_img{
+        position: relative;
+        width: 25px;
+        height: 18px;
+        top:0;
+        object-fit: contain;
+    }
+
+
+}
+/*----NAV STYLES----*/
+
+.nav_container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--nav-color);
+    border-bottom: 2px solid #0004;
+}
+
+
+.nav{
+    color: #000;
+    background-color: var(--nav-color);
+
+    height: 100dvh;
+    width: 100vw;
+    top: 0;
+    right: 0;
+    z-index: 10;
+
+    position: fixed;
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav.open{
+    transform: translateX(0%);
+}
+
+
+.menu_btn{
+    position: absolute;
+    right: 10px;
+    user-select: none;
+    z-index: 20;
+    cursor: pointer;
+    background-color: #12B3A8;
+    border: none;
+}
+
+.menu_btn:hover{
+    box-shadow: 0 0 20px 0 #0006;
+}
+
+.nav_list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content:space-between;
+    margin: auto;
+}
+
+.nav_list_item{
+    display: flex;
+    padding-bottom: 100px;
+}
+
+
+.nav_list_item_a{
+    font-weight: 600;
+    text-decoration: none;
+    color:inherit;
+}
+
+.nav_list_item_a:hover{
+    text-decoration: underline;
+}
+
+.nav_list_item_a span{
+    padding-right: 20px;
+}
+
+
+
+/*----NAV MEDIA QUERIES----*/
+
+@media screen and (min-width:700px){
+    button.menu_btn{ /*Label por que le da mas especifidad, ya que el google icon lo sobreescribe*/
+    display: none;
+}
+
+    .header_container{
+        display: flex;
+        align-items: center;
+    }
+
+    .nav{
+        display: flex;
+        position: static;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .nav_item{
+        position: absolute;
+        right: 50px;
+    }
+
+    .nav_list{
+        flex-direction: row;
+        gap: 65px;
+    }
+
+    .nav_list_item{
+        padding: 0;
+    }
+
+    .header_img{
+        width: 300px;
+        max-height: 170px;
+        }
+
+}
+
+/*----HEADER IMG STYLE----*/
+
+
+.header_container_img{
+    z-index: 20;
+}
+
+
+/*----MAIN----*/
+
+main{
+    flex:1;
+}
+
+/*----FOOTER---*/
+
+footer{
+    background-color: #ddd;
+    width: 100%;
+
+}
+
+.footer_container{
+    width: 100%;
+    background-color: #ddd;
+    min-height: 50px;
+}
