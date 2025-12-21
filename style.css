@@ -11,8 +11,9 @@ div,h1,h2,body,nav,input,body,header{
 /*----BODY STYLE----*/
 
 body{
-    --nav-color: color-mix(in srgb, #12B3A8 100%, #fff);
+    --nav-color: color-mix(in srgb, #f70 100%, #fff);
     --bc-color: color-mix(in srgb, #fff 100%, #fff);
+    --ft-color: color-mix(in srgb, #ccc 100%, #000);
     font-family: Montserrat;
     background-color: var(--bc-color);
     display: flex;
@@ -121,7 +122,7 @@ header{
     width: 100vw;
     top: 0;
     right: 0;
-    z-index: 10;
+    z-index: 20;
 
     position: fixed;
     transform: translateX(100%);
@@ -141,14 +142,14 @@ header{
     position: absolute;
     right: 10px;
     user-select: none;
-    z-index: 20;
+    z-index: 30;
     cursor: pointer;
-    background-color: #12B3A8;
+    background-color:  var(--nav-color);
     border: none;
 }
 
 .menu_btn:hover{
-    box-shadow: 0 0 20px 0 #0006;
+    box-shadow: 0 0 10px 0px #0002;
 }
 
 .nav_list{
@@ -169,6 +170,10 @@ header{
     font-weight: 600;
     text-decoration: none;
     color:inherit;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav_list_item_a:hover{
@@ -188,22 +193,23 @@ header{
     display: none;
 }
 
+.nav_list_phone{
+    display:none;
+}
+
     .header_container{
         display: flex;
         align-items: center;
     }
 
     .nav{
-        display: flex;
         position: static;
         height: auto;
-        justify-content: center;
-        align-items: center;
+        transform: translateX(0%);
     }
 
-    .nav_item{
-        position: absolute;
-        right: 50px;
+    .nav_list_container{
+        display: flex;
     }
 
     .nav_list{
@@ -216,9 +222,50 @@ header{
     }
 
     .header_img{
+        display:flex;
         width: 300px;
         max-height: 170px;
         }
+
+}
+
+@media  screen and (max-width:699px){
+
+.nav_list_desktop{
+    display: none;
+}
+
+.nav_list_phone{
+    justify-content: center;
+}
+
+.nav_list{
+    padding: 0;
+    width: 100%;
+    padding-left: 24px;
+}
+
+.nav_list_item_arrow{
+    position: absolute;
+    right:0px;
+}
+
+
+.nav_list_phone .nav_list_item{
+    padding:0;
+    padding-top: 50px;
+    margin: 0;
+}
+
+.nav_list_phone .nav_list_item:first-child{
+    padding: 0;
+}
+
+.nav_list_container{
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
 
 }
 
@@ -228,6 +275,68 @@ header{
 .header_container_img{
     z-index: 20;
 }
+
+/*----NAR SEARCH BAR STYLE*/
+
+.search_bar_container{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search_bar_input{
+    background-color: #eee;
+    width: 60%;
+    height: 30px;
+    font-size: 14px;
+    font-family: Montserrat;
+    padding-left: 10px; 
+    border: none;
+    border-top-left-radius:20px;
+    border-bottom-left-radius:20px;
+}
+
+.search_bar_input:hover{
+    box-shadow: 0 0 10px 0 #0004;
+}
+
+.search_bar_input:focus{
+    outline: none;
+    border:none;
+}
+
+.search_bar_input::placeholder{
+    font-size: 14px;
+    font-family: Montserrat;
+
+}
+
+.search_bar_form{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.search_bar_button{
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    font-size: 20px;
+    height: 30px;
+    width: 40px;
+    border-radius: 0 20px 20px 0;
+    margin-left: -5px;
+    border-radius-bottom-right:20px;
+}
+
+.search_bar_suggestions_item{
+    background-color: #fff;
+}
+/*----NAV STYLES----*/
 
 
 /*----MAIN----*/
@@ -239,13 +348,13 @@ main{
 /*----FOOTER---*/
 
 footer{
-    background-color: #ddd;
+    background-color: var(--ft-color);
     width: 100%;
 
 }
 
 .footer_container{
     width: 100%;
-    background-color: #ddd;
+    background-color: var(--ft-color);
     min-height: 50px;
 }
