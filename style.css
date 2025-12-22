@@ -78,6 +78,7 @@ header{
         color: inherit; 
         text-decoration: none; 
         font-size: 14px; 
+        font-weight: 600;
     } 
 
     .contact_list_item{
@@ -88,7 +89,8 @@ header{
 
     .contact_list_item_a span{ 
         font-size: 14px; 
-        margin-right:5px ;
+        margin-right:5px;
+        font-weight: 600;
     } 
 
     .whatsapp{
