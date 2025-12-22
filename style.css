@@ -365,6 +365,10 @@ main{
 
 /*----PRODUCT SHOW PHONE----*/
 
+    .main_desktop{
+        display: none;
+    }
+
     .main_product_show{
     padding: 24px;
     background-color: #f5f5f5;
@@ -428,6 +432,10 @@ main{
     @media screen and (min-width:700px) {
         .main_phone{
             display: none;
+        }
+
+        .main_desktop{
+            display: block;
         }
 
         .main_container{
