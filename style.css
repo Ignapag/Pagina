@@ -1,21 +1,29 @@
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --nav-color: #ff7700; 
+    --bc-color: #fff;
+    --ft-color: #ccc;
 }
 
 html{
     scroll-padding-top: 70px;
 }
-div,h1,h2,body,nav,input,body,header{
-    margin: 0;
-    padding: 0;
-}
+
+/* components
+    header.html
+    footer.html
+*/
+
+
 
 /*----BODY STYLE----*/
 
-body{
-    --nav-color: color-mix(in srgb, #f70 100%, #fff);
-    --bc-color: color-mix(in srgb, #fff 100%, #fff);
-    --ft-color: color-mix(in srgb, #ccc 100%, #000);
+.body{
     font-family: Montserrat;
     background-color: var(--bc-color);
     display: flex;
@@ -25,7 +33,7 @@ body{
 
 /*---HEADER----*/
 
-header{
+.header_style{
     position: fixed;
     top: 0;
     left: 0;
@@ -36,13 +44,22 @@ header{
 }
 
 /*----HEADER IMG STYLE----*/
-
+.header_img_a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    margin-left: 30px;
+}
 .header_img{
     width: 150px;
     max-height: 100px;
     max-width: 100%;
     margin: 10px 20px;
-    box-shadow: 0 0 40px 0 #0006;
+}
+
+.header_img:hover{
+    box-shadow: 0 0 5px 0 #0006;
 }
 
 /*----HEADER CONTACT BAR----*/
@@ -89,7 +106,7 @@ header{
 
     .contact_list_item_a span{ 
         font-size: 14px; 
-        margin-right:5px;
+        margin-right:5px ;
         font-weight: 600;
     } 
 
@@ -230,8 +247,8 @@ header{
 
     .header_img{
         display:flex;
-        width: 300px;
-        max-height: 170px;
+        width: 350px;
+        max-height: 180px;
         }
 
 }
@@ -353,7 +370,7 @@ header{
 
 /*----MAIN STYLES----*/
 
-main{
+.main{
     flex:1;
     background-color: #f5f5f5;
     margin-top: 75px;
@@ -384,7 +401,7 @@ main{
 
     .main_product_show_list{
     display: flex;
-    gap: 16px;
+    gap: 30px;
     overflow-x: auto;
     padding-bottom: 12px;
     }
@@ -402,10 +419,15 @@ main{
     gap: 10px;
     }
 
+    .main_product_show_tittle_secundary{
+        margin-bottom: 15px;
+    }
+
     .product_card img {
     width: 100%;
     object-fit: contain;
     margin-top: 24px;
+    min-height: 291px;
     }
 
     .product_name {
@@ -451,21 +473,80 @@ main{
 
         .main_desktop{
             width: 100%;
-            max-width: 900px;
+            max-width: 1200px;
             height: 100%;
             background-color:inherit;
+            border: 5px solid #eee;
         }
 
         .desktop{
             background-color: inherit;
         }
+
+
+        .product_card{
+            min-width: 240px;
+            max-width: 255px;
+            min-height:312px ;
+        }
+
         * {
-        scrollbar-width: none;       /* auto | thin | none */
+        scrollbar-width: none;      
         scrollbar-color: #ff7a00 #f1f1f1;   
         }
-        
-        
-        
+
+        .main_desktop__product_transition {
+        position: relative;
+        padding: 50px;
+        margin-top: 70px;
+        }
+        .main_desktop_product_container {
+        display: flex;
+        gap: 16px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory;
+
+        scrollbar-width: none;
+        }
+        .main_desktop_product_container::-webkit-scrollbar {
+        display: none;
+        }
+
+        .main_desktop__product_buttom{
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(255,255,255,.95);
+        border: none;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        font-size: 22px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        z-index: 5;
+        }
+
+        .main_desktop__product_buttom.left {
+        left: -50px;
+        }
+
+        .main_desktop__product_buttom.right {
+        right: -50px;
+        }
+
+        .main_desktop__product_buttom:hover {
+        background: #fff;
+        }
+
+        .main_product_show_tittle_secundary{
+            font-size: 24px;
+            position: absolute;
+            top:30px;
+            left:80px;
+        }
+
     }
 
 
