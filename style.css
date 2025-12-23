@@ -2,6 +2,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    scrollbar-width: none;        
 }
 
 :root {
@@ -29,6 +30,7 @@ html{
     display: flex;
     flex-direction: column;
     height: 100dvh;
+    background-color: #f5f5f5;
 }
 
 /*---HEADER----*/
@@ -401,7 +403,7 @@ html{
 
     .main_product_show_list{
     display: flex;
-    gap: 30px;
+    gap: 35px;
     overflow-x: auto;
     padding-bottom: 12px;
     }
@@ -436,15 +438,7 @@ html{
     min-height: 38px;
     }
 
-/*----MEDIA QUERIES MAIN----*/
-
-    @media (max-width: 699px) {
-    .offers {
-        padding: 16px;
-    }
-    }
-
-    .main_product_show_a{
+.main_product_show_a{
         color: #000;
         text-decoration: none;
     }
@@ -453,7 +447,39 @@ html{
         text-decoration: underline;
     }
 
+    .main_product_show_list::-webkit-scrollbar{
+        display: none;
+    }
+/*----MEDIA QUERIES MAIN----*/
+
+    @media (max-width: 699px) {
+
+    .offers {
+        padding: 16px;
+    }
+
+    }
+
+
     @media screen and (min-width:700px) {
+
+    .product_card {
+    background: #fff;
+    min-width: 220px;
+    max-width: 220px;
+    border-radius: 12px;
+    padding: 16px;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+
+        .main{
+            background-color: #fff;
+        }
+
         .main_phone{
             display: none;
         }
@@ -462,25 +488,27 @@ html{
             display: block;
         }
 
+        .main_product_container::-webkit-scrollbar{
+        display: block;
+        height: 8px;
+        }
+
         .main_container{
             background-color: #f5f5f5;
-            width: 100%;
+            max-width: 1200px;
             height: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+            margin: auto;
+            border: 2px solid #ccc;
         }
 
-        .main_desktop{
-            width: 100%;
-            max-width: 1200px;
-            height: 100%;
-            background-color:inherit;
-            border: 5px solid #eee;
-        }
 
         .desktop{
             background-color: inherit;
+            display: flex;
         }
 
 
@@ -490,28 +518,24 @@ html{
             min-height:312px ;
         }
 
-        * {
-        scrollbar-width: none;      
-        scrollbar-color: #ff7a00 #f1f1f1;   
-        }
 
-        .main_desktop__product_transition {
+        .main_product_transition {
         position: relative;
         padding: 50px;
         margin-top: 70px;
+        width: 100%;
         }
-        .main_desktop_product_container {
+        .main_product_container {
         display: flex;
         gap: 16px;
         overflow-x: auto;
         scroll-behavior: smooth;
         scroll-snap-type: x mandatory;
-
+        width: 100%;
         scrollbar-width: none;
+        scrollbar-color: #ccc;
         }
-        .main_desktop_product_container::-webkit-scrollbar {
-        display: none;
-        }
+
 
         .main_desktop__product_buttom{
         position: absolute;
