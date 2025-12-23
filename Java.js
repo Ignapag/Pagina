@@ -12,17 +12,21 @@ navLinks.forEach(link => {
   });
 });
 
-const track = document.querySelector('.main_desktop_product_container');
-const btnLeft = document.querySelector('.main_desktop__product_buttom.left');
-const btnRight = document.querySelector('.main_desktop__product_buttom.right');
+const CARD_WIDTH = 285;
 
-const CARD_WIDTH = 280;
+document.querySelectorAll('.main_desktop__product_transition').forEach(slider => {
+  const track = slider.querySelector('.main_desktop_product_container');
+  const btnLeft = slider.querySelector('.main_desktop__product_buttom.left');
+  const btnRight = slider.querySelector('.main_desktop__product_buttom.right');
 
-btnLeft.addEventListener('click', () => {
-  track.scrollBy({ left: -CARD_WIDTH, behavior: 'smooth' });
+  btnLeft.addEventListener('click', () => {
+    track.scrollBy({ left: -CARD_WIDTH, behavior: 'smooth' });
+  });
+
+  btnRight.addEventListener('click', () => {
+    track.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
+  });
 });
 
-btnRight.addEventListener('click', () => {
-  track.scrollBy({ left: CARD_WIDTH, behavior: 'smooth' });
-});
+
 

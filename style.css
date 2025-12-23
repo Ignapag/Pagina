@@ -1,14 +1,13 @@
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 html{
     scroll-padding-top: 70px;
 }
-div,h1,h2,body,nav,input,body,header{
-    margin: 0;
-    padding: 0;
-}
+
 
 /*----BODY STYLE----*/
 
@@ -384,7 +383,7 @@ main{
 
     .main_product_show_list{
     display: flex;
-    gap: 16px;
+    gap: 30px;
     overflow-x: auto;
     padding-bottom: 12px;
     }
@@ -402,10 +401,15 @@ main{
     gap: 10px;
     }
 
+    .main_product_show_tittle_secundary{
+        margin-bottom: 15px;
+    }
+
     .product_card img {
     width: 100%;
     object-fit: contain;
     margin-top: 24px;
+    min-height: 291px;
     }
 
     .product_name {
@@ -461,6 +465,13 @@ main{
             background-color: inherit;
         }
 
+
+        .product_card{
+            min-width: 240px;
+            max-width: 255px;
+            min-height:312px ;
+        }
+
         * {
         scrollbar-width: none;      
         scrollbar-color: #ff7a00 #f1f1f1;   
@@ -468,15 +479,15 @@ main{
 
         .main_desktop__product_transition {
         position: relative;
-        padding: 20px 0;
+        padding: 50px;
+        margin-top: 70px;
         }
-
         .main_desktop_product_container {
         display: flex;
         gap: 16px;
         overflow-x: auto;
         scroll-behavior: smooth;
-        padding: 0 50px;
+        scroll-snap-type: x mandatory;
 
         scrollbar-width: none;
         }
@@ -487,7 +498,7 @@ main{
         .main_desktop__product_buttom{
         position: absolute;
         top: 50%;
-        transform: translateY(-60%);
+        transform: translateY(-50%);
         background: rgba(255,255,255,.95);
         border: none;
         width: 42px;
@@ -500,17 +511,23 @@ main{
         }
 
         .main_desktop__product_buttom.left {
-        left: -70px;
+        left: -50px;
         }
 
         .main_desktop__product_buttom.right {
-        right: -70px;
+        right: -50px;
         }
 
         .main_desktop__product_buttom:hover {
         background: #fff;
         }
 
+        .main_product_show_tittle_secundary{
+            font-size: 24px;
+            position: absolute;
+            top:30px;
+            left:80px;
+        }
 
     }
 
