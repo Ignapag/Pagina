@@ -28,5 +28,37 @@ document.querySelectorAll('.main_desktop__product_transition').forEach(slider =>
   });
 });
 
+// ===============================
+// HEADER
+// ===============================
+fetch("components/header.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("site-header").innerHTML = data;
 
+    const btn = document.querySelector('.menu_btn');
+    const nav = document.querySelector('.nav');
+    const navLinks = document.querySelectorAll('.nav_list_item_a');
+
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        nav.classList.toggle('open');
+      });
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+      });
+    });
+  });
+
+// ===============================
+// FOOTER
+// ===============================
+fetch("components/footer.html")
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("site-footer").innerHTML = data;
+  });
 

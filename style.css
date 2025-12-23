@@ -4,17 +4,29 @@
     padding: 0;
 }
 
+:root {
+    --nav-color: #ff7700; 
+    --bc-color: #fff;
+    --ft-color: #ccc;
+}
+
 html{
     scroll-padding-top: 70px;
 }
 
+/* components
+    header.html
+    footer.html
+    index.html
+    productos.html
+    java.js
+*/
+
+
 
 /*----BODY STYLE----*/
 
-body{
-    --nav-color: color-mix(in srgb, #f70 100%, #fff);
-    --bc-color: color-mix(in srgb, #fff 100%, #fff);
-    --ft-color: color-mix(in srgb, #ccc 100%, #000);
+.body{
     font-family: Montserrat;
     background-color: var(--bc-color);
     display: flex;
@@ -24,7 +36,7 @@ body{
 
 /*---HEADER----*/
 
-header{
+.header_style{
     position: fixed;
     top: 0;
     left: 0;
