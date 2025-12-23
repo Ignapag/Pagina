@@ -44,7 +44,12 @@ html{
     display: flex;
     flex-direction: column;
 }
-
+.header_width{
+    display: flex;
+    flex-direction: column;
+    max-width: 2400px;
+    margin: 0 auto;
+}
 /*----HEADER IMG STYLE----*/
 .header_img_a{
     display: flex;

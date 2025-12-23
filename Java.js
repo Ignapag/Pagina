@@ -19,6 +19,11 @@ document.querySelectorAll('.main_product_transition').forEach(slider => {
   const btnLeft = slider.querySelector('.main_desktop__product_buttom.left');
   const btnRight = slider.querySelector('.main_desktop__product_buttom.right');
 
+  if (!track || !btnLeft || !btnRight){
+    console.warn('Slider incompleto, se ignora:', slider.id);
+    return;
+  }
+
     btnLeft.addEventListener('click', () => {
       smoothScroll(track, -CARD_WIDTH, 500);
     });
@@ -71,6 +76,8 @@ fetch("components/footer.html")
 let isAnimating = false;
 
 function smoothScroll(container, distance, duration = 500) {
+
+
   if (isAnimating) return;   // ⛔ bloquea clicks rápidos
   isAnimating = true;
 
