@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         "aire-basico": {
         titulo: "Aire Acondicionado Básico",
-        imagen: "aire2_prueba.webp",
+        imagen: "Aire_prueba.webp",
         descripcion: "Modelo simple y económico.",
         caracteristicas: {
             sleep: false,
