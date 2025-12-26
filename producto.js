@@ -1,81 +1,90 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("id");
+// producto.js
 
-    const productos = {
-        "aire-philco": {
-        titulo: "Aire Acondicionado Philco",
-        imagen: "airepng.png",
-        descripcion: "El aire acondicionado Philco es la solución perfecta para mantener tu hogar cómodo durante todo el año. Con su capacidad de frío y calor, este modelo te permite disfrutar de un ambiente agradable, sin importar la temporada. Su diseño moderno y funcional se adapta a cualquier decoración, mientras que su tecnología avanzada garantiza un funcionamiento silencioso y de bajo consumo energético.",
-        caracteristicas: {
-            sleep: true,
-            remote: true,
-            timer: true,
-            cooling: "3200 frigorías",
-            heating: "3400 kcal",
-            ext: "800 x 550 x 300 mm",
-            int: "900 x 300 x 220 mm",
-        },
-        },
+// ----------------------
+// 1) DATA (con id + tipo)
+// ----------------------
+const productos = [
+  {
+    id: "aire-philco-3200",
+    tipo: "aire", // (te sirve para CSS: aire / tv / etc.)
+    nombre: "Aire Acondicionado Philco",
+    imagen: "airepng.png",
+    descripcion:
+      "El aire acondicionado Philco es la solución perfecta para mantener tu hogar cómodo durante todo el año...",
+    caracteristicas: [
+      { label: "Modo Sleep", value: "Sí" },
+      { label: "Control remoto", value: "Sí" },
+      { label: "Temporizador", value: "Sí" },
+      { label: "Potencia de refrigeración", value: "3200 frigorías" },
+      { label: "Potencia de calefacción", value: "3400 kcal" }
+    ]
+  },
+  {
+    id: "tv-samsung-55",
+    tipo: "tv",
+    nombre: 'Smart TV Samsung 55"',
+    imagen: "Televisor_prueba.webp",
+    descripcion: 'Smart TV UHD 55".',
+    caracteristicas: [
+      { label: "Resolución", value: "4K" },
+      { label: "Pulgadas", value: "55" },
+      { label: "Sistema", value: "Tizen" }
+    ]
+  }
+];
 
-        "aire-basico": {
-        titulo: "Aire Acondicionado Básico",
-        imagen: "aire2_prueba.webp",
-        descripcion: "Modelo simple y económico.",
-        caracteristicas: {
-            sleep: false,
-            remote: true,
-            timer: false,
-            cooling: "2500 frigorías",
-            heating: "—",
-            ext: "750 x 500 x 280 mm",
-            int: "850 x 290 x 210 mm",
-        },
-        },
-    };
+// ------------------------------------
+// 2) OBTENER ID DESDE LA URL (?id=...)
+// ------------------------------------
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id"); // ej: aire-philco-3200
 
-    const producto = productos[productId];
+// Buscar producto por id (NO por índice)
+const producto = productos.find((p) => p.id === id);
 
-    // Si no existe el producto, cortar prolijo
-    if (!productId || !producto) {
-        console.error("Producto no encontrado:", productId);
-        const t = document.querySelector(".only_product_tittle");
-        if (t) t.textContent = "Producto no encontrado";
-        return;
-    }
+// ---------------------------
+// 3) SI NO EXISTE, MENSAJE
+// ---------------------------
+if (!producto) {
+  console.error("Producto no encontrado:", id);
+  const cont = document.querySelector(".only_product_container");
+  if (cont) cont.innerHTML = `<p>Producto no encontrado.</p>`;
+} else {
+  // ---------------------------
+  // 4) CARGAR DATOS EN EL HTML
+  // ---------------------------
 
-    // Pintar título / imagen / descripción
-    document.querySelector(".only_product_tittle").textContent = producto.titulo;
-    document.querySelector(".only_product_img").src = producto.imagen;
-    document.querySelector(".only_product_img").alt = producto.titulo;
-    document.querySelector(".only_product_description").textContent = producto.descripcion;
+  // Título
+  const titleEl = document.querySelector(".only_product_tittle");
+  if (titleEl) titleEl.textContent = producto.nombre;
 
-    const c = producto.caracteristicas;
+  // Imagen
+  const imgEl = document.querySelector(".only_product_img");
+  if (imgEl) {
+    imgEl.src = producto.imagen;
+    imgEl.alt = producto.nombre;
+  }
 
-    // Helper: setea el valor después de los ":" y opcionalmente oculta si viene vacío/—
-    function setValue(id, value, { hideIfEmpty = false } = {}) {
-        const el = document.getElementById(id);
-        if (!el) return;
+  // Descripción
+  const descEl = document.querySelector(".only_product_description");
+  if (descEl) descEl.textContent = producto.descripcion;
 
-        const isEmpty = value === undefined || value === null || value === "" || value === "—";
-        if (hideIfEmpty && isEmpty) {
-        // oculta el <li> completo (el parent del <strong>)
-        el.closest("li").style.display = "none";
-        return;
-        }
+  // Tipo para CSS (body[data-product-type="tv"])
+  document.body.dataset.productType = producto.tipo;
 
-        el.textContent = value;
-    }
+  // Características (label + value)
+  const ul = document.querySelector(".only_product_list");
+  if (ul) {
+    ul.innerHTML = "";
 
-    // “Solo cambia lo de después de los :”
-    setValue("aire-sleep", c.sleep ? "Sí" : "No");
-    setValue("aire-remote-control", c.remote ? "Sí" : "No");
-    setValue("aire-temporizador", c.timer ? "Sí" : "No");
-    setValue("aire-refrigeracion", c.cooling);
-
-    // si querés ocultar calefacción cuando sea "—"
-    setValue("aire-calefaccion", c.heating, { hideIfEmpty: true });
-
-    setValue("aire-dimension-externa", c.ext);
-    setValue("aire-dimension-interna", c.int);
+    producto.caracteristicas.forEach((carac) => {
+      const li = document.createElement("li");
+      li.className = "only_product_list_item";
+      li.innerHTML = `
+        <span class="feature-label">${carac.label}:</span>
+        <span class="feature-value">${carac.value}</span>
+      `;
+      ul.appendChild(li);
     });
+  }
+}

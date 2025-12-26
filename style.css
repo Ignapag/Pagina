@@ -58,13 +58,13 @@ html{
     justify-content: center;
     align-items: center;
     width: fit-content;
-    margin-left: 30px;
+    margin-left: 15px;
 }
 .header_img{
     width: 150px;
     max-height: 100px;
     max-width: 100%;
-    margin: 10px 20px;
+    margin: 10px 10px;
 }
 
 .header_img:hover{
@@ -179,6 +179,7 @@ html{
     cursor: pointer;
     background-color:  var(--nav-color);
     border: none;
+    margin: 10px;
 }
 
 .menu_btn:hover{
@@ -582,7 +583,11 @@ html{
 
 
 /*---- ONLY PRODUCT SHOW ---- */
-
+.only_product_main{
+    padding-top: 10px;
+    padding-bottom: 90px;
+    background-color: #fff;
+}
 .only_product_container{
     background-color: #fff;
     width: 100%;
@@ -597,7 +602,7 @@ html{
     grid-template-columns: repeat(2, 100px);
     grid-template-rows: fit-content fit-content fit-content;
     margin: 0px;
-    gap: 80px;
+    gap: 50px;
     width: 100%;
     margin-top: 20px;
 }
@@ -640,57 +645,8 @@ html{
     text-align: center;
 }
 
-.contact_only_product_list{
-    display: flex;
-    flex-direction: row;
-}
-
-.contact_only_product_list_item{
-    display: flex;
-    flex-direction: row;
-    margin: auto;
-}
-
-.contact_only_product_list_img{
-    max-width: 20px;
-}
-
-.contact_only_product_list_item_a{
-    text-decoration: none;
-    color: inherit;
-}
-
-.contact_only_product_list{
-list-style: none;
-width: 100%;
-display: flex;
-place-items: center;
-margin: auto;
-}
-
-.contact_only_product_container{
-    position: relative;
-    min-height: 50px;
-    width: 100%;
-}
-
-.contact_only_product{
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    display: flex;
-    flex-direction: column;
-    overflow-x: clip;
-    height: 50px;
-    background-color: var(--nav-color);
-    border-top-left-radius:5px ;
-    border-top-right-radius:5px ;
-    box-shadow: 0 0 40px 0 #0008;
-}
 
 .only_product_list{
-    margin-top: 20px;
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
@@ -700,23 +656,33 @@ margin: auto;
 
 .only_product_list_item{
     font-weight: 100;
+    padding: 6px 0;
+    font-size: 15px;
 }
 
 .only_product_description{
     text-align: justify;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 100;
+    line-height: 1.5;
 }
 
 .product_strong{
     margin-left:5px;
+    font-weight: 500 ;
 }
 
 .contact_wpp_img{
     position: fixed;
-    max-width:150px;
-    bottom: 0px;
+    max-width:80px;
+    bottom: 200px;
     right: 0;
+    bottom: 10px;
+}
+
+.only_product_tittle_secundary{
+    font-size: 18px;
+    margin-bottom: 20px;
 }
 /*----FOOTER---*/
 

@@ -1,3 +1,13 @@
+console.log("URL completa:", window.location.href);
+console.log("Search:", window.location.search);
+console.log("ID:", new URLSearchParams(window.location.search).get("id"));
+console.log("Java.js cargado");
+const form = document.querySelector(".search_bar_form");
+const input = document.querySelector(".search_bar_input");
+
+console.log("form:", form);
+console.log("input:", input);
+
 const btn = document.querySelector('.menu_btn');
 const nav = document.querySelector('.nav');
 const navLinks = document.querySelectorAll('.nav_list_item_a');
@@ -57,6 +67,45 @@ fetch("components/header.html")
       });
     });
   });
+//buscador
+
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const texto = input.value.toLowerCase().trim();
+  if (!texto) return;
+
+  // Mapeo de palabras → secciones
+  if (texto.includes("aire")) {
+    irASeccion("aires");
+    return;
+  }
+
+  if (
+    texto.includes("tv") ||
+    texto.includes("televisor") ||
+    texto.includes("televisores")
+  ) {
+    irASeccion("televisores");
+    return;
+  }
+
+  alert("No se encontró esa categoría");
+});
+
+function irASeccion(id) {
+  const seccion = document.getElementById(id);
+
+  if (!seccion) return;
+
+  seccion.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+
 
 // ===============================
 // FOOTER
@@ -78,7 +127,7 @@ let isAnimating = false;
 function smoothScroll(container, distance, duration = 500) {
 
 
-  if (isAnimating) return;   // ⛔ bloquea clicks rápidos
+  if (isAnimating) return;  
   isAnimating = true;
 
   const start = container.scrollLeft;
@@ -93,9 +142,10 @@ function smoothScroll(container, distance, duration = 500) {
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
-      isAnimating = false;   // ✅ libera cuando termina
+      isAnimating = false;  
     }
   }
 
   requestAnimationFrame(animate);
 }
+
