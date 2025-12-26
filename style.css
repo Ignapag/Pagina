@@ -532,6 +532,7 @@ html{
         padding: 50px;
         margin-top: 70px;
         width: 100%;
+        scroll-margin-top: 15px;
         }
         .main_product_container {
         display: flex;

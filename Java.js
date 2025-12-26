@@ -1,26 +1,4 @@
-console.log("URL completa:", window.location.href);
-console.log("Search:", window.location.search);
-console.log("ID:", new URLSearchParams(window.location.search).get("id"));
 console.log("Java.js cargado");
-const form = document.querySelector(".search_bar_form");
-const input = document.querySelector(".search_bar_input");
-
-console.log("form:", form);
-console.log("input:", input);
-
-const btn = document.querySelector('.menu_btn');
-const nav = document.querySelector('.nav');
-const navLinks = document.querySelectorAll('.nav_list_item_a');
-
-btn.addEventListener('click', () => {
-  nav.classList.toggle('open');
-});
-
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    nav.classList.remove('open');
-  });
-});
 
 const CARD_WIDTH = 272;
 
@@ -34,23 +12,25 @@ document.querySelectorAll('.main_product_transition').forEach(slider => {
     return;
   }
 
-    btnLeft.addEventListener('click', () => {
-      smoothScroll(track, -CARD_WIDTH, 500);
-    });
+  btnLeft.addEventListener('click', () => {
+    smoothScroll(track, -CARD_WIDTH, 500);
+  });
 
-    btnRight.addEventListener('click', () => {
-      smoothScroll(track, CARD_WIDTH, 500);
-    });
+  btnRight.addEventListener('click', () => {
+    smoothScroll(track, CARD_WIDTH, 500);
+  });
 });
 
 // ===============================
-// HEADER
+// HEADER (con cache-busting)
 // ===============================
-fetch("components/header.html")
+fetch("components/header.html?v=" + Date.now())
   .then(res => res.text())
   .then(data => {
     document.getElementById("site-header").innerHTML = data;
+    console.log("✅ Header cargado");
 
+    // Inicializar eventos del header
     const btn = document.querySelector('.menu_btn');
     const nav = document.querySelector('.nav');
     const navLinks = document.querySelectorAll('.nav_list_item_a');
@@ -66,38 +46,110 @@ fetch("components/header.html")
         nav.classList.remove('open');
       });
     });
+
+    // Inicializar buscador DESPUÉS de cargar el header
+    inicializarBuscador();
+  })
+  .catch(error => {
+    console.error("❌ Error cargando header:", error);
   });
-//buscador
 
+// ===============================
+// FOOTER (con cache-busting)
+// ===============================
+fetch("components/footer.html?v=" + Date.now())
+  .then(res => res.text())
+  .then(data => {
+    document.getElementById("site-footer").innerHTML = data;
+    console.log("✅ Footer cargado");
+  })
+  .catch(error => {
+    console.error("❌ Error cargando footer:", error);
+  });
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+// ===============================
+// FUNCIÓN BUSCADOR
+// ===============================
+function inicializarBuscador() {
+  const form = document.querySelector(".search_bar_form");
+  const input = document.querySelector(".search_bar_input");
 
-  const texto = input.value.toLowerCase().trim();
-  if (!texto) return;
+  console.log("🔍 Inicializando buscador");
+  console.log("Form:", form);
+  console.log("Input:", input);
 
-  // Mapeo de palabras → secciones
-  if (texto.includes("aire")) {
-    irASeccion("aires");
+  if (!form || !input) {
+    console.error("❌ No se encontró el formulario o input");
     return;
   }
 
-  if (
-    texto.includes("tv") ||
-    texto.includes("televisor") ||
-    texto.includes("televisores")
-  ) {
-    irASeccion("televisores");
-    return;
-  }
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    console.log("📝 Búsqueda enviada");
 
-  alert("No se encontró esa categoría");
-});
+    const texto = input.value.toLowerCase().trim();
+    if (!texto) return;
+
+    // Mapeo de palabras → secciones
+    if (texto.includes("aire")) {
+      irASeccion("aires");
+      return;
+    }
+
+    if (
+      texto.includes("tv") ||
+      texto.includes("televisor") ||
+      texto.includes("televisores")
+    ) {
+      irASeccion("televisores");
+      return;
+    }
+
+    if (texto.includes("parlante")) {
+      irASeccion("parlantes");
+      return;
+    }
+
+    if (texto.includes("heladera")) {
+      irASeccion("heladeras");
+      return;
+    }
+
+    if (texto.includes("cocina")) {
+      irASeccion("cocinas");
+      return;
+    }
+
+    if (texto.includes("celular")) {
+      irASeccion("celulares");
+      return;
+    }
+
+    if (texto.includes("lavarropa")) {
+      irASeccion("lavarropas");
+      return;
+    }
+
+    if (texto.includes("otro")) {
+      irASeccion("otros");
+      return;
+    }
+
+    console.log("❌ No se encontró categoría");
+  });
+
+  console.log("✅ Buscador listo");
+}
 
 function irASeccion(id) {
   const seccion = document.getElementById(id);
 
-  if (!seccion) return;
+  if (!seccion) {
+    console.error("❌ No existe la sección:", id);
+    return;
+  }
+
+  console.log("📍 Ir a sección:", id);
 
   seccion.scrollIntoView({
     behavior: "smooth",
@@ -105,18 +157,10 @@ function irASeccion(id) {
   });
 }
 
-
-
 // ===============================
-// FOOTER
+// SMOOTH SCROLL (sliders)
 // ===============================
-fetch("components/footer.html")
-  .then(res => res.text())
-  .then(data => {
-    document.getElementById("site-footer").innerHTML = data;
-  });
-
-  function easeInOut(t) {
+function easeInOut(t) {
   return t < 0.5
     ? 2 * t * t
     : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -125,8 +169,6 @@ fetch("components/footer.html")
 let isAnimating = false;
 
 function smoothScroll(container, distance, duration = 500) {
-
-
   if (isAnimating) return;  
   isAnimating = true;
 
@@ -148,4 +190,3 @@ function smoothScroll(container, distance, duration = 500) {
 
   requestAnimationFrame(animate);
 }
-
