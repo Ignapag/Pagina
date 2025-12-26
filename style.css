@@ -440,6 +440,14 @@ html{
     min-height: 291px;
     }
 
+    .producto_categoria {
+            font-size: 11px;
+            color: #ff7700;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+    }
+
     .product_name {
     font-size: 14px;
     font-weight: 500;
@@ -451,7 +459,7 @@ html{
         text-decoration: none;
     }
 
-    .main_product_show_a:hover{
+    .main_product_show_a:hover .product_name{
         text-decoration: underline;
     }
 
@@ -563,10 +571,21 @@ html{
 
         .main_desktop__product_buttom.left {
         left: -50px;
+        display: flex;
+        place-items:center;
         }
 
         .main_desktop__product_buttom.right {
         right: -50px;
+        display: flex;
+        place-items: center;
+        }
+
+        span.left{
+            margin:auto;
+        }
+        span.right{
+            margin:auto;
         }
 
         .main_desktop__product_buttom:hover {
@@ -686,6 +705,23 @@ html{
     margin-bottom: 20px;
 }
 
+.only_product_button_back{
+    position: absolute;
+    top:80px;
+    left:10px;
+    border: none;
+    background-color: #fff;
+}
+
+.only_product_button_back span{
+    font-size: 20px;
+}
+
+
+.only_product_button_back:hover{
+    box-shadow:0 0 10px 0 #0002 ;
+}
+
 @media screen and (min-width:700px){
     .main_desktop{
         display: flex;
@@ -744,6 +780,10 @@ html{
 
     .only_product_tittle_secundary{
         font-size:17px ;
+    }
+
+    .only_product_button_back{
+        display: none;
     }
 }
 /*----FOOTER---*/
@@ -813,12 +853,13 @@ html{
         font-weight: 700;
     }
 
-    /*IA*/
-       .busqueda_container {
+    /* BUSQUEDA */
+        .busqueda_container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
-            margin-top: 120px;
+            margin-top: 100px;
+            margin-bottom: 100px;
         }
 
         .busqueda_header {

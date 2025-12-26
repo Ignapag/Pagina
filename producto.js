@@ -1,6 +1,7 @@
 // producto.js - BASE DE DATOS GLOBAL
 
 const productos = [
+  // AIRES
   {
     id: "aire-philco-3200",
     categoria: "aires",
@@ -142,15 +143,12 @@ const productos = [
   }
 ];
 
-// EXPORTAR GLOBALMENTE
 window.productosDB = productos;
 console.log("✅ Base de datos cargada y exportada:", productos.length, "productos");
 
-// ============================================================
-// LÓGICA SOLO PARA MUESTRA-PRODUCTO.HTML
-// ============================================================
 
-// Solo ejecutar si estamos en muestra-producto.html
+// LÓGICA SOLO PARA MUESTRA-PRODUCTO.HTML
+
 if (window.location.pathname.includes('muestra-producto')) {
   
   window.addEventListener('DOMContentLoaded', () => {
@@ -168,27 +166,22 @@ if (window.location.pathname.includes('muestra-producto')) {
 
     console.log("✅ Cargando producto:", producto.nombre);
 
-    // Títulos
     const titleEls = document.querySelectorAll(".only_product_tittle");
     titleEls.forEach(el => {
       el.textContent = producto.nombre;
     });
-    
-    // Imagen
+  
     const imgEl = document.querySelector(".only_product_img");
     if (imgEl) {
       imgEl.src = producto.imagen;
       imgEl.alt = producto.nombre;
     }
 
-    // Descripción
     const descEl = document.querySelector(".only_product_description");
     if (descEl) descEl.textContent = producto.descripcion;
 
-    // Tipo de producto
     document.body.dataset.productType = producto.categoria;
 
-    // Características
     const ul = document.querySelector(".only_product_list");
     if (ul) {
       ul.innerHTML = "";
@@ -207,3 +200,26 @@ if (window.location.pathname.includes('muestra-producto')) {
     console.log("✅ Producto cargado correctamente");
   });
 }
+
+window.addEventListener('DOMContentLoaded', () => {
+  if (!window.location.pathname.includes('muestra-producto')) return;
+  
+  const vienesDeBusqueda = document.referrer.includes('busqueda.html');
+  
+  if (vienesDeBusqueda) {
+    const botonVolver = document.querySelector('.only_product_button_back');
+    
+    if (botonVolver) {
+      botonVolver.addEventListener('click', () => {
+        window.history.back();
+      });
+      
+      console.log("✅ Botón de volver configurado");
+    }
+  } else {
+    const botonVolver = document.querySelector('.only_product_button_back');
+    if (botonVolver) {
+      botonVolver.style.display = 'none';
+    }
+  }
+});
