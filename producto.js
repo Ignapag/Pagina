@@ -23,7 +23,7 @@ const productos = [
     id: "tv-samsung-55",
     tipo: "tv",
     nombre: 'Smart TV Samsung 55"',
-    imagen: "tv-samsung.png",
+    imagen: "Televisor_prueba.webp",
     descripcion: 'Smart TV UHD 55".',
     caracteristicas: [
       { label: "Resolución", value: "4K" },
