@@ -68,15 +68,13 @@ fetch("components/footer.html?v=" + Date.now())
   });
 
 // ===============================
-// FUNCIÓN BUSCADOR
+// FUNCIÓN BUSCADOR - REDIRIGE A PÁGINA DE BÚSQUEDA
 // ===============================
 function inicializarBuscador() {
   const form = document.querySelector(".search_bar_form");
   const input = document.querySelector(".search_bar_input");
 
   console.log("🔍 Inicializando buscador");
-  console.log("Form:", form);
-  console.log("Input:", input);
 
   if (!form || !input) {
     console.error("❌ No se encontró el formulario o input");
@@ -85,76 +83,16 @@ function inicializarBuscador() {
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log("📝 Búsqueda enviada");
+    console.log("🔍 Búsqueda enviada");
 
-    const texto = input.value.toLowerCase().trim();
+    const texto = input.value.trim();
     if (!texto) return;
 
-    // Mapeo de palabras → secciones
-    if (texto.includes("aire")) {
-      irASeccion("aires");
-      return;
-    }
-
-    if (
-      texto.includes("tv") ||
-      texto.includes("televisor") ||
-      texto.includes("televisores")
-    ) {
-      irASeccion("televisores");
-      return;
-    }
-
-    if (texto.includes("parlante")) {
-      irASeccion("parlantes");
-      return;
-    }
-
-    if (texto.includes("heladera")) {
-      irASeccion("heladeras");
-      return;
-    }
-
-    if (texto.includes("cocina")) {
-      irASeccion("cocinas");
-      return;
-    }
-
-    if (texto.includes("celular")) {
-      irASeccion("celulares");
-      return;
-    }
-
-    if (texto.includes("lavarropa")) {
-      irASeccion("lavarropas");
-      return;
-    }
-
-    if (texto.includes("otro")) {
-      irASeccion("otros");
-      return;
-    }
-
-    console.log("❌ No se encontró categoría");
+    // Redirigir a página de búsqueda
+    window.location.href = `busqueda.html?q=${encodeURIComponent(texto)}`;
   });
 
   console.log("✅ Buscador listo");
-}
-
-function irASeccion(id) {
-  const seccion = document.getElementById(id);
-
-  if (!seccion) {
-    console.error("❌ No existe la sección:", id);
-    return;
-  }
-
-  console.log("📍 Ir a sección:", id);
-
-  seccion.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
 }
 
 // ===============================

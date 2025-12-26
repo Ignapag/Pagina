@@ -685,6 +685,67 @@ html{
     font-size: 18px;
     margin-bottom: 20px;
 }
+
+@media screen and (min-width:700px){
+    .main_desktop{
+        display: flex;
+    }
+    .only_product{
+    margin: auto;
+    max-width: 1400px;
+    grid-template-columns: minmax(400px, 1fr) minmax(340px, 4fr) minmax(400px, 4fr);
+    grid-template-areas: 
+    "imagen imagen caracteristicas"
+    "descripcion descripcion descripcion";
+    background-color: #eee;
+    }
+    .only_product_main{
+        padding-bottom: 0px;
+        min-height: fit-content;
+        display: flex;
+        background-color: #eee;
+    }
+    .only_product_container{
+        width: 100%;
+        height: fit-content;
+        margin: auto;
+        background-color: #eee;
+        padding: 50px;
+    }
+    .grid-item:first-child{
+        grid-area: imagen;
+        display: flex;
+        height: 100%;
+        flex-wrap: nowrap;
+    }
+
+    .grid-item:nth-child(2){
+        grid-area: descripcion;
+    }
+
+    .grid-item:nth-child(3){
+        grid-area: caracteristicas;
+        border: 2px solid #ccc;
+        padding: 25px;
+        max-height: 500px;
+        overflow-y:auto ;
+        scrollbar-width: auto;
+    }
+    .only_product_img{
+        margin: auto;
+        min-width: 600px;
+        max-height: 500px;
+    }
+
+    .only_product_tittle{
+        margin-bottom: 20px;
+        background-color: #eee;
+    }
+
+    .only_product_tittle_secundary{
+        font-size:17px ;
+    }
+}
 /*----FOOTER---*/
 
     .footer_container {
@@ -752,3 +813,132 @@ html{
         font-weight: 700;
     }
 
+    /*IA*/
+       .busqueda_container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            margin-top: 120px;
+        }
+
+        .busqueda_header {
+            margin-bottom: 30px;
+        }
+
+        .busqueda_titulo {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .busqueda_info {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .busqueda_resultados {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .resultado_card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .resultado_card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        }
+
+        .resultado_imagen {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+
+        .resultado_categoria {
+            font-size: 11px;
+            color: #ff7700;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .resultado_nombre {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            min-height: 40px;
+        }
+
+        .resultado_descripcion {
+            font-size: 13px;
+            color: #666;
+            line-height: 1.4;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .sin_resultados {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .sin_resultados_icono {
+            font-size: 64px;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .sin_resultados_texto {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .sin_resultados_sugerencia {
+            font-size: 14px;
+            color: #999;
+        }
+
+        .sin_resultados{
+                display: none;
+            }
+
+        @media (max-width: 768px) {
+            .busqueda_resultados {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 15px;
+            }
+
+            .resultado_card {
+                padding: 12px;
+            }
+
+            .resultado_imagen {
+                height: 150px;
+            }
+
+            .resultado_nombre {
+                font-size: 14px;
+                min-height: 35px;
+            }
+
+            .resultado_descripcion {
+                font-size: 12px;
+            }
+
+        }
