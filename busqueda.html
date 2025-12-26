@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Resultados de búsqueda - Positivo Hogar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<body class="body">
+    <div id="site-header"></div>
+    
+    <main class="main">
+        <div class="busqueda_container">
+            <div class="busqueda_header">
+                <h1 class="busqueda_titulo"></h1>
+                <p class="busqueda_info"></p>
+            </div>
+            
+            <div class="busqueda_resultados" id="resultados">
+                <!-- Los resultados se cargan aquí con JS -->
+            </div>
+
+            <div class="sin_resultados" id="sin-resultados">
+                <div class="sin_resultados_icono material-symbols-outlined">search_off</div>
+                <p class="sin_resultados_texto">No se encontraron productos</p>
+                <p class="sin_resultados_sugerencia">Intenta con otras palabras clave</p>
+            </div>
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="producto.js"></script>
+    <script src="busqueda.js"></script>
+    <script src="java.js"></script>
+</body>
+</html>
