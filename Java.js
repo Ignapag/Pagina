@@ -1,7 +1,5 @@
 console.log("Java.js cargado");
 
-const CARD_WIDTH = 272;
-
 document.querySelectorAll('.main_product_transition').forEach(slider => {
   const track = slider.querySelector('.main_product_container');
   const btnLeft = slider.querySelector('.main_desktop__product_buttom.left');
@@ -13,12 +11,42 @@ document.querySelectorAll('.main_product_transition').forEach(slider => {
   }
 
   btnLeft.addEventListener('click', () => {
-    smoothScroll(track, -CARD_WIDTH, 500);
+  const cards = Array.from(track.querySelectorAll('.product_card'));
+  const containerRect = track.getBoundingClientRect();
+  
+  // Encontrar la card visible más a la izquierda
+  const visibleCards = cards.filter(card => {
+    const cardRect = card.getBoundingClientRect();
+    return cardRect.left >= containerRect.left - 10;
   });
+  
+  // Obtener el índice y retroceder una card
+  const currentIndex = cards.indexOf(visibleCards[0]);
+  const targetCard = cards[Math.max(0, currentIndex - 1)];
+  
+  if (targetCard) {
+    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }
+});
 
-  btnRight.addEventListener('click', () => {
-    smoothScroll(track, CARD_WIDTH, 500);
+btnRight.addEventListener('click', () => {
+  const cards = Array.from(track.querySelectorAll('.product_card'));
+  const containerRect = track.getBoundingClientRect();
+  
+  // Encontrar la primera card completamente visible
+  const visibleCards = cards.filter(card => {
+    const cardRect = card.getBoundingClientRect();
+    return cardRect.left >= containerRect.left - 10;
   });
+  
+  // Ir a la siguiente card
+  const currentIndex = cards.indexOf(visibleCards[0]);
+  const targetCard = cards[Math.min(cards.length - 1, currentIndex + 1)];
+  
+  if (targetCard) {
+    targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+  }
+});
 });
 
 // ===============================
@@ -99,18 +127,12 @@ function inicializarBuscador() {
 // SMOOTH SCROLL (sliders)
 // ===============================
 function easeInOut(t) {
-  return t < 0.5
-    ? 2 * t * t
-    : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  return t * t * (3 - 2 * t); // Más rápida y suave
 }
 
-let isAnimating = false;
-
-function smoothScroll(container, distance, duration = 500) {
-  if (isAnimating) return;  
-  isAnimating = true;
-
+function smoothScrollTo(container, targetPosition, duration = 200) {
   const start = container.scrollLeft;
+  const distance = targetPosition - start;
   const startTime = performance.now();
 
   function animate(currentTime) {
@@ -121,8 +143,6 @@ function smoothScroll(container, distance, duration = 500) {
 
     if (progress < 1) {
       requestAnimationFrame(animate);
-    } else {
-      isAnimating = false;  
     }
   }
 

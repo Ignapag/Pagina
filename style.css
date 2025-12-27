@@ -65,6 +65,7 @@ html{
     max-height: 100px;
     max-width: 100%;
     margin: 10px 10px;
+    box-shadow: 0 0 5dvi 0 #0003;
 }
 
 .header_img:hover{
@@ -398,6 +399,10 @@ html{
         display: none;
     }
 
+    .main_product_container{
+        scroll-snap-type: x mandatory;
+    }
+
     .main_product_show{
     padding: 24px;
     background-color: #f5f5f5;
@@ -427,6 +432,7 @@ html{
     display: flex;
     flex-direction: column;
     gap: 10px;
+    scroll-snap-align: start;
     }
 
     .main_product_show_tittle_secundary{
@@ -726,6 +732,11 @@ html{
     .main_desktop{
         display: flex;
     }
+
+    .main_phone{
+        display: none;
+    }
+
     .only_product{
     margin: auto;
     max-width: 1400px;
@@ -763,9 +774,6 @@ html{
         grid-area: caracteristicas;
         border: 2px solid #ccc;
         padding: 25px;
-        max-height: 500px;
-        overflow-y:auto ;
-        scrollbar-width: auto;
     }
     .only_product_img{
         margin: auto;
@@ -785,6 +793,43 @@ html{
     .only_product_button_back{
         display: none;
     }
+
+    .only_product_contact_container{
+        width: 100%;
+        border: 2px solid #ccc;
+        display: flex;
+        border-radius:5px ;
+        background-color: var(--nav-color);
+    }
+
+    .only_product_contact_a{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        place-items: center;
+        min-height: 50px;
+        cursor: pointer;
+    }
+
+    .only_product_contact_button{
+        border: none;
+        margin: auto;
+        font-size: 30px;
+        background-color: inherit;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    .contact_wpp_img{
+        position: static;
+        justify-content: center;
+        max-width:30px ;
+        margin-right: 5px;
+    }
+
 }
 /*----FOOTER---*/
 
