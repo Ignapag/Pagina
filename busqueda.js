@@ -70,6 +70,7 @@
         
         card.innerHTML = `
         <img src="${producto.imagen}" alt="${producto.nombre}" class="resultado_imagen">
+        <strong class="resultado_precio">${producto.precio}</strong>
         <div class="resultado_categoria">${producto.categoria}</div>
         <h3 class="resultado_nombre">${producto.nombre}</h3>
         <p class="resultado_descripcion">${producto.descripcion}</p>

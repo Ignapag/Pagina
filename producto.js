@@ -4,6 +4,7 @@ const productos = [
   // AIRES
   {
     id: "aire-philco-3200",
+    precio:"999.999",
     categoria: "aires",
     nombre: "Aire Acondicionado Philco",
     imagen: "airepng.png",
@@ -14,11 +15,12 @@ const productos = [
       { label: "Temporizador", value: "Sí" },
       { label: "Potencia de refrigeración", value: "3200 frigorías" },
       { label: "Potencia de calefacción", value: "3400 kcal"},
-      { label: "Eficiencia energética", value: "A++" }
+      { label: "Eficiencia energética", value: "A++" },
     ]
   },
   {
     id: "aire-samsung-2500",
+    precio:"999.999",
     categoria: "aires",
     nombre: "Aire Samsung 2500W",
     imagen: "aire2_prueba.jpg",
@@ -33,6 +35,7 @@ const productos = [
   // TELEVISORES
   {
     id: "tv-samsung-55",
+    precio:"999.999",
     categoria: "televisores",
     nombre: 'Smart TV Samsung 55"',
     imagen: "Televisor_prueba.webp",
@@ -46,6 +49,7 @@ const productos = [
   },
   {
     id: "tv-lg-43",
+    precio:"999.999",
     categoria: "televisores",
     nombre: 'Smart TV LG 43"',
     imagen: "Televisor2_prueba.jpg",
@@ -60,6 +64,7 @@ const productos = [
   // PARLANTES
   {
     id: "parlante-jbl-flip",
+    precio:"999.999",
     categoria: "parlantes",
     nombre: "Parlante JBL Flip 5",
     imagen: "parlante_prueba.jpg",
@@ -74,6 +79,7 @@ const productos = [
   // HELADERAS
   {
     id: "heladera-whirlpool-360",
+    precio:"999.999",
     categoria: "heladeras",
     nombre: "Heladera Whirlpool 360L",
     imagen: "heladera_prueba.jpg",
@@ -88,6 +94,7 @@ const productos = [
   // COCINAS
   {
     id: "cocina-volcan-4h",
+    precio:"999.999",
     categoria: "cocinas",
     nombre: "Cocina Volcan 4 Hornallas",
     imagen: "cocina_prueba.jpg",
@@ -102,6 +109,7 @@ const productos = [
   // CELULARES
   {
     id: "celular-samsung-a54",
+    precio:"999.999",
     categoria: "celulares",
     nombre: "Samsung Galaxy A54",
     imagen: "celular_prueba.png",
@@ -117,6 +125,7 @@ const productos = [
   // LAVARROPAS
   {
     id: "lavarropas-drean-8kg",
+    precio:"999.999",
     categoria: "lavarropas",
     nombre: "Lavarropas Drean 8kg",
     imagen: "lavarropa_prueba.jpg",
@@ -131,6 +140,7 @@ const productos = [
   // OTROS
   {
     id: "microondas-philco-25l",
+    precio:"999.999",
     categoria: "otros",
     nombre: "Microondas Philco 25L",
     imagen: "Aire_prueba.webp",
