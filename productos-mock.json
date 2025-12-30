@@ -1,0 +1,267 @@
+{
+  "productos": [
+    {
+      "id": "tv-1",
+      "nombre": "TV Samsung 55\"",
+      "precio": 450000,
+      "imagen": "Televisor_prueba.webp",
+      "categoria": "televisores",
+      "descripcion": "Televisor Samsung de 55 pulgadas con tecnología LED, Smart TV y resolución 4K UHD.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "Samsung" },
+        { "label": "Tamaño", "value": "55 pulgadas" },
+        { "label": "Resolución", "value": "4K UHD" },
+        { "label": "Tecnología", "value": "LED" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-2",
+      "nombre": "TV LG 43\"",
+      "precio": 320000,
+      "imagen": "Televisor2_prueba.jpg",
+      "categoria": "televisores",
+      "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "LG" },
+        { "label": "Tamaño", "value": "43 pulgadas" },
+        { "label": "Resolución", "value": "Full HD" },
+        { "label": "Smart TV", "value": "Sí" }
+      ]
+    },
+    {
+      "id": "tv-3",
+      "nombre": "TV Philips 50\"",
+      "precio": 380000,
+      "imagen": "Televisor_prueba.webp",
+      "categoria": "televisores"
+    },
+    {
+      "id": "aire-philco-3200",
+      "nombre": "Aire Philco 3200",
+      "precio": 380000,
+      "imagen": "Aire_prueba.webp",
+      "categoria": "aires",
+      "descripcion": "Aire acondicionado Philco de 3200 frigorías, frío/calor, ideal para ambientes medianos.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "Philco" },
+        { "label": "Frigorías", "value": "3200" },
+        { "label": "Tipo", "value": "Frío/Calor" },
+        { "label": "Tecnología", "value": "Inverter" }
+      ]
+    },
+    {
+      "id": "aire-2",
+      "nombre": "Aire Samsung 2500W",
+      "precio": 350000,
+      "imagen": "aire2_prueba.jpg",
+      "categoria": "aires"
+    },
+    {
+      "id": "aire-3",
+      "nombre": "Aire LG Dual Inverter",
+      "precio": 420000,
+      "imagen": "Aire_prueba.webp",
+      "categoria": "aires"
+    },
+    {
+      "id": "cel-1",
+      "nombre": "Samsung Galaxy A54",
+      "precio": 450000,
+      "imagen": "celular_prueba.png",
+      "categoria": "celulares",
+      "descripcion": "Samsung Galaxy A54 con cámara de alta resolución, batería de larga duración y pantalla AMOLED.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "Samsung" },
+        { "label": "Modelo", "value": "Galaxy A54" },
+        { "label": "Pantalla", "value": "6.4\" AMOLED" },
+        { "label": "Memoria", "value": "128GB" },
+        { "label": "RAM", "value": "6GB" }
+      ]
+    },
+    {
+      "id": "cel-2",
+      "nombre": "Motorola Edge 40",
+      "precio": 380000,
+      "imagen": "celular_prueba.png",
+      "categoria": "celulares"
+    },
+    {
+      "id": "lav-1",
+      "nombre": "Lavarropas Drean 8kg",
+      "precio": 520000,
+      "imagen": "lavarropa_prueba.jpg",
+      "categoria": "lavarropas",
+      "descripcion": "Lavarropas automático Drean de 8kg de capacidad, con múltiples programas de lavado.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "Drean" },
+        { "label": "Capacidad", "value": "8kg" },
+        { "label": "Tipo", "value": "Automático" },
+        { "label": "Centrifugado", "value": "1000 RPM" }
+      ]
+    },
+    {
+      "id": "lav-2",
+      "nombre": "Lavarropas Samsung 9kg",
+      "precio": 580000,
+      "imagen": "lavarropa_prueba.jpg",
+      "categoria": "lavarropas"
+    },
+    {
+      "id": "hel-1",
+      "nombre": "Heladera Whirlpool 360L",
+      "precio": 680000,
+      "imagen": "heladera_prueba.jpg",
+      "categoria": "heladeras",
+      "descripcion": "Heladera Whirlpool de 360 litros con freezer, sistema No Frost y bajo consumo energético.",
+      "caracteristicas": [
+        { "label": "Marca", "value": "Whirlpool" },
+        { "label": "Capacidad", "value": "360 litros" },
+        { "label": "Sistema", "value": "No Frost" },
+        { "label": "Eficiencia", "value": "Clase A" }
+      ]
+    },
+    {
+      "id": "hel-2",
+      "nombre": "Heladera Samsung No Frost",
+      "precio": 750000,
+      "imagen": "heladera_prueba.jpg",
+      "categoria": "heladeras"
+    },
+    {
+      "id": "coc-1",
+      "nombre": "Cocina Volcan 4 Hornallas",
+      "precio": 320000,
+      "imagen": "cocina_prueba.jpg",
+      "categoria": "cocinas"
+    },
+    {
+      "id": "coc-2",
+      "nombre": "Cocina Escorial Multigas",
+      "precio": 380000,
+      "imagen": "cocina_prueba.jpg",
+      "categoria": "cocinas"
+    },
+    {
+      "id": "par-1",
+      "nombre": "Parlante JBL Flip 5",
+      "precio": 85000,
+      "imagen": "parlante_prueba.jpg",
+      "categoria": "parlantes"
+    },
+    {
+      "id": "par-2",
+      "nombre": "Parlante Sony Extra Bass",
+      "precio": 95000,
+      "imagen": "parlante_prueba.jpg",
+      "categoria": "parlantes"
+    },
+    {
+      "id": "otro-1",
+      "nombre": "Microondas Philco 25L",
+      "precio": 120000,
+      "imagen": "Aire_prueba.webp",
+      "categoria": "otros"
+    },
+    {
+      "id": "otro-2",
+      "nombre": "Aspiradora Electrolux",
+      "precio": 150000,
+      "imagen": "Aire_prueba.webp",
+      "categoria": "otros"
+    },
+    {
+      "id": "otro-2",
+      "nombre": "Aspiradora Electrolux",
+      "precio": 150000,
+      "imagen": "Aire_prueba.webp",
+      "categoria": "colchones"
+    }
+    
+    
+  ]
+}

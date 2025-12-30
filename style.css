@@ -201,23 +201,6 @@ html{
 }
 
 
-.nav_list_item_a{
-    font-weight: 600;
-    text-decoration: none;
-    color:inherit;
-    display: flex;
-    flex-wrap: nowrap;
-    justify-content: center;
-    align-items: center;
-}
-
-.nav_list_item_a:hover{
-    text-decoration: underline;
-}
-
-.nav_list_item_a span{
-    padding-right: 20px;
-}
 
 
 
@@ -262,6 +245,172 @@ html{
         max-height: 180px;
         }
 
+    .nav_list_item_buttom{
+    background-color: var(--nav-color);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    color:inherit;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size:14px;
+    }       
+
+    .nav_list_item_buttom span{
+        padding-right: 10px;
+    }
+
+    .nav_list_item:hover{
+        transform: translateY(-2px);
+    }
+
+    .dropdown-container {
+    position: relative;
+}
+
+.dropdown-arrow {
+    transition: transform 0.3s ease;
+}
+
+.dropdown-arrow.open {
+    transform: rotate(180deg);
+}
+
+.dropdown-menu-electro {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    max-height: 400px;
+    overflow-y: auto;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.dropdown-menu-electro.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item-electro {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border-bottom: 1px solid #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.dropdown-item-electro:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item-electro:hover {
+    background-color: #fff3e6;
+    color: #ff8c00;
+}
+
+.dropdown-item-electro .material-symbols-outlined {
+    font-size: 20px;
+}
+
+/* Scrollbar personalizado */
+.dropdown-menu-electro::-webkit-scrollbar {
+    width: 6px;
+}
+
+.dropdown-menu-electro::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.dropdown-menu-electro::-webkit-scrollbar-thumb {
+    background: #ff8c00;
+    border-radius: 5px;
+}
+
+.dropdown-menu-electro::-webkit-scrollbar-thumb:hover {
+    background: #e67e00;
+}
+
+    .btn-mostrar-todas {
+    margin: 20px auto;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, #ff8c00, #ff6600);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+    transition: all 0.3s ease;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    }
+
+    .btn-mostrar-todas:hover {
+    background: linear-gradient(135deg, #ff6600, #ff4500);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+    }
+
+    .btn-mostrar-todas .material-symbols-outlined {
+    font-size: 24px;
+    }
+
+    /* Loading spinner */
+    .loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    min-height: 400px;
+    }
+
+    .spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #ff7700;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+    }
+
+    .error-mensaje {
+    text-align: center;
+    padding: 60px;
+    color: #666;
+    }
+
+    .error-mensaje .material-symbols-outlined {
+    font-size: 64px;
+    color: #ff7700;
+    margin-bottom: 20px;
+    }
 }
 
 @media  screen and (max-width:699px){
@@ -296,6 +445,13 @@ html{
     flex:1;
     align-items: center;
     justify-content: flex-start;
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav_list_item_a span{
+    margin-right: 5px;
 }
 
 
@@ -314,6 +470,9 @@ html{
     height: 100%;
     display: flex;
 }
+
+
+
 
 }
 
