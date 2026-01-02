@@ -166,3 +166,4 @@ window.addEventListener('DOMContentLoaded', () => {
     console.log("✅ Botón de volver configurado");
   }
 });
+

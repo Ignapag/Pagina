@@ -123,6 +123,7 @@ html{
 
     .whatsapp{
         color:green;
+        text-decoration: none; 
     }
 
         .contact_list_item_a:hover{
@@ -496,8 +497,8 @@ html{
 
 .search_bar_input{
     background-color: #eee;
-    width: 60%;
-    height: 30px;
+    width: 70%;
+    height: 40px;
     font-size: 14px;
     font-family: Montserrat;
     padding-left: 10px; 
@@ -533,7 +534,7 @@ html{
     background-color: #eee;
     cursor: pointer;
     font-size: 20px;
-    height: 30px;
+    height: 40px;
     width: 40px;
     border-radius: 0 20px 20px 0;
     margin-left: -5px;
@@ -966,9 +967,9 @@ html{
     }
     .only_product_img{
         margin: auto;
-        min-width: 600px;
+        min-width: 500px;
         max-width: 900px;
-        max-height: 800px;
+        max-height: 500px;
     }
 
     .only_product_tittle{

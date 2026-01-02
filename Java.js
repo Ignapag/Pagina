@@ -363,6 +363,31 @@ fetch("components/header.html?v=" + Date.now())
     });
 
     inicializarBuscador();
+       // Configurar botones de WhatsApp del header
+    const botonesWhatsAppHeader = document.querySelectorAll('.contact_list .whatsapp');
+    const numeroLasFlores = '5491112345678';
+    const numeroMitre = '5491187654321';
+    
+    botonesWhatsAppHeader.forEach(boton => {
+      const texto = boton.textContent.toLowerCase();
+      let numeroWhatsApp = numeroLasFlores;
+      let sucursal = 'Las Flores';
+      
+      if (texto.includes('mitre')) {
+        numeroWhatsApp = numeroMitre;
+        sucursal = 'Mitre';
+      }
+      
+      const mensajeGeneral = `Hola! Quisiera consultar sobre productos disponibles en sucursal ${sucursal}`;
+      const mensajeCodificado = encodeURIComponent(mensajeGeneral);
+      const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+      
+      boton.href = urlWhatsApp;
+      boton.target = '_blank';
+      boton.rel = 'noopener noreferrer';
+    });
+    
+    console.log("✅ Botones de WhatsApp configurados");
   })
   .catch(error => {
     console.error("❌ Error cargando header:", error);
@@ -575,10 +600,3 @@ const intervaloDropdowns = setInterval(() => {
     console.log('✅ Todos los dropdowns inicializados');
   }
 }, 100);
-
-
-// INICIALIZACIÓN AL CARGAR LA PÁGINA
-
-window.addEventListener('DOMContentLoaded', () => {
-  console.log('🔄 DOM cargado, esperando a que se carguen los componentes...');
-});
