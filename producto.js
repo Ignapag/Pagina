@@ -49,10 +49,11 @@ if (window.location.pathname.includes('muestra-producto')) {
     const descEl = document.querySelector(".only_product_description");
     if (descEl) {
       descEl.innerHTML = `
-        <div style="margin-bottom: 1rem;">
-          <strong style="font-size: 1.5rem; color: #ff7700;">$${producto.precio.toLocaleString('es-AR')}</strong>
-        </div>
+      <strong class="only_product_precio">$${producto.precio.toLocaleString('es-AR')}</strong>
+        <div style="display:flex; gap: 20px;flex-direction:column;margin-bottom: 1rem;">
+        <strong style="font-size: 1.5rem;margin-top:20px;">Descripcion:</strong>
         <p>${producto.descripcion || 'Producto de alta calidad disponible en Positivo Hogar.'}</p>
+        </div>
       `;
     }
 
