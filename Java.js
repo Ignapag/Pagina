@@ -101,6 +101,12 @@ async function cargarTodasLasCategorias() {
       console.error('❌ No se encontró .main_container');
       return;
     }
+    mainContainer.style.marginTop = '0px';
+    // MOSTRAR EL BANNER cuando se cargan todas las categorías
+    const bannerContainer = document.querySelector('.banner_container');
+    if (bannerContainer) {
+      bannerContainer.style.display = 'flex';
+    }
     
     mainContainer.innerHTML = '';
     
@@ -176,13 +182,19 @@ async function mostrarSoloCategoria(categoriaOriginal) {
   }
   
   try {
+    // OCULTAR EL BANNER cuando se muestra una categoría específica
+    const bannerContainer = document.querySelector('.banner_container');
+    if (bannerContainer) {
+      bannerContainer.style.display = 'none';
+    }
+    
     const mainContainer = document.querySelector('.main_container');
     
     if (!mainContainer) {
       console.error("❌ No se encontró .main_container");
       return;
     }
-    
+    mainContainer.style.marginTop = '135px';
     mainContainer.innerHTML = '<div class="loader"><div class="spinner"></div><p>Cargando productos...</p></div>';
     
     const response = await fetch('productos-mock.json');
@@ -409,7 +421,19 @@ fetch("components/footer.html?v=" + Date.now())
 
 // MAIN
 
-fetch("components/main.html?v=" + Date.now())
+// Generar un número aleatorio además del timestamp para forzar actualización
+const randomCache = Math.random().toString(36).substring(7);
+const timestamp = Date.now();
+
+fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
+  method: 'GET',
+  cache: 'no-store',
+  headers: {
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  }
+})
   .then(res => res.text())
   .then(data => {
     document.getElementById("site-main").innerHTML = data;
@@ -435,7 +459,6 @@ fetch("components/main.html?v=" + Date.now())
   .catch(error => {
     console.error("❌ Error cargando main:", error);
   });
-
 
 // INICIALIZAR DROPDOWNS
 

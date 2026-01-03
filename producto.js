@@ -123,7 +123,7 @@ function configurarBotonesWhatsApp(producto) {
   const mensajeCodificado = encodeURIComponent(mensaje);
   
   // Números de WhatsApp (reemplaza con los reales)
-  const numeroLasFlores = '5491112345678';
+  const numeroLasFlores = '5491144018147';
   const numeroMitre = '5491187654321';
   
   botonesWhatsApp.forEach(boton => {
