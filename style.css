@@ -1,19 +1,31 @@
 *{
     box-sizing: border-box;
     margin: 0;
-    padding: 0;
-    scrollbar-width: none;        
+    padding: 0;   
 }
 
 :root {
     --nav-color: #ff7700; 
     --bc-color: #fff;
-    --ft-color: #ccc;
+    --ft-color: #ff7700;
     --only-product:#fff;
 }
 
 html{
     scroll-padding-top: 70px;
+}
+
+html::-webkit-scrollbar {
+    width: 12px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: #ff7700;
+    border-radius: 6px; 
+}
+
+html::-webkit-scrollbar-track {
+    background-color: #f1f1f1; 
 }
 
 /* components
@@ -1080,9 +1092,10 @@ html{
     display: flex;
     flex-direction: column;
     gap: 40px;
-    align-items: center;
+    place-items: center;
     padding: 0;
     background-color: var(--ft-color);
+    min-height: 100px;
     }
 
     .footer_logo_img {
@@ -1139,6 +1152,19 @@ html{
     }
     .footer_block_p{
         font-weight: 700;
+    }
+
+    @media screen and (min-width:700px) {
+        .footer_logo_img { 
+        margin: auto;
+        margin-left: 20px;
+        }
+
+        .footer_container {
+    
+        flex-direction: row;
+
+        }
     }
 
     /* BUSQUEDA */
