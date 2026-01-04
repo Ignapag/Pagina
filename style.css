@@ -644,6 +644,12 @@ html{
     .main_product_show_list::-webkit-scrollbar{
         display: none;
     }
+
+    .banner{
+    width: 100%;;
+    object-fit: cover;
+    margin: auto;
+}
 /*----MEDIA QUERIES MAIN----*/
 
     @media (max-width: 699px) {
