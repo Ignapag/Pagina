@@ -949,6 +949,28 @@ html::-webkit-scrollbar-track {
 
 @media screen and (min-width:700px){
 
+    .only_product_add{
+        margin: auto;
+        width: 80%;
+        height: 100%;
+    }
+
+    .only_product_add_container{
+        width: 400px;
+        max-height: 900px;
+        margin: auto;
+        display: flex;
+    }
+
+    .main_only_product_container{
+        display: flex;
+        flex-direction: row;
+    }
+
+    .only_product_container{
+        margin-left: 0;
+    }
+
     .only_product_precio{
     font-size: 45px;
     color:var(--nav-color);
@@ -1163,6 +1185,7 @@ html::-webkit-scrollbar-track {
         .footer_container {
     
         flex-direction: row;
+        justify-content: space-evenly;
 
         }
     }
