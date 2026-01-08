@@ -832,6 +832,7 @@ html, body {
     padding-top: 10px;
     padding-bottom: 90px;
     background-color: #fff;
+    flex-direction: row;
 }
 .only_product_container{
     background-color: #fff;
