@@ -19,7 +19,7 @@ jobs:
           server: 147.93.39.145
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
+          server-dir: /domains/olivedrab-deer-648705.hostingersite.com/public_html/
           port: 21
           exclude: |
             **/.git*
@@ -29,4 +29,4 @@ jobs:
             **/DS_Store
             .github/**
             README.md
-            api/**
+            API/**
