@@ -742,7 +742,8 @@ html, body {
             flex-direction: column;
             margin: auto;
             border: 2px solid #ccc;
-            margin-bottom: 190px;
+            margin-bottom: 70px;
+            margin-top: 60px;
         }
 
 
