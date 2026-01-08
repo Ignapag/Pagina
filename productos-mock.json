@@ -4,7 +4,7 @@
       "id": "tv-1",
       "nombre": "TV Samsung 55\"",
       "precio": 450000,
-      "imagen": "Televisor_prueba-removebg-preview.png",
+      "imagen": "televisor_prueba-removebg-preview.png",
       "categoria": "televisores",
       "descripcion": "Televisor Samsung de 55 pulgadas con tecnología LED, Smart TV y resolución 4K UHD.",
       "caracteristicas": [
@@ -19,7 +19,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -33,7 +33,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -47,7 +47,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -61,7 +61,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -75,7 +75,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -89,7 +89,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -103,7 +103,7 @@
       "id": "tv-2",
       "nombre": "TV LG 43\"",
       "precio": 320000,
-      "imagen": "Televisor2_prueba.jpg",
+      "imagen": "televisor2_prueba.jpg",
       "categoria": "televisores",
       "descripcion": "Televisor LG de 43 pulgadas con Smart TV y excelente calidad de imagen.",
       "caracteristicas": [
@@ -117,7 +117,7 @@
       "id": "tv-3",
       "nombre": "TV Philips 50\"",
       "precio": 380000,
-      "imagen": "Televisor_prueba.webp",
+      "imagen": "televisor_prueba.webp",
       "categoria": "televisores"
     },
     {
