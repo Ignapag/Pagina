@@ -194,7 +194,7 @@ async function mostrarSoloCategoria(categoriaOriginal) {
       console.error("❌ No se encontró .main_container");
       return;
     }
-    mainContainer.style.marginTop = '135px';
+    mainContainer.style.marginTop = '80px';
     mainContainer.innerHTML = '<div class="loader"><div class="spinner"></div><p>Cargando productos...</p></div>';
     
     const response = await fetch('productos-mock.json');
