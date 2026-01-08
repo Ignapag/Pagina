@@ -692,7 +692,6 @@ html, body {
     display: flex;
     min-height: 280px;
     max-width: 1920px;
-    margin: auto;
     padding-top: 60px;
     padding-bottom: 40px;
 }
