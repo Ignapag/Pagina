@@ -145,7 +145,7 @@
       "id": "aire-3",
       "nombre": "Aire LG Dual Inverter",
       "precio": 420000,
-      "imagen": "Aire_prueba.webp",
+      "imagen": "aire_prueba.webp",
       "categoria": "aires"
     },
     {
@@ -244,21 +244,21 @@
       "id": "otro-1",
       "nombre": "Microondas Philco 25L",
       "precio": 120000,
-      "imagen": "Aire_prueba.webp",
+      "imagen": "aire_prueba.webp",
       "categoria": "otros"
     },
     {
       "id": "otro-2",
       "nombre": "Aspiradora Electrolux",
       "precio": 150000,
-      "imagen": "Aire_prueba.webp",
+      "imagen": "aire_prueba.webp",
       "categoria": "otros"
     },
     {
       "id": "otro-2",
       "nombre": "Aspiradora Electrolux",
       "precio": 150000,
-      "imagen": "Aire_prueba.webp",
+      "imagen": "aire_prueba.webp",
       "categoria": "colchones"
     }
     
