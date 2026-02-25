@@ -199,6 +199,7 @@ html, body {
     background-color:  var(--nav-color);
     border: none;
     margin: 10px;
+    color:black
 }
 
 .menu_btn:hover{
@@ -509,6 +510,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    color:#000;
 }
 
 .search_bar_input{
