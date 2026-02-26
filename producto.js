@@ -95,7 +95,7 @@ if (window.location.pathname.includes('muestra-producto')) {
 
   window.addEventListener('DOMContentLoaded', async () => {
 
-    // Esperar a que la Promise resuelva en vez de polling con setTimeout
+   
     if (!window.productosDB) {
       await window.productosDBPromise;
     }
