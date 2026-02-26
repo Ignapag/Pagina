@@ -15,19 +15,20 @@ const WC_PER_PAGE = 100;
 
 const CATEGORIAS_VISIBLES_MAIN = [
   'televisor',
-  'acolchado',
-  'abrelatas-electrico',
-  'afeitadora-masculina',
-  'afeitadora-femenina'   
+  'aire-acondicionado-split',
+  'lavarropas-automatico',
+  'cocina-a-gas',
+  'termotanque-electrico'   
 ];
 
 const NOMBRES_CATEGORIAS = {
   'televisor':            'Televisores',
-  'acolchado':            'Acolchados',
-  'abrelatas-electrico':  'Abrelatas Eléctrico',
-  'afeitadora-masculina': 'Afeitadoras Masculinas',
-  'afeitadora-femenina':  'Afeitadoras Femeninas'  
+  'aire-acondicionado-split':            'Aire aconcicionado',
+  'lavarropas-automatico':  'Lavarropas',
+  'cocina-a-gas': 'Cocinas',
+  'termotanque-electrico':  'Termotanques Eléctricos'  
 };
+
 
 
 // ============================================================
@@ -52,7 +53,7 @@ function mapearProductoWC(p) {
   const cats = p.categories ?? [];
   let categoria = 'otros';
   if (cats.length > 0) {
-    
+    // ✅ FIX: tomar la categoría con ID más alto = subcategoría más específica
     const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
@@ -171,6 +172,8 @@ async function cargarTodasLasCategorias() {
       const productos = productosPorCategoria[categoriaVisible];
       if (!productos || productos.length === 0) return;
 
+      productos.sort((a, b) => b.precio - a.precio);
+
       const nombreVisible = NOMBRES_CATEGORIAS[categoriaVisible] || capitalizar(categoriaVisible.replace(/-/g, ' '));
 
       const seccion = document.createElement('section');
@@ -252,7 +255,7 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     mainContainer.style.marginTop = '80px';
     mainContainer.innerHTML = '<div class="loader"><div class="spinner"></div><p>Cargando productos...</p></div>';
 
-   
+    // ✅ FIX: esperar a que productosDB esté disponible antes de filtrar
     if (!window.productosDB) {
       const productos = await fetchTodosLosProductos();
       window.productosDB = productos;
@@ -265,6 +268,9 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     );
 
     console.log(`✅ Productos en "${categoriaOriginal}":`, productosCategoria.length);
+
+    // Ordenar de mayor a menor precio
+    productosCategoria.sort((a, b) => b.precio - a.precio);
 
     if (productosCategoria.length === 0) {
       mainContainer.innerHTML = `
@@ -382,11 +388,11 @@ function inicializarDropdown(btnId, menuId) {
       dropdownMenu.classList.remove('show');
       if (dropdownArrow) dropdownArrow.classList.remove('open');
 
-      
+      // ✅ FIX: leer data-categoria primero; si no existe, parsear el href correctamente
       let categoria = item.getAttribute('data-categoria');
       if (!categoria) {
         const href = item.getAttribute('href') ?? '';
-        
+        // Soporta "index.html#slug", "#slug", "/index.html#slug"
         categoria = href.split('#')[1] ?? '';
       }
 
@@ -427,7 +433,7 @@ document.querySelectorAll('.nav_list_item_a').forEach(link => {
       document.querySelector('.nav')?.classList.remove('open');
       await mostrarSoloCategoria(hash);
     }
-    
+    // Si no está en index, deja navegar normalmente al href
   });
 });
     document.getElementById("site-header").innerHTML = data;
@@ -458,7 +464,9 @@ document.querySelectorAll('.nav_list_item_a').forEach(link => {
 
     console.log("✅ Botones de WhatsApp configurados");
 
-    
+    // ✅ FIX: inicializar dropdowns AQUÍ, dentro del .then del header,
+    // garantizando que el DOM ya existe cuando se registran los listeners.
+    // El setInterval original fallaba si el header tardaba más de lo esperado.
     inicializarDropdown('dropdownElectro',  'menuElectro');
     inicializarDropdown('dropdownDescanso', 'menuDescanso');
     inicializarDropdown('dropdownMuebles',  'menuMuebles');
@@ -510,7 +518,8 @@ fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         console.log('🔗 Hash detectado, cargando categoría:', hash);
-        
+        // ✅ FIX: mostrarSoloCategoria ya espera internamente a productosDB,
+        // así que funciona aunque la API no haya respondido todavía.
         mostrarSoloCategoria(hash);
       } else {
         console.log('📋 Sin hash, cargando todas las categorías');
