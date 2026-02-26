@@ -886,7 +886,7 @@ html, body {
 .only_product_img{
     max-width: 370px;
     margin:auto;
-    filter: drop-shadow(0 0 7px #888);
+     
 }
 
 .only_product_main{

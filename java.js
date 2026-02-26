@@ -23,12 +23,16 @@ const CATEGORIAS_VISIBLES_MAIN = [
 
 const NOMBRES_CATEGORIAS = {
   'televisor':            'Televisores',
-  'aire-acondicionado-split':            'Aire aconcicionado',
+  'aire-acondicionado-split':            'Aire acondicionado',
   'lavarropas-automatico':  'Lavarropas',
   'cocina-a-gas': 'Cocinas',
   'termotanque-electrico':  'Termotanques Eléctricos'  
 };
 
+// Subcategorías que se agrupan dentro de una categoría visible
+const SUBCATEGORIAS = {
+  'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
+};
 
 
 // ============================================================
@@ -152,9 +156,25 @@ async function cargarTodasLasCategorias() {
     const productosPorCategoria = {};
     window.productosDB.forEach(producto => {
       const cat = producto.categoria.toLowerCase();
+      
+      // Buscar si esta categoría pertenece a alguna categoría visible como subcategoría
+      let categoriaDestino = null;
+      
       if (CATEGORIAS_VISIBLES_MAIN.includes(cat)) {
-        if (!productosPorCategoria[cat]) productosPorCategoria[cat] = [];
-        productosPorCategoria[cat].push(producto);
+        categoriaDestino = cat;
+      } else {
+        // Buscar en SUBCATEGORIAS si este slug está mapeado a alguna categoría visible
+        for (const [catPrincipal, subs] of Object.entries(SUBCATEGORIAS)) {
+          if (subs.includes(cat)) {
+            categoriaDestino = catPrincipal;
+            break;
+          }
+        }
+      }
+      
+      if (categoriaDestino) {
+        if (!productosPorCategoria[categoriaDestino]) productosPorCategoria[categoriaDestino] = [];
+        productosPorCategoria[categoriaDestino].push(producto);
       }
     });
 
@@ -172,6 +192,7 @@ async function cargarTodasLasCategorias() {
       const productos = productosPorCategoria[categoriaVisible];
       if (!productos || productos.length === 0) return;
 
+      // Ordenar de mayor a menor precio
       productos.sort((a, b) => b.precio - a.precio);
 
       const nombreVisible = NOMBRES_CATEGORIAS[categoriaVisible] || capitalizar(categoriaVisible.replace(/-/g, ' '));
@@ -263,8 +284,14 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     }
 
     const categoriaNormalizada = categoriaOriginal.toLowerCase().trim();
-    const productosCategoria   = window.productosDB.filter(p =>
-      p.categoria.toLowerCase().trim() === categoriaNormalizada
+    
+    // Obtener todos los slugs que pertenecen a esta categoría (incluyendo subcategorías)
+    const slugsAFiltrar = SUBCATEGORIAS[categoriaNormalizada] 
+      ? SUBCATEGORIAS[categoriaNormalizada] 
+      : [categoriaNormalizada];
+    
+    const productosCategoria = window.productosDB.filter(p =>
+      slugsAFiltrar.includes(p.categoria.toLowerCase().trim())
     );
 
     console.log(`✅ Productos en "${categoriaOriginal}":`, productosCategoria.length);
