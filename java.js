@@ -12,13 +12,17 @@ const WC_PER_PAGE = 100;
 // ============================================================
 //  CATEGORÍAS VISIBLES EN EL MAIN
 // ============================================================
+const SUBCATEGORIAS = {
+  'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
+  'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
+};
 
 const CATEGORIAS_VISIBLES_MAIN = [
   'televisor',
   'aire-acondicionado-split',
   'lavarropas-automatico',
   'cocina-a-gas',
-  'termotanque-electrico'   
+  'heladeras'   
 ];
 
 const NOMBRES_CATEGORIAS = {
@@ -26,14 +30,9 @@ const NOMBRES_CATEGORIAS = {
   'aire-acondicionado-split':            'Aire acondicionado',
   'lavarropas-automatico':  'Lavarropas',
   'cocina-a-gas': 'Cocinas',
-  'termotanque-electrico':  'Termotanques Eléctricos'  
+  'heladeras':  'Heladeras'  
 };
 
-// Subcategorías que se agrupan dentro de una categoría visible
-const SUBCATEGORIAS = {
-  'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
-  'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
-};
 
 
 // ============================================================
