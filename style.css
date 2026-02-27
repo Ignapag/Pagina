@@ -863,7 +863,7 @@ html, body {
     font-size: 13px;
     height: fit-content;
     border-radius: 30px;
-
+    padding-right: 10px;
 }
 .grid-item:first-child{
     grid-column: span 3 ;
@@ -927,7 +927,7 @@ html, body {
 }
 
 .feature-label{
-    min-width: 250px;
+    min-width: 160px;
 }
 
 .product_strong{
@@ -972,6 +972,10 @@ html, body {
 }
 
 @media screen and (min-width:700px){
+
+    .feature-label{
+    min-width: 250px;
+}
 
     .only_product_add{
         margin: auto;
