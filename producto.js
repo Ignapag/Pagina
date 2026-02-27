@@ -1,4 +1,58 @@
 // ============================================================
+//  PARSEAR DESCRIPCIÓN HTML → descripcion + caracteristicas
+// ============================================================
+
+function parsearDescripcionHTML(html) {
+  if (!html) return { descripcion: '', caracteristicas: [] };
+
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+
+  let descripcion = '';
+  let caracteristicas = [];
+
+  // Buscar si existe el separador "Características:"
+  const fullText = tempDiv.innerHTML;
+  const separadorIndex = fullText.search(/Caracter[ií]sticas\s*:/i);
+
+  if (separadorIndex !== -1) {
+    // --- DESCRIPCIÓN: todo el texto antes de "Características:" ---
+    const antesHTML = fullText.substring(0, separadorIndex);
+    const antesDiv = document.createElement('div');
+    antesDiv.innerHTML = antesHTML;
+    descripcion = (antesDiv.textContent || antesDiv.innerText || '').trim();
+
+    // Limpiar prefijo "Descripción corta:" si existe
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+
+    // --- CARACTERÍSTICAS: los <li> después de "Características:" ---
+    const despuesHTML = fullText.substring(separadorIndex);
+    const despuesDiv = document.createElement('div');
+    despuesDiv.innerHTML = despuesHTML;
+
+    const items = despuesDiv.querySelectorAll('li');
+    items.forEach(li => {
+      const textoLi = (li.textContent || li.innerText || '').trim();
+      // Buscar patrón "Label: Valor"
+      const match = textoLi.match(/^(.+?):\s*(.+)$/);
+      if (match) {
+        caracteristicas.push({
+          label: match[1].trim(),
+          value: match[2].trim()
+        });
+      }
+    });
+  } else {
+    // No hay separador → toda la descripción va como texto plano
+    descripcion = (tempDiv.textContent || tempDiv.innerText || '').trim();
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+  }
+
+  return { descripcion, caracteristicas };
+}
+
+
+// ============================================================
 //  MAPEO: WooCommerce → formato interno
 // ============================================================
 
@@ -15,17 +69,9 @@ function mapearProductoWC(p) {
     categoria = masEspecifica.slug;
   }
 
-  const descripcionHTML = p.short_description || p.description || '';
-  const tempDiv = document.createElement('div');
-  tempDiv.innerHTML = descripcionHTML;
-  const descripcion = (tempDiv.textContent || tempDiv.innerText || '').trim();
-
-  const caracteristicas = (p.attributes ?? [])
-    .map(attr => ({
-      label: attr.name,
-      value: (attr.terms ?? []).map(t => t.name).join(', ')
-    }))
-    .filter(c => c.value !== '');
+  // Parsear descripción para extraer texto + características
+  const descripcionHTML = p.description || p.short_description || '';
+  const { descripcion, caracteristicas } = parsearDescripcionHTML(descripcionHTML);
 
   return {
     id:             String(p.id),
@@ -95,7 +141,7 @@ if (window.location.pathname.includes('muestra-producto')) {
 
   window.addEventListener('DOMContentLoaded', async () => {
 
-   
+    // Esperar a que la Promise resuelva en vez de polling con setTimeout
     if (!window.productosDB) {
       await window.productosDBPromise;
     }

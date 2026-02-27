@@ -48,6 +48,52 @@ function formatearPrecio(precio) {
   return precio.toLocaleString('es-AR');
 }
 
+// ============================================================
+//  PARSEAR DESCRIPCIÓN HTML → descripcion + caracteristicas
+// ============================================================
+
+function parsearDescripcionHTML(html) {
+  if (!html) return { descripcion: '', caracteristicas: [] };
+
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+
+  let descripcion = '';
+  let caracteristicas = [];
+
+  const fullText = tempDiv.innerHTML;
+  const separadorIndex = fullText.search(/Caracter[ií]sticas\s*:/i);
+
+  if (separadorIndex !== -1) {
+    const antesHTML = fullText.substring(0, separadorIndex);
+    const antesDiv = document.createElement('div');
+    antesDiv.innerHTML = antesHTML;
+    descripcion = (antesDiv.textContent || antesDiv.innerText || '').trim();
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+
+    const despuesHTML = fullText.substring(separadorIndex);
+    const despuesDiv = document.createElement('div');
+    despuesDiv.innerHTML = despuesHTML;
+
+    const items = despuesDiv.querySelectorAll('li');
+    items.forEach(li => {
+      const textoLi = (li.textContent || li.innerText || '').trim();
+      const match = textoLi.match(/^(.+?):\s*(.+)$/);
+      if (match) {
+        caracteristicas.push({
+          label: match[1].trim(),
+          value: match[2].trim()
+        });
+      }
+    });
+  } else {
+    descripcion = (tempDiv.textContent || tempDiv.innerText || '').trim();
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+  }
+
+  return { descripcion, caracteristicas };
+}
+
 function mapearProductoWC(p) {
   const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
@@ -57,18 +103,12 @@ function mapearProductoWC(p) {
   const cats = p.categories ?? [];
   let categoria = 'otros';
   if (cats.length > 0) {
-    // ✅ FIX: tomar la categoría con ID más alto = subcategoría más específica
     const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
 
-  const descripcionHTML = p.short_description || p.description || '';
-  const descripcion     = descripcionHTML.replace(/<[^>]*>/g, '').trim();
-
-  const caracteristicas = (p.attributes ?? []).map(attr => ({
-    label: attr.name,
-    value: (attr.terms ?? []).map(t => t.name).join(', ') || ''
-  }));
+  const descripcionHTML = p.description || p.short_description || '';
+  const { descripcion, caracteristicas } = parsearDescripcionHTML(descripcionHTML);
 
   return {
     id:             String(p.id),

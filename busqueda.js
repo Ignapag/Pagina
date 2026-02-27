@@ -18,6 +18,53 @@ console.log("Término buscado:", terminoBusqueda);
 
 
 // ============================================================
+//  PARSEAR DESCRIPCIÓN HTML → descripcion + caracteristicas
+// ============================================================
+
+function parsearDescripcionHTML_busqueda(html) {
+  if (!html) return { descripcion: '', caracteristicas: [] };
+
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = html;
+
+  let descripcion = '';
+  let caracteristicas = [];
+
+  const fullText = tempDiv.innerHTML;
+  const separadorIndex = fullText.search(/Caracter[ií]sticas\s*:/i);
+
+  if (separadorIndex !== -1) {
+    const antesHTML = fullText.substring(0, separadorIndex);
+    const antesDiv = document.createElement('div');
+    antesDiv.innerHTML = antesHTML;
+    descripcion = (antesDiv.textContent || antesDiv.innerText || '').trim();
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+
+    const despuesHTML = fullText.substring(separadorIndex);
+    const despuesDiv = document.createElement('div');
+    despuesDiv.innerHTML = despuesHTML;
+
+    const items = despuesDiv.querySelectorAll('li');
+    items.forEach(li => {
+      const textoLi = (li.textContent || li.innerText || '').trim();
+      const match = textoLi.match(/^(.+?):\s*(.+)$/);
+      if (match) {
+        caracteristicas.push({
+          label: match[1].trim(),
+          value: match[2].trim()
+        });
+      }
+    });
+  } else {
+    descripcion = (tempDiv.textContent || tempDiv.innerText || '').trim();
+    descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
+  }
+
+  return { descripcion, caracteristicas };
+}
+
+
+// ============================================================
 //  MAPEO
 // ============================================================
 
@@ -38,13 +85,8 @@ function mapearProductoWC_busqueda(p) {
     }
   }
 
-  const descripcionHTML = p.short_description || p.description || '';
-  const descripcion     = descripcionHTML.replace(/<[^>]*>/g, '').trim();
-
-  const caracteristicas = (p.attributes ?? []).map(attr => ({
-    label: attr.name,
-    value: (attr.terms ?? []).map(t => t.name).join(', ') || ''
-  }));
+  const descripcionHTML = p.description || p.short_description || '';
+  const { descripcion, caracteristicas } = parsearDescripcionHTML_busqueda(descripcionHTML);
 
   return {
     id:             String(p.id),
