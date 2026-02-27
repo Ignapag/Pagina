@@ -32,6 +32,7 @@ const NOMBRES_CATEGORIAS = {
 // Subcategorías que se agrupan dentro de una categoría visible
 const SUBCATEGORIAS = {
   'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
+  'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
 };
 
 
