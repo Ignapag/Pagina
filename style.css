@@ -759,7 +759,7 @@ html, body {
         .product_card{
             min-width: 240px;
             max-width: 255px;
-            min-height:312px ;
+            min-height:500px ;
         }
 
 
@@ -1367,4 +1367,16 @@ html, body {
                 font-size: 12px;
             }
 
+        }
+
+
+
+        /* OFERTAS */
+        .container-ofertas{
+            width: 90%;
+            height: 550PX;
+            background-color: #ffae00;
+            margin: auto;
+            border-radius: 20px;
+            margin-bottom: 20px;
         }

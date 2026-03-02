@@ -233,7 +233,7 @@ async function cargarTodasLasCategorias() {
       if (!productos || productos.length === 0) return;
 
       // Ordenar de mayor a menor precio
-      productos.sort((a, b) => b.precio - a.precio);
+      productos.sort((a, b) => a.precio - b.precio);
 
       const nombreVisible = NOMBRES_CATEGORIAS[categoriaVisible] || capitalizar(categoriaVisible.replace(/-/g, ' '));
 
@@ -595,3 +595,87 @@ fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
     }
   })
   .catch(error => console.error("❌ Error cargando main:", error));
+
+  // ============================================================
+  //  OFERTAS (nagi)
+  // ============================================================
+
+  const mapearProductos2 = (p) => {
+      let nombre = p.name;
+      let precio = p.prices.regular_price;
+      let descripcion = p.description;
+      let categoriaoferta = "";
+        for (let i = 0; i < p.categories.length; i++) {
+          categoriaoferta = p.categories[i].slug;
+          if (categoriaoferta === "oferta"){
+            break;
+          }
+        }
+        let imagen = p.images?.[0]?.src ?? "";
+        let id = p.id;
+      return{
+        nombre,
+        precio,
+        categoriaoferta,
+        descripcion,
+        imagen,
+        id
+      }
+  }
+
+  async function fetchTodosLosProductos2() {
+  let productos  = [];
+  let page       = 1;
+  let totalPages = 1;
+
+  do {
+    const url      = `${WC_API_URL}?per_page=${WC_PER_PAGE}&page=${page}`;
+    const response = await fetch(url);
+    const data  = await response.json();
+    const items = Array.isArray(data) ? data : (data.products ?? []);
+    productos   = productos.concat(items.map(mapearProductos2));
+
+    page++;
+  } while (page <= totalPages);
+
+  return productos;
+}
+
+const funcion = fetchTodosLosProductos2 ();
+
+console.log("prueba:", funcion);
+
+fetchTodosLosProductos2().then((p) => {
+    let productoind = [];
+    const contenedorofertas = document.querySelector(".container-ofertas");
+    p.forEach((p)=> {if (p.categoriaoferta === "oferta"){
+    productoind += `
+              <a href="./muestra-producto.html?id=${p.id}" class="main_product_show_a">
+                <article class="product_card">
+                  <img src="${p.imagen}" alt="${p.nombre}" loading="lazy"/>
+                  <strong class="main_product_price">$${formatearPrecio(p.precio)}</strong>
+                  <h4 class="producto_categoria">${p.nombre}</h4>
+                  <h3 class="product_name">${p.nombre}</h3>
+                </article>
+              </a>`
+    }});        
+
+    contenedorofertas.innerHTML = `
+      <button class="main_desktop__product_buttom left main_desktop" aria-label="Anterior">
+        <span class="material-symbols-outlined left">chevron_left</span>
+      </button>
+      <div class="main_product_container">
+        <h3 class="main_product_show_tittle_secundary main_desktop">${p.categoriaoferta}</h3>
+        <section class="main_product_show aire desktop">
+          <h3 class="main_product_show_tittle_secundary main_phone">${p.categoriaoferta}</h3>
+          <div class="main_product_show_list">
+            ${productoind}
+          </div>
+        </section>
+      </div>
+      <button class="main_desktop__product_buttom right main_desktop" aria-label="Siguiente">
+        <span class="material-symbols-outlined right">chevron_right</span>
+      </button>
+    `;;
+  }
+);
