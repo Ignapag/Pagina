@@ -352,15 +352,15 @@ fetchTodosLosProductos2().then((p) => {
                 </article>
               </a>`
     }});        
-
+    contenedorofertas.classList.add('main_product_transition');
     contenedorofertas.innerHTML = `
       <button class="main_desktop__product_buttom left main_desktop" aria-label="Anterior">
         <span class="material-symbols-outlined left">chevron_left</span>
       </button>
       <div class="main_product_container">
-        <h3 class="main_product_show_tittle_secundary main_desktop">${p.categoriaoferta}</h3>
+        <h3 class="main_product_show_tittle_secundary main_desktop">Nuestros mejores precios</h3>
         <section class="main_product_show aire desktop">
-          <h3 class="main_product_show_tittle_secundary main_phone">${p.categoriaoferta}</h3>
+          <h3 class="main_product_show_tittle_secundary main_phone">Ofertas</h3>
           <div class="main_product_show_list">
             ${productoind}
           </div>
@@ -370,6 +370,7 @@ fetchTodosLosProductos2().then((p) => {
         <span class="material-symbols-outlined right">chevron_right</span>
       </button>
     `;;
+    inicializarSlidersNuevos();
   }
 );
 
