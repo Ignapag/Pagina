@@ -68,7 +68,7 @@ function parsearDescripcionHTML_busqueda(html) {
 // ============================================================
 
 function mapearProductoWC_busqueda(p) {
-  const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
+  const precioRaw = parseInt(p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
@@ -104,12 +104,13 @@ function mapearProductoWC_busqueda(p) {
 //  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-const CACHE_VERSION_BUSQUEDA = 'v2';
+const CACHE_VERSION_BUSQUEDA = 'v4';
+const CACHE_KEY_BUSQUEDA = 'productosDB_busqueda_' + CACHE_VERSION_BUSQUEDA;
 
 async function fetchTodosProductos() {
   // 1) Intentar sessionStorage
   try {
-    const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION_BUSQUEDA);
+    const cache = sessionStorage.getItem(CACHE_KEY_BUSQUEDA);
     if (cache) {
       console.log('✅ Productos cargados desde caché');
       return JSON.parse(cache);
@@ -136,7 +137,7 @@ async function fetchTodosProductos() {
   } while (page <= totalPages);
 
   try {
-    sessionStorage.setItem('productosDB_' + CACHE_VERSION_BUSQUEDA, JSON.stringify(productos));
+    sessionStorage.setItem(CACHE_KEY_BUSQUEDA, JSON.stringify(productos));
   } catch (e) {}
 
   return productos;

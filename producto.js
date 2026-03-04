@@ -85,7 +85,7 @@ function mapearProductoWC(p) {
 // ============================================================
 
 const WC_API_URL_PRODUCTO = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const CACHE_VERSION_PRODUCTO = 'v2';
+const CACHE_VERSION_PRODUCTO = 'v3';
 
 async function obtenerProductoPorId(productId) {
   // 1) Intentar traer solo ese producto desde la API
