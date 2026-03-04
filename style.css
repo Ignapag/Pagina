@@ -548,6 +548,7 @@ html, body {
 }
 
 .search_bar_button{
+    color:#000;
     border: none;
     background-color: #eee;
     cursor: pointer;
@@ -963,6 +964,7 @@ html, body {
 
 .only_product_button_back span{
     font-size: 20px;
+    color:#000;
 }
 
 
