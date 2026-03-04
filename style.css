@@ -40,9 +40,8 @@ html, body {
 }
 
 .negro{
-    color: #333;
-    -webkit-text-fill-color: #333;
-    -webkit-appearance: none;
+    color: #333 !important;
+    -webkit-text-fill-color: #333 !important;
 }
 
 
