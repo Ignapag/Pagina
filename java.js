@@ -7,6 +7,7 @@ console.log("Java.js cargado");
 
 const WC_API_URL = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
 const WC_PER_PAGE = 100;
+const CACHE_VERSION = 'v2';
 
 
 // ============================================================
@@ -94,17 +95,26 @@ function parsearDescripcionHTML(html) {
   return { descripcion, caracteristicas };
 }
 
+// ============================================================
+//  MAPEO UNIFICADO (categorías + ofertas en un solo objeto)
+// ============================================================
+
 function mapearProductoWC(p) {
   const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
+  const precioRegular = parseInt(p.prices?.regular_price ?? '0', 10);
+  const preciof   = parseInt(p.prices?.sale_price) || 0;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
 
   const cats = p.categories ?? [];
   let categoria = 'otros';
+  let esOferta = false;
+
   if (cats.length > 0) {
     const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
+    esOferta = cats.some(c => c.slug === 'oferta');
   }
 
   const descripcionHTML = p.description || p.short_description || '';
@@ -114,14 +124,39 @@ function mapearProductoWC(p) {
     id:             String(p.id),
     nombre:         p.name ?? 'Producto sin nombre',
     precio,
+    precioRegular,
+    preciof,
     imagen,
     categoria,
+    esOferta,
     descripcion,
     caracteristicas,
     _slug:          p.slug ?? ''
   };
 }
+
+
+// ============================================================
+//  FETCH ÚNICO CON CACHÉ EN sessionStorage
+// ============================================================
+
 async function fetchTodosLosProductos() {
+  // 1) Si ya está en memoria, devolver directo
+  if (window.productosDB) return window.productosDB;
+
+  // 2) Intentar cargar desde sessionStorage
+  try {
+    const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION);
+    if (cache) {
+      window.productosDB = JSON.parse(cache);
+      console.log('✅ productosDB cargado desde caché:', window.productosDB.length);
+      return window.productosDB;
+    }
+  } catch (e) {
+    console.warn('⚠️ Error leyendo caché, descargando de nuevo');
+  }
+
+  // 3) Descargar desde la API (una sola vez)
   let productos  = [];
   let page       = 1;
   let totalPages = 1;
@@ -142,6 +177,15 @@ async function fetchTodosLosProductos() {
     page++;
   } while (page <= totalPages);
 
+  // 4) Guardar en memoria y en sessionStorage
+  window.productosDB = productos;
+  try {
+    sessionStorage.setItem('productosDB_' + CACHE_VERSION, JSON.stringify(productos));
+  } catch (e) {
+    console.warn('⚠️ No se pudo guardar en sessionStorage');
+  }
+
+  console.log('✅ productosDB descargado:', productos.length, 'productos');
   return productos;
 }
 
@@ -180,30 +224,33 @@ function inicializarSlidersNuevos() {
 
 
 // ============================================================
-//  CARGAR TODAS LAS CATEGORÍAS VISIBLES
+//  CARGAR TODAS LAS CATEGORÍAS + OFERTAS (una sola descarga)
 // ============================================================
 
 async function cargarTodasLasCategorias() {
   console.log('🔄 Iniciando carga de categorías desde WooCommerce...');
 
   try {
-    if (!window.productosDB) {
-      const productos = await fetchTodosLosProductos();
-      window.productosDB = productos;
-      console.log('✅ productosDB cargado:', productos.length, 'productos');
-    }
+    const productos = await fetchTodosLosProductos();
 
+    // --- CATEGORÍAS ---
     const productosPorCategoria = {};
-    window.productosDB.forEach(producto => {
+    const productosOfertas = [];
+
+    productos.forEach(producto => {
       const cat = producto.categoria.toLowerCase();
       
-      // Buscar si esta categoría pertenece a alguna categoría visible como subcategoría
+      // Ofertas
+      if (producto.esOferta) {
+        productosOfertas.push(producto);
+      }
+
+      // Categorías visibles
       let categoriaDestino = null;
       
       if (CATEGORIAS_VISIBLES_MAIN.includes(cat)) {
         categoriaDestino = cat;
       } else {
-        // Buscar en SUBCATEGORIAS si este slug está mapeado a alguna categoría visible
         for (const [catPrincipal, subs] of Object.entries(SUBCATEGORIAS)) {
           if (subs.includes(cat)) {
             categoriaDestino = catPrincipal;
@@ -229,11 +276,10 @@ async function cargarTodasLasCategorias() {
     mainContainer.innerHTML = '';
 
     CATEGORIAS_VISIBLES_MAIN.forEach(categoriaVisible => {
-      const productos = productosPorCategoria[categoriaVisible];
-      if (!productos || productos.length === 0) return;
+      const prods = productosPorCategoria[categoriaVisible];
+      if (!prods || prods.length === 0) return;
 
-      // Ordenar de mayor a menor precio
-      productos.sort((a, b) => a.precio - b.precio);
+      prods.sort((a, b) => a.precio - b.precio);
 
       const nombreVisible = NOMBRES_CATEGORIAS[categoriaVisible] || capitalizar(categoriaVisible.replace(/-/g, ' '));
 
@@ -250,7 +296,7 @@ async function cargarTodasLasCategorias() {
           <section class="main_product_show aire desktop">
             <h3 class="main_product_show_tittle_secundary main_phone">${nombreVisible}</h3>
             <div class="main_product_show_list">
-              ${productos.map(producto => `
+              ${prods.map(producto => `
                 <a href="./muestra-producto.html?id=${producto.id}" class="main_product_show_a">
                   <article class="product_card">
                     <img src="${producto.imagen}" alt="${producto.nombre}" loading="lazy"/>
@@ -271,8 +317,43 @@ async function cargarTodasLasCategorias() {
       mainContainer.appendChild(seccion);
     });
 
+    // --- OFERTAS (usa los mismos datos, sin segunda descarga) ---
+    const contenedorofertas = document.querySelector(".container-ofertas");
+    if (contenedorofertas && productosOfertas.length > 0) {
+      let productoind = productosOfertas.filter(p => p.preciof && p.preciof !== p.precioRegular).map(p => `
+        <a href="./muestra-producto.html?id=${p.id}" class="main_product_show_a">
+          <article class="product_card grande">
+            <img src="${p.imagen}" alt="${p.nombre}" loading="lazy"/>
+            <strong class="main_product_price tachado">$${formatearPrecio(p.precioRegular)}</strong>
+            <strong class="main_product_price">$${formatearPrecio(p.preciof)}</strong>
+            <h4 class="producto_categoria">${p.nombre}</h4>
+            <h3 class="product_name">${p.nombre}</h3>
+          </article>
+        </a>
+      `).join('');
+
+      contenedorofertas.classList.add('main_product_transition');
+      contenedorofertas.innerHTML = `
+        <button class="main_desktop__product_buttom left main_desktop" aria-label="Anterior">
+          <span class="material-symbols-outlined left">chevron_left</span>
+        </button>
+        <div class="main_product_container">
+          <h3 class="main_product_show_tittle_secundary main_desktop">Nuestros mejores precios</h3>
+          <section class="main_product_show aire desktop">
+            <h3 class="main_product_show_tittle_secundary main_phone">Ofertas</h3>
+            <div class="main_product_show_list">
+              ${productoind}
+            </div>
+          </section>
+        </div>
+        <button class="main_desktop__product_buttom right main_desktop" aria-label="Siguiente">
+          <span class="material-symbols-outlined right">chevron_right</span>
+        </button>
+      `;
+    }
+
     inicializarSlidersNuevos();
-    console.log('✅ Categorías cargadas:', CATEGORIAS_VISIBLES_MAIN);
+    console.log('✅ Categorías y ofertas cargadas');
 
   } catch (error) {
     console.error('❌ Error cargando categorías:', error);
@@ -289,95 +370,6 @@ async function cargarTodasLasCategorias() {
   }
 }
 
- // ============================================================
-  //  OFERTAS (nagi)
-  // ============================================================
-
-  const mapearProductos2 = (p) => {
-      let nombre = p.name;
-      let precio = parseInt(p.prices.regular_price);
-      let descripcion = p.description;
-      let categoriaoferta = "";
-        for (let i = 0; i < p.categories.length; i++) {
-          categoriaoferta = p.categories[i].slug;
-          if (categoriaoferta === "oferta"){
-            break;
-          }
-        }
-        let imagen = p.images?.[0]?.src ?? "";
-        let id = p.id;
-        let preciof = parseInt(p.prices.sale_price);
-      return{
-        nombre,
-        precio,
-        categoriaoferta,
-        descripcion,
-        imagen,
-        id,
-        preciof
-      }
-  }
-
-  async function fetchTodosLosProductos2() {
-  let productos  = [];
-  let page       = 1;
-  let totalPages = 1;
-
-  do {
-    const url      = `${WC_API_URL}?per_page=${WC_PER_PAGE}&page=${page}`;
-    const response = await fetch(url);
-    const data  = await response.json();
-    const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos   = productos.concat(items.map(mapearProductos2));
-
-    page++;
-  } while (page <= totalPages);
-
-  return productos;
-}
-
-const funcion = fetchTodosLosProductos2 ();
-
-console.log("prueba:", funcion);
-
-fetchTodosLosProductos2().then((p) => {
-    let productoind = [];
-    const contenedorofertas = document.querySelector(".container-ofertas");
-    p.forEach((p)=> {if (p.categoriaoferta === "oferta"){
-    productoind += `
-              <a href="./muestra-producto.html?id=${p.id}" class="main_product_show_a">
-                <article class="product_card grande">
-                  <img src="${p.imagen}" alt="${p.nombre}" loading="lazy"/>
-                  <strong class="main_product_price tachado">$${formatearPrecio(p.precio)}</strong>
-                  <strong class="main_product_price">$${formatearPrecio(p.preciof)}</strong>
-                  <h4 class="producto_categoria">${p.nombre}</h4>
-                  <h3 class="product_name">${p.nombre}</h3>
-                </article>
-              </a>`
-    }});        
-    contenedorofertas.classList.add('main_product_transition');
-    contenedorofertas.innerHTML = `
-      <button class="main_desktop__product_buttom left main_desktop" aria-label="Anterior">
-        <span class="material-symbols-outlined left">chevron_left</span>
-      </button>
-      <div class="main_product_container">
-        <h3 class="main_product_show_tittle_secundary main_desktop">Nuestros mejores precios</h3>
-        <section class="main_product_show aire desktop">
-          <h3 class="main_product_show_tittle_secundary main_phone">Ofertas</h3>
-          <div class="main_product_show_list">
-            ${productoind}
-          </div>
-        </section>
-      </div>
-      <button class="main_desktop__product_buttom right main_desktop" aria-label="Siguiente">
-        <span class="material-symbols-outlined right">chevron_right</span>
-      </button>
-    `;;
-    inicializarSlidersNuevos();
-  }
-);
-
-
 
 // ============================================================
 //  MOSTRAR SOLO UNA CATEGORÍA
@@ -389,7 +381,6 @@ async function mostrarSoloCategoria(categoriaOriginal) {
   const isIndexPage = window.location.pathname === '/' ||
                       window.location.pathname.includes('index.html') ||
                       window.location.pathname.endsWith('/');
-                      window.location.pathname === ''; 
   if (!isIndexPage) {
     window.location.href = `index.html#${categoriaOriginal}`;
     return;
@@ -406,27 +397,20 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     mainContainer.style.marginTop = '80px';
     mainContainer.innerHTML = '<div class="loader"><div class="spinner"></div><p>Cargando productos...</p></div>';
 
-    // ✅ FIX: esperar a que productosDB esté disponible antes de filtrar
-    if (!window.productosDB) {
-      const productos = await fetchTodosLosProductos();
-      window.productosDB = productos;
-      console.log('✅ productosDB cargado en mostrarSoloCategoria:', productos.length);
-    }
+    const productos = await fetchTodosLosProductos();
 
     const categoriaNormalizada = categoriaOriginal.toLowerCase().trim();
     
-    // Obtener todos los slugs que pertenecen a esta categoría (incluyendo subcategorías)
     const slugsAFiltrar = SUBCATEGORIAS[categoriaNormalizada] 
       ? SUBCATEGORIAS[categoriaNormalizada] 
       : [categoriaNormalizada];
     
-    const productosCategoria = window.productosDB.filter(p =>
+    const productosCategoria = productos.filter(p =>
       slugsAFiltrar.includes(p.categoria.toLowerCase().trim())
     );
 
     console.log(`✅ Productos en "${categoriaOriginal}":`, productosCategoria.length);
 
-    // Ordenar de mayor a menor precio
     productosCategoria.sort((a, b) => b.precio - a.precio);
 
     if (productosCategoria.length === 0) {
@@ -445,8 +429,10 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     }
 
     mainContainer.innerHTML = '';
-    contenedorofertas.innerHTML = '';
-    contenedorofertas.style.display = "none";
+    if (contenedorofertas) {
+      contenedorofertas.innerHTML = '';
+      contenedorofertas.style.display = "none";
+    }
 
     const nombreVisible = NOMBRES_CATEGORIAS[categoriaNormalizada] || capitalizar(categoriaOriginal.replace(/-/g, ' '));
     const seccion = document.createElement('section');
@@ -547,11 +533,9 @@ function inicializarDropdown(btnId, menuId) {
       dropdownMenu.classList.remove('show');
       if (dropdownArrow) dropdownArrow.classList.remove('open');
 
-      // ✅ FIX: leer data-categoria primero; si no existe, parsear el href correctamente
       let categoria = item.getAttribute('data-categoria');
       if (!categoria) {
         const href = item.getAttribute('href') ?? '';
-        // Soporta "index.html#slug", "#slug", "/index.html#slug"
         categoria = href.split('#')[1] ?? '';
       }
 
@@ -576,25 +560,23 @@ function inicializarDropdown(btnId, menuId) {
 fetch("components/header.html?v=" + Date.now())
   .then(res => res.text())
   .then(data => {
-    // Links del nav móvil
-document.querySelectorAll('.nav_list_item_a').forEach(link => {
-  link.addEventListener('click', async e => {
-    const href = link.getAttribute('href') ?? '';
-    const hash = href.split('#')[1];
-    if (!hash) return;
+    document.querySelectorAll('.nav_list_item_a').forEach(link => {
+      link.addEventListener('click', async e => {
+        const href = link.getAttribute('href') ?? '';
+        const hash = href.split('#')[1];
+        if (!hash) return;
 
-    const isIndex = window.location.pathname === '/' ||
-                    window.location.pathname.includes('index.html') ||
-                    window.location.pathname.endsWith('/');
+        const isIndex = window.location.pathname === '/' ||
+                        window.location.pathname.includes('index.html') ||
+                        window.location.pathname.endsWith('/');
 
-    if (isIndex) {
-      e.preventDefault();
-      document.querySelector('.nav')?.classList.remove('open');
-      await mostrarSoloCategoria(hash);
-    }
-    // Si no está en index, deja navegar normalmente al href
-  });
-});
+        if (isIndex) {
+          e.preventDefault();
+          document.querySelector('.nav')?.classList.remove('open');
+          await mostrarSoloCategoria(hash);
+        }
+      });
+    });
     document.getElementById("site-header").innerHTML = data;
     console.log("✅ Header cargado");
 
@@ -623,9 +605,6 @@ document.querySelectorAll('.nav_list_item_a').forEach(link => {
 
     console.log("✅ Botones de WhatsApp configurados");
 
-    // ✅ FIX: inicializar dropdowns AQUÍ, dentro del .then del header,
-    // garantizando que el DOM ya existe cuando se registran los listeners.
-    // El setInterval original fallaba si el header tardaba más de lo esperado.
     inicializarDropdown('dropdownElectro',  'menuElectro');
     inicializarDropdown('dropdownDescanso', 'menuDescanso');
     inicializarDropdown('dropdownMuebles',  'menuMuebles');
@@ -648,21 +627,10 @@ fetch("components/footer.html?v=" + Date.now())
 
 
 // ============================================================
-//  MAIN
+//  MAIN (sin no-cache forzado)
 // ============================================================
 
-const randomCache = Math.random().toString(36).substring(7);
-const timestamp   = Date.now();
-
-fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
-  method: 'GET',
-  cache:  'no-store',
-  headers: {
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Pragma':        'no-cache',
-    'Expires':       '0'
-  }
-})
+fetch("components/main.html")
   .then(res => res.text())
   .then(data => {
     const siteMain = document.getElementById("site-main");
@@ -677,8 +645,6 @@ fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
         console.log('🔗 Hash detectado, cargando categoría:', hash);
-        // ✅ FIX: mostrarSoloCategoria ya espera internamente a productosDB,
-        // así que funciona aunque la API no haya respondido todavía.
         mostrarSoloCategoria(hash);
       } else {
         console.log('📋 Sin hash, cargando todas las categorías');
@@ -687,5 +653,3 @@ fetch(`components/main.html?v=${timestamp}&r=${randomCache}`, {
     }
   })
   .catch(error => console.error("❌ Error cargando main:", error));
-
- 

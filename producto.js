@@ -11,21 +11,16 @@ function parsearDescripcionHTML(html) {
   let descripcion = '';
   let caracteristicas = [];
 
-  // Buscar si existe el separador "Características:"
   const fullText = tempDiv.innerHTML;
   const separadorIndex = fullText.search(/Caracter[ií]sticas\s*:/i);
 
   if (separadorIndex !== -1) {
-    // --- DESCRIPCIÓN: todo el texto antes de "Características:" ---
     const antesHTML = fullText.substring(0, separadorIndex);
     const antesDiv = document.createElement('div');
     antesDiv.innerHTML = antesHTML;
     descripcion = (antesDiv.textContent || antesDiv.innerText || '').trim();
-
-    // Limpiar prefijo "Descripción corta:" si existe
     descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
 
-    // --- CARACTERÍSTICAS: los <li> después de "Características:" ---
     const despuesHTML = fullText.substring(separadorIndex);
     const despuesDiv = document.createElement('div');
     despuesDiv.innerHTML = despuesHTML;
@@ -33,7 +28,6 @@ function parsearDescripcionHTML(html) {
     const items = despuesDiv.querySelectorAll('li');
     items.forEach(li => {
       const textoLi = (li.textContent || li.innerText || '').trim();
-      // Buscar patrón "Label: Valor"
       const match = textoLi.match(/^(.+?):\s*(.+)$/);
       if (match) {
         caracteristicas.push({
@@ -43,7 +37,6 @@ function parsearDescripcionHTML(html) {
       }
     });
   } else {
-    // No hay separador → toda la descripción va como texto plano
     descripcion = (tempDiv.textContent || tempDiv.innerText || '').trim();
     descripcion = descripcion.replace(/^Descripci[oó]n\s*corta\s*:\s*/i, '').trim();
   }
@@ -59,6 +52,7 @@ function parsearDescripcionHTML(html) {
 function mapearProductoWC(p) {
   const precioRaw = parseInt(p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
+  const preciof   = parseInt(p.prices?.sale_price) || 0;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
 
@@ -68,8 +62,7 @@ function mapearProductoWC(p) {
     const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
-  let preciof = parseInt(p.prices.sale_price);
-  // Parsear descripción para extraer texto + características
+
   const descripcionHTML = p.description || p.short_description || '';
   const { descripcion, caracteristicas } = parsearDescripcionHTML(descripcionHTML);
 
@@ -88,50 +81,71 @@ function mapearProductoWC(p) {
 
 
 // ============================================================
-//  CARGA DE TODOS LOS PRODUCTOS
+//  OBTENER UN PRODUCTO: API individual → caché → descarga completa
 // ============================================================
 
-async function fetchTodosLosProductos() {
-  let productos  = [];
-  let page       = 1;
+const WC_API_URL_PRODUCTO = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
+const CACHE_VERSION_PRODUCTO = 'v2';
+
+async function obtenerProductoPorId(productId) {
+  // 1) Intentar traer solo ese producto desde la API
+  try {
+    const url = `${WC_API_URL_PRODUCTO}?include=${productId}`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      const items = Array.isArray(data) ? data : (data.products ?? []);
+      if (items.length > 0) {
+        console.log('✅ Producto obtenido directo de la API');
+        return mapearProductoWC(items[0]);
+      }
+    }
+  } catch (e) {
+    console.warn('⚠️ No se pudo traer producto individual, intentando caché...');
+  }
+
+  // 2) Buscar en sessionStorage (caché del home)
+  try {
+    const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION_PRODUCTO);
+    if (cache) {
+      const productos = JSON.parse(cache);
+      const encontrado = productos.find(p => p.id === productId);
+      if (encontrado) {
+        console.log('✅ Producto encontrado en caché');
+        return encontrado;
+      }
+    }
+  } catch (e) {
+    console.warn('⚠️ Error leyendo caché');
+  }
+
+  // 3) Último recurso: descargar todo
+  console.log('⏳ Descargando catálogo completo...');
+  let productos = [];
+  let page = 1;
   let totalPages = 1;
 
   do {
-    const url      = `https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products?per_page=100&page=${page}`;
+    const url = `${WC_API_URL_PRODUCTO}?per_page=100&page=${page}`;
     const response = await fetch(url);
-
-    if (!response.ok) throw new Error(`Error HTTP ${response.status} al obtener productos`);
+    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 
     const xTotalPages = response.headers.get('X-WP-TotalPages');
     if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
 
-    const data  = await response.json();
+    const data = await response.json();
     const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos   = productos.concat(items.map(mapearProductoWC));
-
+    productos = productos.concat(items.map(mapearProductoWC));
     page++;
   } while (page <= totalPages);
 
-  return productos;
+  // Guardar en caché para futuras visitas
+  try {
+    sessionStorage.setItem('productosDB_' + CACHE_VERSION_PRODUCTO, JSON.stringify(productos));
+  } catch (e) {}
+
+  return productos.find(p => p.id === productId) || null;
 }
-
-
-// ============================================================
-//  INICIALIZACIÓN
-// ============================================================
-
-window.productosDB = null;
-window.productosDBPromise = fetchTodosLosProductos()
-  .then(productos => {
-    window.productosDB = productos;
-    console.log('✅ Base de datos WooCommerce cargada:', window.productosDB.length, 'productos');
-    return productos;
-  })
-  .catch(error => {
-    console.error('❌ Error cargando productos desde WooCommerce:', error);
-    window.productosDB = [];
-    return [];
-  });
 
 
 // ============================================================
@@ -141,18 +155,18 @@ window.productosDBPromise = fetchTodosLosProductos()
 if (window.location.pathname.includes('muestra-producto')) {
 
   window.addEventListener('DOMContentLoaded', async () => {
-
-    // Esperar a que la Promise resuelva en vez de polling con setTimeout
-    if (!window.productosDB) {
-      await window.productosDBPromise;
-    }
-
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
     console.log('Buscando producto id:', productId);
 
-    const producto = window.productosDB.find(p => p.id === productId);
+    if (!productId) {
+      const cont = document.querySelector('.only_product_container');
+      if (cont) cont.innerHTML = '<p>Producto no encontrado.</p>';
+      return;
+    }
+
+    const producto = await obtenerProductoPorId(productId);
 
     if (!producto) {
       console.error('Producto no encontrado:', productId);
@@ -162,7 +176,6 @@ if (window.location.pathname.includes('muestra-producto')) {
     }
 
     console.log('✅ Cargando producto:', producto.nombre);
-    console.log('Descripción:', producto.descripcion);
 
     // Título
     document.querySelectorAll('.only_product_tittle').forEach(el => {
@@ -178,12 +191,10 @@ if (window.location.pathname.includes('muestra-producto')) {
 
     let precioelec = `<strong class="only_product_precio">$${producto.precio.toLocaleString('es-AR')}</strong>`;
 
-    if (producto.preciof !== "" && producto.preciof){
+    if (producto.preciof && producto.preciof !== producto.precio) {
       precioelec = `<strong class="only_product_precio tachado">$${producto.precio.toLocaleString('es-AR')}</strong> 
       <strong class="only_product_precio">$${producto.preciof.toLocaleString('es-AR')}</strong>`;
     }
-
-    console.log("precio:", producto.preciof);
 
     // Precio + Descripción
     const descEl = document.querySelector('.only_product_description');

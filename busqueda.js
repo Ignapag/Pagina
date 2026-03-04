@@ -5,7 +5,6 @@ console.log("🔍 busqueda.js cargado");
 // ============================================================
 
 const WC_API_URL_BUSQUEDA = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const WC_PER_PAGE_BUSQUEDA = 100;
 
 // ============================================================
 //  PARÁMETROS DE LA URL
@@ -69,7 +68,7 @@ function parsearDescripcionHTML_busqueda(html) {
 // ============================================================
 
 function mapearProductoWC_busqueda(p) {
-  const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
+  const precioRaw = parseInt(p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
@@ -84,7 +83,7 @@ function mapearProductoWC_busqueda(p) {
       categoria = cats[cats.length - 1].slug;
     }
   }
-
+  let preciof = parseInt(p.prices.sale_price);
   const descripcionHTML = p.description || p.short_description || '';
   const { descripcion, caracteristicas } = parsearDescripcionHTML_busqueda(descripcionHTML);
 
@@ -95,30 +94,24 @@ function mapearProductoWC_busqueda(p) {
     imagen,
     categoria,
     descripcion,
-    caracteristicas
+    caracteristicas,
+    preciof
   };
 }
 
-async function fetchProductosBusqueda() {
-  let productos  = [];
-  let page       = 1;
-  let totalPages = 1;
 
-  do {
-    const url      = `${WC_API_URL_BUSQUEDA}?per_page=${WC_PER_PAGE_BUSQUEDA}&page=${page}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+// ============================================================
+//  FETCH CON BÚSQUEDA EN EL SERVIDOR
+// ============================================================
 
-    const xTotalPages = response.headers.get('X-WP-TotalPages');
-    if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
+async function fetchProductosBusqueda(termino) {
+  const url = `${WC_API_URL_BUSQUEDA}?per_page=40&search=${encodeURIComponent(termino)}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 
-    const data  = await response.json();
-    const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos   = productos.concat(items.map(mapearProductoWC_busqueda));
-    page++;
-  } while (page <= totalPages);
-
-  return productos;
+  const data  = await response.json();
+  const items = Array.isArray(data) ? data : (data.products ?? []);
+  return items.map(mapearProductoWC_busqueda);
 }
 
 
@@ -140,22 +133,6 @@ async function realizarBusqueda() {
   }
   if (sinResultados) sinResultados.style.display = 'none';
 
-  if (!window.productosDB) {
-    try {
-      window.productosDB = await fetchProductosBusqueda();
-      console.log('✅ productosDB cargado en búsqueda:', window.productosDB.length);
-    } catch (err) {
-      console.error('❌ Error cargando productos en búsqueda:', err);
-      if (titulo) titulo.textContent = 'Error al cargar productos';
-      if (info)   info.textContent   = 'No se pudo conectar con el servidor. Intentá más tarde.';
-      if (contenedor) contenedor.style.display = 'none';
-      if (sinResultados) sinResultados.style.display = 'block';
-      return;
-    }
-  }
-
-  const productos = window.productosDB;
-
   if (!terminoBusqueda) {
     if (titulo) titulo.textContent = 'Búsqueda vacía';
     if (info)   info.textContent   = 'Ingresa un término de búsqueda';
@@ -166,19 +143,20 @@ async function realizarBusqueda() {
 
   if (titulo) titulo.textContent = `Resultados para "${terminoBusqueda}"`;
 
-  const texto      = terminoBusqueda.toLowerCase().trim();
-  const resultados = productos.filter(producto => {
-    const enNombre      = producto.nombre.toLowerCase().includes(texto);
-    const enCategoria   = producto.categoria.toLowerCase().includes(texto);
-    const enDescripcion = producto.descripcion ? producto.descripcion.toLowerCase().includes(texto) : false;
-    const enCaracteristicas = producto.caracteristicas
-      ? producto.caracteristicas.some(c =>
-          c.label.toLowerCase().includes(texto) || c.value.toLowerCase().includes(texto)
-        )
-      : false;
-    const enId = producto.id.toLowerCase().includes(texto);
-    return enNombre || enCategoria || enDescripcion || enCaracteristicas || enId;
-  });
+  let resultados = [];
+
+  try {
+    resultados = await fetchProductosBusqueda(terminoBusqueda);
+    resultados.sort((a, b) => a.precio - b.precio);
+    console.log('✅ Resultados desde el servidor:', resultados.length);
+  } catch (err) {
+    console.error('❌ Error buscando productos:', err);
+    if (titulo) titulo.textContent = 'Error al buscar productos';
+    if (info)   info.textContent   = 'No se pudo conectar con el servidor. Intentá más tarde.';
+    if (contenedor) contenedor.style.display = 'none';
+    if (sinResultados) sinResultados.style.display = 'block';
+    return;
+  }
 
   console.log("✅ Resultados encontrados:", resultados.length);
 
@@ -213,15 +191,20 @@ async function realizarBusqueda() {
     card.href      = `muestra-producto.html?id=${producto.id}`;
     card.className = 'resultado_card';
 
-    const precioFormateado    = `$${producto.precio.toLocaleString('es-AR')}`;
     const descripcionCorta    = producto.descripcion
       ? (producto.descripcion.length > 100 ? producto.descripcion.substring(0, 100) + '...' : producto.descripcion)
       : 'Producto disponible en Positivo Hogar';
     const categoriaFormateada = producto.categoria.charAt(0).toUpperCase() + producto.categoria.slice(1);
 
+    let precioelec = `<strong class="only_product_precio precio_busqueda">$${producto.precio.toLocaleString('es-AR')}</strong>`;
+
+    if (producto.preciof) {
+      precioelec = `<div><strong class="only_product_precio tachado precio_busqueda">$${producto.precio.toLocaleString('es-AR')}</strong> <strong class="only_product_precio precio_busqueda">$${producto.preciof.toLocaleString('es-AR')}</strong></div>`;
+    }
+
     card.innerHTML = `
       <img src="${producto.imagen}" alt="${producto.nombre}" class="resultado_imagen" loading="lazy">
-      <strong class="resultado_precio main_product_price">${precioFormateado}</strong>
+      ${precioelec}
       <div class="resultado_categoria">${categoriaFormateada}</div>
       <h3 class="resultado_nombre">${producto.nombre}</h3>
       <p class="resultado_descripcion">${descripcionCorta}</p>
@@ -253,6 +236,6 @@ function actualizarBuscadorHeader() {
 
 window.addEventListener('DOMContentLoaded', () => {
   console.log("🔄 DOM cargado - Iniciando búsqueda");
-  setTimeout(() => realizarBusqueda(), 200);
+  realizarBusqueda();
   setTimeout(actualizarBuscadorHeader, 600);
 });

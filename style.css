@@ -1414,3 +1414,9 @@ html, body {
         }
 
     }
+
+    .precio_busqueda{
+        font-size: 17px;
+        color: #000;
+        margin-right: 10px;
+    }
