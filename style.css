@@ -591,7 +591,7 @@ html, body {
 
     .main_product_show{
     padding: 24px;
-    background-color: #2b2b2b;
+    background-color: #f5f5f5;
     }
 
     .main_product_show_tittle {
@@ -628,7 +628,7 @@ html, body {
 
     .main_product_show_tittle_secundary{
         margin-bottom: 15px;
-        color:#fff;
+        color:#000;
     }
 
     .product_card img {
@@ -1376,13 +1376,18 @@ html, body {
 
         .tachado {
             text-decoration: line-through #000;
-            font-size: 20px;
+            font-size: 17px;
             color:#ff7700;
             }
 
              .grande{
             min-height: 540px;
         }
+
+        .precio-oferta{
+            font-size: 20px;
+        }
+
 
   @media (min-width: 768px){
     
@@ -1430,9 +1435,6 @@ html, body {
         display: flex;
         }
 
-        .main_product_show_tittle_secundary{
-        color:#000;
-        }
 
         .titulo-ofertas{
             color:#fff;
@@ -1442,7 +1444,7 @@ html, body {
         }
 
         .precio-oferta{
-            font-size: 30px;
+            font-size: 22px;
         }
 
         .product_card img {
