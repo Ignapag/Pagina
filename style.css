@@ -591,7 +591,7 @@ html, body {
 
     .main_product_show{
     padding: 24px;
-    background-color: #f5f5f5;
+    background-color: #2b2b2b;
     }
 
     .main_product_show_tittle {
@@ -628,6 +628,7 @@ html, body {
 
     .main_product_show_tittle_secundary{
         margin-bottom: 15px;
+        color:#fff;
     }
 
     .product_card img {
@@ -664,10 +665,11 @@ html, body {
         display: none;
     }
 
-    .banner{
+    .banner{ 
     width: 100%;;
     object-fit: cover;
     margin: auto;
+    margin-top:-14px ;    
 }
 /*----MEDIA QUERIES MAIN----*/
 
@@ -718,7 +720,8 @@ html, body {
     }
 
         .main{
-            background-color: #fff;
+            background-color: 
+            #fff;
         }
 
         .main_phone{
@@ -1372,8 +1375,9 @@ html, body {
         }
 
         .tachado {
-            text-decoration: line-through red;
+            text-decoration: line-through #000;
             font-size: 20px;
+            color:#ff7700;
             }
 
              .grande{
@@ -1393,6 +1397,7 @@ html, body {
             border-radius: 20px;
             margin-bottom: 20px;
             overflow: visible;
+            border: 2px solid #ddd;
         }
 
         .ofertas_buttom_right{
@@ -1413,6 +1418,59 @@ html, body {
             min-height: 540px;
         }
 
+        .contenedor-titulo-ofertas{
+        position: absolute;
+        width: 600px;
+        min-height: 60px;
+        background-color:#ff7700 ;
+        top:0px;
+        left: 430px;
+        border-bottom-right-radius: 20px;
+         border-bottom-left-radius: 20px;
+        display: flex;
+        }
+
+        .main_product_show_tittle_secundary{
+        color:#000;
+        }
+
+        .titulo-ofertas{
+            color:#fff;
+            margin: auto;
+            font-size: 30px;
+            position:static;
+        }
+
+        .precio-oferta{
+            font-size: 30px;
+        }
+
+        .product_card img {
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .product_card img:hover {
+            transform: scale(1.15);
+        }
+
+        .product_card {
+            overflow: hidden;
+        }
+
+        .only_product_img {
+            transition: transform 0.3s ease;
+            cursor: zoom-in;
+        }
+
+        .only_product_img:hover {
+            transform: scale(1.2);
+        }
+
+        .grid-item:first-child {
+            overflow: hidden;
+        }
+
     }
 
     .precio_busqueda{
@@ -1420,3 +1478,4 @@ html, body {
         color: #000;
         margin-right: 10px;
     }
+

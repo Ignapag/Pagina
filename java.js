@@ -16,12 +16,13 @@ const CACHE_VERSION = 'v3';
 const SUBCATEGORIAS = {
   'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
   'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
+   'lavarropas': ['lavarropas-automatico', 'lavarropas-semiautomatico'],
 };
 
 const CATEGORIAS_VISIBLES_MAIN = [
   'televisor',
   'aire-acondicionado-split',
-  'lavarropas-automatico',
+  'lavarropas',
   'cocina-a-gas',
   'heladeras'   
 ];
@@ -29,7 +30,7 @@ const CATEGORIAS_VISIBLES_MAIN = [
 const NOMBRES_CATEGORIAS = {
   'televisor':            'Televisores',
   'aire-acondicionado-split':            'Aire acondicionado',
-  'lavarropas-automatico':  'Lavarropas',
+  'lavarropas':  'Lavarropas',
   'cocina-a-gas': 'Cocinas',
   'heladeras':  'Heladeras'  
 };
@@ -325,7 +326,7 @@ async function cargarTodasLasCategorias() {
           <article class="product_card grande">
             <img src="${p.imagen}" alt="${p.nombre}" loading="lazy"/>
             <strong class="main_product_price tachado">$${formatearPrecio(p.precioRegular)}</strong>
-            <strong class="main_product_price">$${formatearPrecio(p.preciof)}</strong>
+            <strong class="main_product_price precio-oferta">$${formatearPrecio(p.preciof)}</strong>
             <h4 class="producto_categoria">${p.nombre}</h4>
             <h3 class="product_name">${p.nombre}</h3>
           </article>
@@ -338,7 +339,9 @@ async function cargarTodasLasCategorias() {
           <span class="material-symbols-outlined left">chevron_left</span>
         </button>
         <div class="main_product_container">
-          <h3 class="main_product_show_tittle_secundary main_desktop">Nuestros mejores precios</h3>
+           <div class="contenedor-titulo-ofertas">
+              <h3 class="main_product_show_tittle_secundary main_desktop titulo-ofertas">OFERTAS DEL MES</h3>
+            </div>
           <section class="main_product_show aire desktop">
             <h3 class="main_product_show_tittle_secundary main_phone">Ofertas</h3>
             <div class="main_product_show_list">
