@@ -95,9 +95,10 @@ async function obtenerProductoPorId(productId) {
     if (response.ok) {
       const data = await response.json();
       const items = Array.isArray(data) ? data : (data.products ?? []);
-      if (items.length > 0) {
+      const encontrado = items.map(mapearProductoWC).find(p => p.id === productId);
+      if (encontrado) {
         console.log('✅ Producto obtenido directo de la API');
-        return mapearProductoWC(items[0]);
+        return encontrado;
       }
     }
   } catch (e) {
