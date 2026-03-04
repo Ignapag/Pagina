@@ -68,7 +68,7 @@ function parsearDescripcionHTML_busqueda(html) {
 // ============================================================
 
 function mapearProductoWC_busqueda(p) {
-  const precioRaw = parseInt(p.prices?.regular_price ?? '0', 10);
+  const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
@@ -101,17 +101,45 @@ function mapearProductoWC_busqueda(p) {
 
 
 // ============================================================
-//  FETCH CON BÚSQUEDA EN EL SERVIDOR
+//  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-async function fetchProductosBusqueda(termino) {
-  const url = `${WC_API_URL_BUSQUEDA}?per_page=40&search=${encodeURIComponent(termino)}`;
-  const response = await fetch(url);
-  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+const CACHE_VERSION_BUSQUEDA = 'v2';
 
-  const data  = await response.json();
-  const items = Array.isArray(data) ? data : (data.products ?? []);
-  return items.map(mapearProductoWC_busqueda);
+async function fetchTodosProductos() {
+  // 1) Intentar sessionStorage
+  try {
+    const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION_BUSQUEDA);
+    if (cache) {
+      console.log('✅ Productos cargados desde caché');
+      return JSON.parse(cache);
+    }
+  } catch (e) {}
+
+  // 2) Descargar todo
+  let productos = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const url = `${WC_API_URL_BUSQUEDA}?per_page=100&page=${page}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+
+    const xTotalPages = response.headers.get('X-WP-TotalPages');
+    if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
+
+    const data = await response.json();
+    const items = Array.isArray(data) ? data : (data.products ?? []);
+    productos = productos.concat(items.map(mapearProductoWC_busqueda));
+    page++;
+  } while (page <= totalPages);
+
+  try {
+    sessionStorage.setItem('productosDB_' + CACHE_VERSION_BUSQUEDA, JSON.stringify(productos));
+  } catch (e) {}
+
+  return productos;
 }
 
 
@@ -146,9 +174,24 @@ async function realizarBusqueda() {
   let resultados = [];
 
   try {
-    resultados = await fetchProductosBusqueda(terminoBusqueda);
+    const productos = await fetchTodosProductos();
+    const texto = terminoBusqueda.toLowerCase().trim();
+
+    resultados = productos.filter(producto => {
+      const enNombre = producto.nombre.toLowerCase().includes(texto);
+      const enCategoria = producto.categoria.toLowerCase().includes(texto);
+      const enDescripcion = producto.descripcion ? producto.descripcion.toLowerCase().includes(texto) : false;
+      const enCaracteristicas = producto.caracteristicas
+        ? producto.caracteristicas.some(c =>
+            c.label.toLowerCase().includes(texto) || c.value.toLowerCase().includes(texto)
+          )
+        : false;
+      const enId = producto.id.includes(texto);
+      return enNombre || enCategoria || enDescripcion || enCaracteristicas || enId;
+    });
+
     resultados.sort((a, b) => a.precio - b.precio);
-    console.log('✅ Resultados desde el servidor:', resultados.length);
+    console.log('✅ Resultados encontrados:', resultados.length);
   } catch (err) {
     console.error('❌ Error buscando productos:', err);
     if (titulo) titulo.textContent = 'Error al buscar productos';
@@ -198,7 +241,7 @@ async function realizarBusqueda() {
 
     let precioelec = `<strong class="only_product_precio precio_busqueda">$${producto.precio.toLocaleString('es-AR')}</strong>`;
 
-    if (producto.preciof) {
+    if (producto.preciof && producto.preciof !== producto.precio) {
       precioelec = `<div><strong class="only_product_precio tachado precio_busqueda">$${producto.precio.toLocaleString('es-AR')}</strong> <strong class="only_product_precio precio_busqueda">$${producto.preciof.toLocaleString('es-AR')}</strong></div>`;
     }
 
