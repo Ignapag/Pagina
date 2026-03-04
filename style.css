@@ -1371,12 +1371,23 @@ html, body {
 
         }
 
+        .tachado {
+            text-decoration: line-through red;
+            font-size: 20px;
+            }
 
+             .grande{
+            min-height: 540px;
+        }
+
+  @media (min-width: 768px){
+    
 
         /* OFERTAS */
         .container-ofertas{
+            display: block;
             width: 1460px;
-            height: 630PX;
+            height: 650PX;
             background-color: #ff7700;
             margin: auto;
             border-radius: 20px;
@@ -1398,3 +1409,8 @@ html, body {
             place-items: center;
         }
 
+        .grande{
+            min-height: 540px;
+        }
+
+    }

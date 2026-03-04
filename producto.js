@@ -57,7 +57,7 @@ function parsearDescripcionHTML(html) {
 // ============================================================
 
 function mapearProductoWC(p) {
-  const precioRaw = parseInt(p.prices?.price ?? p.prices?.regular_price ?? '0', 10);
+  const precioRaw = parseInt(p.prices?.regular_price ?? '0', 10);
   const precio    = precioRaw;
 
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
@@ -68,7 +68,7 @@ function mapearProductoWC(p) {
     const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
-
+  let preciof = parseInt(p.prices.sale_price);
   // Parsear descripción para extraer texto + características
   const descripcionHTML = p.description || p.short_description || '';
   const { descripcion, caracteristicas } = parsearDescripcionHTML(descripcionHTML);
@@ -77,6 +77,7 @@ function mapearProductoWC(p) {
     id:             String(p.id),
     nombre:         p.name ?? 'Producto sin nombre',
     precio,
+    preciof,
     imagen,
     categoria,
     descripcion,
@@ -175,12 +176,21 @@ if (window.location.pathname.includes('muestra-producto')) {
       imgEl.alt = producto.nombre;
     }
 
+    let precioelec = `<strong class="only_product_precio">$${producto.precio.toLocaleString('es-AR')}</strong>`;
+
+    if (producto.preciof !== "" && producto.preciof){
+      precioelec = `<strong class="only_product_precio tachado">$${producto.precio.toLocaleString('es-AR')}</strong> 
+      <strong class="only_product_precio">$${producto.preciof.toLocaleString('es-AR')}</strong>`;
+    }
+
+    console.log("precio:", producto.preciof);
+
     // Precio + Descripción
     const descEl = document.querySelector('.only_product_description');
     if (descEl) {
       const descripcionTexto = producto.descripcion || 'Producto de alta calidad disponible en Positivo Hogar.';
       descEl.innerHTML = `
-        <strong class="only_product_precio">$${producto.precio.toLocaleString('es-AR')}</strong>
+        ${precioelec}
         <div style="display:flex; gap: 20px; flex-direction:column; margin-bottom: 1rem;">
           <strong style="font-size: 1.5rem; margin-top:20px;">Descripción:</strong>
           <p>${descripcionTexto}</p>

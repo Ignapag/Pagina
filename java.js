@@ -306,13 +306,15 @@ async function cargarTodasLasCategorias() {
         }
         let imagen = p.images?.[0]?.src ?? "";
         let id = p.id;
+        let preciof = parseInt(p.prices.sale_price);
       return{
         nombre,
         precio,
         categoriaoferta,
         descripcion,
         imagen,
-        id
+        id,
+        preciof
       }
   }
 
@@ -344,9 +346,10 @@ fetchTodosLosProductos2().then((p) => {
     p.forEach((p)=> {if (p.categoriaoferta === "oferta"){
     productoind += `
               <a href="./muestra-producto.html?id=${p.id}" class="main_product_show_a">
-                <article class="product_card">
+                <article class="product_card grande">
                   <img src="${p.imagen}" alt="${p.nombre}" loading="lazy"/>
-                  <strong class="main_product_price">$${formatearPrecio(p.precio)}</strong>
+                  <strong class="main_product_price tachado">$${formatearPrecio(p.precio)}</strong>
+                  <strong class="main_product_price">$${formatearPrecio(p.preciof)}</strong>
                   <h4 class="producto_categoria">${p.nombre}</h4>
                   <h3 class="product_name">${p.nombre}</h3>
                 </article>
