@@ -1252,7 +1252,7 @@ html, body {
 
     /* BUSQUEDA */
         .busqueda_container {
-            min-width:1300px;
+            min-width:0;
             max-width: 1400px;
             margin:auto;
             padding: 20px;
@@ -1358,9 +1358,13 @@ html, body {
             }
 
         @media (max-width: 768px) {
-            .busqueda_resultados {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 15px;
+            .busqueda_resultados{
+                grid-template-columns: repeat(2,170px);
+                gap:15px
+            }
+
+            .busqueda_container{
+                min-width:0px;
             }
 
             .resultado_card {
@@ -1398,6 +1402,11 @@ html, body {
 
 
   @media (min-width: 768px){
+
+        .busqueda_container {
+            min-width:1300px;
+        }
+
     
 
         /* OFERTAS */

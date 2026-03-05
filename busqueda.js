@@ -181,14 +181,7 @@ async function realizarBusqueda() {
     resultados = productos.filter(producto => {
       const enNombre = producto.nombre.toLowerCase().includes(texto);
       const enCategoria = producto.categoria.toLowerCase().includes(texto);
-      const enDescripcion = producto.descripcion ? producto.descripcion.toLowerCase().includes(texto) : false;
-      const enCaracteristicas = producto.caracteristicas
-        ? producto.caracteristicas.some(c =>
-            c.label.toLowerCase().includes(texto) || c.value.toLowerCase().includes(texto)
-          )
-        : false;
-      const enId = producto.id.includes(texto);
-      return enNombre || enCategoria || enDescripcion || enCaracteristicas || enId;
+      return enNombre || enCategoria;
     });
 
     resultados.sort((a, b) => a.precio - b.precio);
