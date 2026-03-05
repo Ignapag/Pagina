@@ -87,19 +87,17 @@ function mapearProductoWC(p) {
 // ============================================================
 
 const WC_API_URL_PRODUCTO = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const CACHE_VERSION_PRODUCTO = 'v6';
+const CACHE_VERSION_PRODUCTO = 'v9';
 
 async function obtenerProductoPorId(productId) {
-  // 1) Intentar traer solo ese producto desde la API
+  // 1) Intentar traer solo ese producto desde la API individual
   try {
-    const url = `${WC_API_URL_PRODUCTO}?include=${productId}`;
+    const url = `${WC_API_URL_PRODUCTO}/${productId}`;
     const response = await fetch(url);
     if (response.ok) {
       const data = await response.json();
-      const items = Array.isArray(data) ? data : (data.products ?? []);
-      const encontrado = items.map(mapearProductoWC).find(p => p.id === productId);
-      if (encontrado) {
-        return encontrado;
+      if (data && data.id) {
+        return mapearProductoWC(data);
       }
     }
   } catch (e) {
@@ -120,24 +118,14 @@ async function obtenerProductoPorId(productId) {
     console.warn('⚠️ Error leyendo caché');
   }
 
-  // 3) Último recurso: descargar todo
-  let productos = [];
-  let page = 1;
-  let totalPages = 1;
+  // 3) Último recurso: descargar todo (una sola petición)
+  const url = `${WC_API_URL_PRODUCTO}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 
-  do {
-    const url = `${WC_API_URL_PRODUCTO}?per_page=100&page=${page}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
-
-    const xTotalPages = response.headers.get('X-WP-TotalPages');
-    if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
-
-    const data = await response.json();
-    const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos = productos.concat(items.map(mapearProductoWC));
-    page++;
-  } while (page <= totalPages);
+  const data = await response.json();
+  const items = Array.isArray(data) ? data : (data.products ?? []);
+  const productos = items.map(mapearProductoWC);
 
   // Guardar en caché para futuras visitas
   try {

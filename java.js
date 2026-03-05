@@ -4,17 +4,33 @@
 
 const WC_API_URL = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
 const WC_PER_PAGE = 100;
-const CACHE_VERSION = 'v6';
+const CACHE_VERSION = 'v9';
 
 
 // ============================================================
 //  CATEGORÍAS VISIBLES EN EL MAIN
 // ============================================================
 const SUBCATEGORIAS = {
-  'aire': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
-  'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
-  'lavarropas': ['lavarropas-automatico', 'lavarropas-semiautomatico'],
-  'cocina': ['cocina-a-gas', 'cocina-industrial']
+  'aire': [
+    'aire-acondicionado-split',
+    'aire-acondicionado-portatil',
+    'aire-acondicionado-de-ventana',
+    'aire-acondicionado-split-linea-blanca-1' // por si acaso
+  ],
+  'heladeras': [
+    'heladera-no-frost',
+    'heladera-con-freezer',
+    'heladera-bajo-mesada'
+  ],
+  'lavarropas': [
+    'lavarropas-automatico',
+    'lavarropas-automatico-linea-blanca-1',
+    'lavarropas-semiautomatico'
+  ],
+  'cocina': [
+    'cocina-a-gas',
+    'cocina-industrial'
+  ]
 };
 
 const CATEGORIAS_VISIBLES_MAIN = [
@@ -142,8 +158,8 @@ function mapearProductoWC(p) {
 // ============================================================
 
 async function fetchTodosLosProductos() {
-  // 1) Si ya está en memoria, devolver directo
-  if (window.productosDB) return window.productosDB;
+  // 1) Si ya está en memoria Y es de la versión correcta, devolver directo
+  if (window.productosDB && window.productosDB_version === CACHE_VERSION) return window.productosDB;
 
   // 2) Intentar cargar desde sessionStorage
   try {
@@ -156,29 +172,19 @@ async function fetchTodosLosProductos() {
     console.warn('⚠️ Error leyendo caché, descargando de nuevo');
   }
 
-  // 3) Descargar desde la API (una sola vez)
-  let productos  = [];
-  let page       = 1;
-  let totalPages = 1;
+  // 3) Descargar desde la API (una sola petición, devuelve todo)
+  const url      = `${WC_API_URL}?per_page=500`;
+  const response = await fetch(url);
 
-  do {
-    const url      = `${WC_API_URL}?per_page=${WC_PER_PAGE}&page=${page}`;
-    const response = await fetch(url);
+  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 
-    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
-
-    const xTotalPages = response.headers.get('X-WP-TotalPages');
-    if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
-
-    const data  = await response.json();
-    const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos   = productos.concat(items.map(mapearProductoWC));
-
-    page++;
-  } while (page <= totalPages);
+  const data  = await response.json();
+  const items = Array.isArray(data) ? data : (data.products ?? []);
+  const productos = items.map(mapearProductoWC);
 
   // 4) Guardar en memoria y en sessionStorage
   window.productosDB = productos;
+  window.productosDB_version = CACHE_VERSION;
   try {
     sessionStorage.setItem('productosDB_' + CACHE_VERSION, JSON.stringify(productos));
   } catch (e) {

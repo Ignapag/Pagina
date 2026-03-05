@@ -103,7 +103,7 @@ function mapearProductoWC_busqueda(p) {
 //  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-const CACHE_VERSION_BUSQUEDA = 'v6';
+const CACHE_VERSION_BUSQUEDA = 'v9';
 const CACHE_KEY_BUSQUEDA = 'productosDB_busqueda_' + CACHE_VERSION_BUSQUEDA;
 
 async function fetchTodosProductos() {
@@ -115,24 +115,14 @@ async function fetchTodosProductos() {
     }
   } catch (e) {}
 
-  // 2) Descargar todo
-  let productos = [];
-  let page = 1;
-  let totalPages = 1;
+  // 2) Descargar todo (una sola petición)
+  const url = `${WC_API_URL_BUSQUEDA}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 
-  do {
-    const url = `${WC_API_URL_BUSQUEDA}?per_page=100&page=${page}`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
-
-    const xTotalPages = response.headers.get('X-WP-TotalPages');
-    if (xTotalPages) totalPages = parseInt(xTotalPages, 10);
-
-    const data = await response.json();
-    const items = Array.isArray(data) ? data : (data.products ?? []);
-    productos = productos.concat(items.map(mapearProductoWC_busqueda));
-    page++;
-  } while (page <= totalPages);
+  const data = await response.json();
+  const items = Array.isArray(data) ? data : (data.products ?? []);
+  const productos = items.map(mapearProductoWC_busqueda);
 
   try {
     sessionStorage.setItem(CACHE_KEY_BUSQUEDA, JSON.stringify(productos));
