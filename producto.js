@@ -59,7 +59,9 @@ function mapearProductoWC(p) {
   const cats = p.categories ?? [];
   let categoria = 'otros';
   if (cats.length > 0) {
-    const masEspecifica = [...cats].sort((a, b) => b.id - a.id)[0];
+    const sinOferta = cats.filter(c => c.slug !== 'oferta');
+    const catsFinal = sinOferta.length > 0 ? sinOferta : cats;
+    const masEspecifica = [...catsFinal].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
 
@@ -85,7 +87,7 @@ function mapearProductoWC(p) {
 // ============================================================
 
 const WC_API_URL_PRODUCTO = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const CACHE_VERSION_PRODUCTO = 'v3';
+const CACHE_VERSION_PRODUCTO = 'v6';
 
 async function obtenerProductoPorId(productId) {
   // 1) Intentar traer solo ese producto desde la API
@@ -97,7 +99,6 @@ async function obtenerProductoPorId(productId) {
       const items = Array.isArray(data) ? data : (data.products ?? []);
       const encontrado = items.map(mapearProductoWC).find(p => p.id === productId);
       if (encontrado) {
-        console.log('✅ Producto obtenido directo de la API');
         return encontrado;
       }
     }
@@ -112,7 +113,6 @@ async function obtenerProductoPorId(productId) {
       const productos = JSON.parse(cache);
       const encontrado = productos.find(p => p.id === productId);
       if (encontrado) {
-        console.log('✅ Producto encontrado en caché');
         return encontrado;
       }
     }
@@ -121,7 +121,6 @@ async function obtenerProductoPorId(productId) {
   }
 
   // 3) Último recurso: descargar todo
-  console.log('⏳ Descargando catálogo completo...');
   let productos = [];
   let page = 1;
   let totalPages = 1;
@@ -159,7 +158,6 @@ if (window.location.pathname.includes('muestra-producto')) {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
 
-    console.log('Buscando producto id:', productId);
 
     if (!productId) {
       const cont = document.querySelector('.only_product_container');
@@ -176,7 +174,6 @@ if (window.location.pathname.includes('muestra-producto')) {
       return;
     }
 
-    console.log('✅ Cargando producto:', producto.nombre);
 
     // Título
     document.querySelectorAll('.only_product_tittle').forEach(el => {
@@ -237,7 +234,6 @@ if (window.location.pathname.includes('muestra-producto')) {
     // Botones de WhatsApp
     configurarBotonesWhatsApp(producto);
 
-    console.log('✅ Producto cargado correctamente');
   });
 }
 
@@ -293,6 +289,5 @@ window.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'index.html';
       }
     });
-    console.log('✅ Botón de volver configurado');
   }
 });

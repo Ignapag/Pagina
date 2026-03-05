@@ -1,5 +1,3 @@
-console.log("🔍 busqueda.js cargado");
-
 // ============================================================
 //  CONFIGURACIÓN DE LA API
 // ============================================================
@@ -13,7 +11,6 @@ const WC_API_URL_BUSQUEDA = 'https://olivedrab-deer-648705.hostingersite.com/api
 const paramsSearch    = new URLSearchParams(window.location.search);
 const terminoBusqueda = paramsSearch.get('q') || '';
 
-console.log("Término buscado:", terminoBusqueda);
 
 
 // ============================================================
@@ -76,11 +73,13 @@ function mapearProductoWC_busqueda(p) {
   const cats = p.categories ?? [];
   let categoria = 'otros';
   if (cats.length > 0) {
-    const conLink = cats.filter(c => c.link);
+    const sinOferta = cats.filter(c => c.slug !== 'oferta');
+    const catsFinal = sinOferta.length > 0 ? sinOferta : cats;
+    const conLink = catsFinal.filter(c => c.link);
     if (conLink.length > 0) {
       categoria = [...conLink].sort((a, b) => b.link.length - a.link.length)[0].slug;
     } else {
-      categoria = cats[cats.length - 1].slug;
+      categoria = catsFinal[catsFinal.length - 1].slug;
     }
   }
   let preciof = parseInt(p.prices.sale_price);
@@ -104,7 +103,7 @@ function mapearProductoWC_busqueda(p) {
 //  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-const CACHE_VERSION_BUSQUEDA = 'v4';
+const CACHE_VERSION_BUSQUEDA = 'v6';
 const CACHE_KEY_BUSQUEDA = 'productosDB_busqueda_' + CACHE_VERSION_BUSQUEDA;
 
 async function fetchTodosProductos() {
@@ -112,7 +111,6 @@ async function fetchTodosProductos() {
   try {
     const cache = sessionStorage.getItem(CACHE_KEY_BUSQUEDA);
     if (cache) {
-      console.log('✅ Productos cargados desde caché');
       return JSON.parse(cache);
     }
   } catch (e) {}
@@ -149,7 +147,6 @@ async function fetchTodosProductos() {
 // ============================================================
 
 async function realizarBusqueda() {
-  console.log("🔍 Realizando búsqueda...");
 
   const contenedor    = document.getElementById('resultados');
   const sinResultados = document.getElementById('sin-resultados');
@@ -185,7 +182,6 @@ async function realizarBusqueda() {
     });
 
     resultados.sort((a, b) => a.precio - b.precio);
-    console.log('✅ Resultados encontrados:', resultados.length);
   } catch (err) {
     console.error('❌ Error buscando productos:', err);
     if (titulo) titulo.textContent = 'Error al buscar productos';
@@ -195,7 +191,6 @@ async function realizarBusqueda() {
     return;
   }
 
-  console.log("✅ Resultados encontrados:", resultados.length);
 
   if (resultados.length === 0) {
     if (info) info.textContent = 'No se encontraron productos';
@@ -250,7 +245,6 @@ async function realizarBusqueda() {
     contenedor.appendChild(card);
   });
 
-  console.log("✅ Resultados renderizados");
 }
 
 
@@ -262,7 +256,6 @@ function actualizarBuscadorHeader() {
   const input = document.querySelector('.search_bar_input');
   if (input && terminoBusqueda) {
     input.value = terminoBusqueda;
-    console.log("✅ Término de búsqueda restaurado en el header");
   }
 }
 
@@ -272,7 +265,6 @@ function actualizarBuscadorHeader() {
 // ============================================================
 
 window.addEventListener('DOMContentLoaded', () => {
-  console.log("🔄 DOM cargado - Iniciando búsqueda");
   realizarBusqueda();
   setTimeout(actualizarBuscadorHeader, 600);
 });
