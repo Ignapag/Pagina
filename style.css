@@ -1489,3 +1489,13 @@ html, body {
         margin-right: 10px;
     }
 
+
+@media (max-width:768px){
+    .busqueda_resultados{
+        grid-template-columns: repeat(2,170px);
+    }
+
+    .busqueda_container{
+        min-width:0px;
+    }
+}
