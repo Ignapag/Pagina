@@ -1456,9 +1456,10 @@ html, body {
 
         .titulo-ofertas{
             color:#fff;
-            margin: auto;
+            top: 20px;
+            left:583px;
             font-size: 30px;
-            position:static;
+            position:absolute;
         }
 
         .precio-oferta{

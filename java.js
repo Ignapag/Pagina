@@ -340,7 +340,7 @@ async function cargarTodasLasCategorias() {
           <span class="material-symbols-outlined left">chevron_left</span>
         </button>
         <div class="main_product_container">
-          <h3 class="main_product_show_tittle_secundary main_desktop">Nuestros mejores precios</h3>
+          <h3 class="main_product_show_tittle_secundary main_desktop titulo-ofertas">OFERTAS DEL MES</h3>
           <section class="main_product_show aire desktop">
             <h3 class="main_product_show_tittle_secundary main_phone">Ofertas</h3>
             <div class="main_product_show_list">
