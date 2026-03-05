@@ -11,23 +11,25 @@ const CACHE_VERSION = 'v6';
 //  CATEGORÍAS VISIBLES EN EL MAIN
 // ============================================================
 const SUBCATEGORIAS = {
-  'aire-acondicionado-split': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
+  'aire': ['aire-acondicionado-split', 'aire-acondicionado-portatil'],
   'heladeras': ['heladera-no-frost', 'heladera-con-freezer'],
+  'lavarropas': ['lavarropas-automatico', 'lavarropas-semiautomatico'],
+  'cocina': ['cocina-a-gas', 'cocina-industrial']
 };
 
 const CATEGORIAS_VISIBLES_MAIN = [
   'televisor',
-  'aire-acondicionado-split',
-  'lavarropas-automatico',
-  'cocina-a-gas',
+  'aire',
+  'lavarropas',
+  'cocina',
   'heladeras'   
 ];
 
 const NOMBRES_CATEGORIAS = {
   'televisor':            'Televisores',
-  'aire-acondicionado-split':            'Aire acondicionado',
-  'lavarropas-automatico':  'Lavarropas',
-  'cocina-a-gas': 'Cocinas',
+  'aire':            'Aire acondicionado',
+  'lavarropas':  'Lavarropas',
+  'cocina': 'Cocinas',
   'heladeras':  'Heladeras'  
 };
 
