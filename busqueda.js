@@ -103,7 +103,7 @@ function mapearProductoWC_busqueda(p) {
 //  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-const CACHE_VERSION_BUSQUEDA = 'v9';
+const CACHE_VERSION_BUSQUEDA = 'v10';
 const CACHE_KEY_BUSQUEDA = 'productosDB_busqueda_' + CACHE_VERSION_BUSQUEDA;
 
 async function fetchTodosProductos() {
@@ -116,7 +116,7 @@ async function fetchTodosProductos() {
   } catch (e) {}
 
   // 2) Descargar todo (una sola petición)
-  const url = `${WC_API_URL_BUSQUEDA}`;
+  const url = WC_API_URL_BUSQUEDA;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
 

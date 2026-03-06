@@ -4,7 +4,7 @@
 
 const WC_API_URL = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
 const WC_PER_PAGE = 100;
-const CACHE_VERSION = 'v9';
+const CACHE_VERSION = 'v10';
 
 
 // ============================================================
@@ -158,40 +158,62 @@ function mapearProductoWC(p) {
 // ============================================================
 
 async function fetchTodosLosProductos() {
+  console.log('🔄 fetchTodosLosProductos() llamada');
+
   // 1) Si ya está en memoria Y es de la versión correcta, devolver directo
-  if (window.productosDB && window.productosDB_version === CACHE_VERSION) return window.productosDB;
+  if (window.productosDB && window.productosDB_version === CACHE_VERSION) {
+    console.log('✅ Devolviendo desde memoria:', window.productosDB.length, 'productos');
+    return window.productosDB;
+  }
 
   // 2) Intentar cargar desde sessionStorage
   try {
     const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION);
     if (cache) {
       window.productosDB = JSON.parse(cache);
+      console.log('✅ Devolviendo desde sessionStorage:', window.productosDB.length, 'productos');
       return window.productosDB;
+    } else {
+      console.log('ℹ️ No hay caché en sessionStorage para versión:', CACHE_VERSION);
     }
   } catch (e) {
-    console.warn('⚠️ Error leyendo caché, descargando de nuevo');
+    console.warn('⚠️ Error leyendo caché:', e);
   }
 
   // 3) Descargar desde la API (una sola petición, devuelve todo)
-  const url      = `${WC_API_URL}?per_page=500`;
-  const response = await fetch(url);
-
-  if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
-
-  const data  = await response.json();
-  const items = Array.isArray(data) ? data : (data.products ?? []);
-  const productos = items.map(mapearProductoWC);
-
-  // 4) Guardar en memoria y en sessionStorage
-  window.productosDB = productos;
-  window.productosDB_version = CACHE_VERSION;
+  console.log('⏳ Descargando desde API:', WC_API_URL);
   try {
-    sessionStorage.setItem('productosDB_' + CACHE_VERSION, JSON.stringify(productos));
-  } catch (e) {
-    console.warn('⚠️ No se pudo guardar en sessionStorage');
-  }
+    const url      = WC_API_URL;
+    const response = await fetch(url);
 
-  return productos;
+    console.log('📡 Response status:', response.status);
+
+    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+
+    const data  = await response.json();
+    console.log('📦 Data recibida, tipo:', typeof data, 'isArray:', Array.isArray(data));
+    
+    const items = Array.isArray(data) ? data : (data.products ?? []);
+    console.log('📋 Items a mapear:', items.length);
+    
+    const productos = items.map(mapearProductoWC);
+    console.log('✅ Productos mapeados:', productos.length);
+
+    // 4) Guardar en memoria y en sessionStorage
+    window.productosDB = productos;
+    window.productosDB_version = CACHE_VERSION;
+    try {
+      sessionStorage.setItem('productosDB_' + CACHE_VERSION, JSON.stringify(productos));
+      console.log('💾 Guardado en sessionStorage');
+    } catch (e) {
+      console.warn('⚠️ No se pudo guardar en sessionStorage:', e);
+    }
+
+    return productos;
+  } catch (e) {
+    console.error('❌ Error descargando productos:', e);
+    throw e;
+  }
 }
 
 
@@ -233,9 +255,11 @@ function inicializarSlidersNuevos() {
 // ============================================================
 
 async function cargarTodasLasCategorias() {
+  console.log('🔄 cargarTodasLasCategorias() llamada');
 
   try {
     const productos = await fetchTodosLosProductos();
+    console.log('📦 Productos recibidos en cargarTodasLasCategorias:', productos.length);
 
     // --- CATEGORÍAS ---
     const productosPorCategoria = {};
@@ -271,6 +295,10 @@ async function cargarTodasLasCategorias() {
 
     const mainContainer = document.querySelector('.main_container');
     if (!mainContainer) { console.error('❌ No se encontró .main_container'); return; }
+
+    console.log('📊 Productos por categoría:', Object.keys(productosPorCategoria).map(k => k + ': ' + productosPorCategoria[k].length));
+    console.log('📊 Ofertas:', productosOfertas.length);
+    console.log('📊 mainContainer encontrado:', !!mainContainer);
 
     mainContainer.style.marginTop = '0px';
 
@@ -635,23 +663,35 @@ fetch("components/footer.html?v=" + Date.now())
 //  MAIN (sin no-cache forzado)
 // ============================================================
 
+console.log('🚀 java.js cargado, CACHE_VERSION:', CACHE_VERSION);
+
 fetch("components/main.html")
-  .then(res => res.text())
+  .then(res => {
+    console.log('📄 main.html response status:', res.status);
+    return res.text();
+  })
   .then(data => {
     const siteMain = document.getElementById("site-main");
+    console.log('📄 site-main encontrado:', !!siteMain);
     if (siteMain) siteMain.innerHTML = data;
 
     const isIndexPage = window.location.pathname === '/' ||
                         window.location.pathname.includes('index.html') ||
                         window.location.pathname.endsWith('/');
 
+    console.log('📄 isIndexPage:', isIndexPage, 'pathname:', window.location.pathname);
+
     if (isIndexPage) {
       const hash = window.location.hash.replace('#', '');
       if (hash) {
+        console.log('🔗 Hash detectado:', hash);
         mostrarSoloCategoria(hash);
       } else {
+        console.log('📋 Sin hash, llamando cargarTodasLasCategorias()');
         cargarTodasLasCategorias();
       }
+    } else {
+      console.log('⏭️ No es index, no se cargan categorías');
     }
   })
   .catch(error => console.error("❌ Error cargando main:", error));
