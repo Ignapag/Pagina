@@ -30,7 +30,20 @@ const SUBCATEGORIAS = {
   'cocina': [
     'cocina-a-gas',
     'cocina-industrial'
+  ],
+  'afeitadora': [
+    'afeitadora-masculina',
+    'afeitadora-femenina'
+  ],
+  'colchones':[
+   'colchon-resortes',
+   'colchon-espuma'
+  ],
+  'celular':[
+   'telefono-celular-telefonia',
+   'celulares'
   ]
+
 };
 
 const CATEGORIAS_VISIBLES_MAIN = [
