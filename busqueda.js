@@ -163,7 +163,7 @@ async function realizarBusqueda() {
 
   try {
     const productos = await fetchTodosProductos();
-    const texto = terminoBusqueda.toLowerCase().trim();
+    const texto = terminoBusqueda.toLowerCase().trim().split(/\s+/).slice(0, 4).join(' ');
 
     resultados = productos.filter(producto => {
       const enNombre = producto.nombre.toLowerCase().includes(texto);
