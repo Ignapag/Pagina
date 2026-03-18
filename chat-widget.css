@@ -133,27 +133,37 @@
   background: var(--chat-bg);
   border-radius: var(--chat-radius);
   box-shadow: var(--chat-shadow);
-  display: flex;
+  display: none;
   flex-direction: column;
   overflow: hidden;
   z-index: 9998;
   transform-origin: bottom right;
-  transform: scale(1) translateY(0);
-  opacity: 1;
-  pointer-events: all;
-  transition: none;
   font-family: 'Montserrat', sans-serif;
 }
 
-/* Estado cerrado */
-.chat-panel.closed {
+/* Visible sin animación */
+.chat-panel.open-instant {
+  display: flex;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Visible con animación (solo tras interacción del usuario) */
+.chat-panel.open-animated {
+  display: flex;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+  transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
+}
+
+/* Cerrado con animación */
+.chat-panel.close-animated {
+  display: flex;
   transform: scale(0.85) translateY(20px);
   opacity: 0;
   pointer-events: none;
-}
-
-/* Habilitar animación solo cuando el usuario interactúa */
-.chat-panel.animated {
   transition: transform 0.3s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
 }
 
@@ -424,7 +434,15 @@
   }
 
   .chat-fab {
-    bottom: 20px;
-    right: 20px;
+    bottom: 90px;
+    right: 16px;
+  }
+}
+
+/* Ocultar chat en página de producto en mobile */
+@media (max-width: 768px) {
+  .body_only_product .chat-fab,
+  .body_only_product .chat-panel {
+    display: none !important;
   }
 }

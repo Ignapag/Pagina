@@ -16,9 +16,9 @@
 
     // Chips de sugerencias rápidas (máximo 4 recomendado)
     suggestions: [
-      '📺 Televisores en oferta',
-      '❄️ Aires acondicionados',
       '📍 ¿Dónde están ubicados?',
+      '🕐 ¿Cuáles son los horarios?',
+      '🛍️ Consultar por un producto',
     ],
 
     // Nombre del bot y empresa
@@ -314,15 +314,43 @@
 
   let welcomeShown = false;
 
+  function openPanel(panel) {
+    panel.className = panel.className
+      .replace(/open-instant|open-animated|close-animated/g, '').trim();
+    panel.classList.add('open-animated');
+    // Después de la transición, simplificar a open-instant
+    setTimeout(() => {
+      panel.className = panel.className
+        .replace(/open-animated/g, '').trim();
+      panel.classList.add('open-instant');
+    }, 350);
+  }
+
+  function closePanel(panel) {
+    panel.className = panel.className
+      .replace(/open-instant|open-animated|close-animated/g, '').trim();
+    panel.classList.add('close-animated');
+    setTimeout(() => {
+      panel.style.display = 'none';
+      panel.className = panel.className
+        .replace(/close-animated/g, '').trim();
+    }, 320);
+  }
+
   function toggleChat(fab, panel) {
     isOpen = !isOpen;
     fab.classList.toggle('open', isOpen);
-    panel.classList.toggle('closed', !isOpen);
     sessionStorage.setItem(CONFIG.stateKey, isOpen ? '1' : '0');
 
     // Ocultar badge
     const badge = document.getElementById('chat-badge');
     if (badge) badge.style.display = 'none';
+
+    if (isOpen) {
+      openPanel(panel);
+    } else {
+      closePanel(panel);
+    }
 
     if (isOpen) {
       // Mostrar mensaje de bienvenida la primera vez
@@ -390,16 +418,15 @@
       // Cerrar sin animación: agregar .closed directo
       panel.classList.add('closed');
     }
-    // Habilitar animaciones recién después del primer paint completo
+    // Remover bloqueo de transiciones y habilitar animaciones
     requestAnimationFrame(() => requestAnimationFrame(() => {
+      const blocker = document.getElementById('chat-block-transitions');
+      if (blocker) blocker.remove();
       panel.classList.add('animated');
     }));
 
     // Abrir/cerrar al hacer click en el FAB
-    fab.addEventListener('click', () => {
-      panel.classList.add('animated');
-      toggleChat(fab, panel);
-    });
+    fab.addEventListener('click', () => toggleChat(fab, panel));
 
     // Cerrar al hacer click fuera del panel (solo desktop)
     document.addEventListener('click', (e) => {
