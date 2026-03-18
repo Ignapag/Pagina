@@ -143,7 +143,7 @@
     if (sender === 'bot') {
       msg.innerHTML = `
         <div class="chat-msg-avatar">${SVG_BOT_SMALL}</div>
-        <div class="chat-bubble">${escapeHtml(text)}</div>
+        <div class="chat-bubble">${formatBotText(text)}</div>
       `;
     } else {
       msg.innerHTML = `<div class="chat-bubble">${escapeHtml(text)}</div>`;
@@ -344,6 +344,18 @@
   }
 
   // ── HELPERS ───────────────────────────────────────────────
+
+  // Convierte Markdown básico a HTML limpio para el chat
+  function formatBotText(text) {
+    return text
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      // **negrita**
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      // *cursiva*
+      .replace(/\*(.+?)\*/g, '<em>$1</em>')
+      // saltos de línea
+      .replace(/\n/g, '<br>');
+  }
 
   function escapeHtml(text) {
     return text
