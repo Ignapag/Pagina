@@ -30,6 +30,7 @@
 
     // Sesión: identificador único por usuario (se guarda en sessionStorage)
     sessionKey: 'positivo_chat_session',
+    stateKey: 'positivo_chat_open',
   };
   // ──────────────────────────────────────────────────────────
 
@@ -316,7 +317,8 @@
   function toggleChat(fab, panel) {
     isOpen = !isOpen;
     fab.classList.toggle('open', isOpen);
-    panel.classList.toggle('open', isOpen);
+    panel.classList.toggle('closed', !isOpen);
+    sessionStorage.setItem(CONFIG.stateKey, isOpen ? '1' : '0');
 
     // Ocultar badge
     const badge = document.getElementById('chat-badge');
@@ -377,8 +379,27 @@
   function init() {
     const { fab, panel } = buildWidget();
 
+    // Restaurar estado abierto/cerrado sin animación
+    const wasOpen = sessionStorage.getItem(CONFIG.stateKey) === '1';
+    if (wasOpen) {
+      // Ya estaba abierto: el panel arranca visible por CSS, nada que hacer
+      isOpen = true;
+      welcomeShown = true;
+      fab.classList.add('open');
+    } else {
+      // Cerrar sin animación: agregar .closed directo
+      panel.classList.add('closed');
+    }
+    // Habilitar animaciones recién después del primer paint completo
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      panel.classList.add('animated');
+    }));
+
     // Abrir/cerrar al hacer click en el FAB
-    fab.addEventListener('click', () => toggleChat(fab, panel));
+    fab.addEventListener('click', () => {
+      panel.classList.add('animated');
+      toggleChat(fab, panel);
+    });
 
     // Cerrar al hacer click fuera del panel (solo desktop)
     document.addEventListener('click', (e) => {
