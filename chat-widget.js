@@ -315,6 +315,7 @@
   let welcomeShown = false;
 
   function openPanel(panel) {
+    panel.style.display = ''; // Limpiar display:none inline que pone closePanel
     panel.className = panel.className
       .replace(/open-instant|open-animated|close-animated/g, '').trim();
     panel.classList.add('open-animated');
