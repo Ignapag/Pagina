@@ -9,8 +9,8 @@
   // ── CONFIGURACIÓN ──────────────────────────────────────────
   const CONFIG = {
     // 🔧 REEMPLAZÁ ESTA URL POR LA DE TU WEBHOOK DE N8N
-    webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook-test/Modelo-IA-Pagina', // TEST
-    // webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina', // PRODUCCION
+    //webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook-test/Modelo-IA-Pagina', // TEST
+     webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina', // PRODUCCION
 
     // Mensaje de bienvenida al abrir el chat
     welcomeMessage: '¡Hola! 👋 Soy el asistente virtual de Positivo Hogar. ¿En qué puedo ayudarte hoy?',
