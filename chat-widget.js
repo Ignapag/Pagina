@@ -9,8 +9,7 @@
   // ── CONFIGURACIÓN ──────────────────────────────────────────
   const CONFIG = {
     // 🔧 REEMPLAZÁ ESTA URL POR LA DE TU WEBHOOK DE N8N
-    // webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook-test/Modelo-IA-Pagina', // TEST
-    webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina', // PRODUCCION
+    webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina',
 
     // Mensaje de bienvenida al abrir el chat
     welcomeMessage: '¡Hola! 👋 Soy el asistente virtual de Positivo Hogar. ¿En qué puedo ayudarte hoy?',
@@ -349,12 +348,12 @@
   function formatBotText(text) {
     return text
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      // **negrita**
-      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      // saltos de línea primero
+      .replace(/\n/g, '<br>')
+      // **negrita** (incluyendo texto con <br> adentro)
+      .replace(/\*\*([\s\S]+?)\*\*/g, '<strong>$1</strong>')
       // *cursiva*
-      .replace(/\*(.+?)\*/g, '<em>$1</em>')
-      // saltos de línea
-      .replace(/\n/g, '<br>');
+      .replace(/\*([^*<]+?)\*/g, '<em>$1</em>');
   }
 
   function escapeHtml(text) {
