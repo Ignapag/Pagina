@@ -9,8 +9,8 @@
   // ── CONFIGURACIÓN ──────────────────────────────────────────
   const CONFIG = {
     // 🔧 REEMPLAZÁ ESTA URL POR LA DE TU WEBHOOK DE N8N
-    //webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook-test/Modelo-IA-Pagina', // TEST
-    webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina', // PRODUCCION
+    webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook-test/Modelo-IA-Pagina', // TEST
+    // webhookUrl: 'https://n8n-vyvn.srv1467043.hstgr.cloud/webhook/Modelo-IA-Pagina', // PRODUCCION
 
     // Mensaje de bienvenida al abrir el chat
     welcomeMessage: '¡Hola! 👋 Soy el asistente virtual de Positivo Hogar. ¿En qué puedo ayudarte hoy?',
@@ -234,12 +234,34 @@
       throw new Error(`Webhook error: ${response.status}`);
     }
 
-    const data = await response.json();
+    // Leer como texto primero para evitar crash si no es JSON válido
+    const rawText = await response.text();
+    if (!rawText || rawText.trim() === '') {
+      throw new Error('Respuesta vacía del servidor');
+    }
+
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch (e) {
+      // Si no es JSON, devolver el texto directo
+      return rawText.trim();
+    }
 
     // Compatible con distintos formatos de respuesta de n8n:
-    // { output: "texto" } | { message: "texto" } | { text: "texto" } | "texto directo"
+    // "texto" | { output } | { message } | { text } | [{ text }] | [{ output }]
     if (typeof data === 'string') return data;
-    return data.output ?? data.message ?? data.text ?? data.reply ?? 
+
+    // Array (formato Last Node de n8n): [{ text: "..." }]
+    if (Array.isArray(data)) {
+      const first = data[0];
+      if (!first) return JSON.stringify(data);
+      return first.output ?? first.message ?? first.text ?? first.reply ?? first.response ??
+             JSON.stringify(first);
+    }
+
+    // Objeto simple
+    return data.output ?? data.message ?? data.text ?? data.reply ?? data.response ??
            JSON.stringify(data);
   }
 
