@@ -18,7 +18,6 @@
     suggestions: [
       '📺 Televisores en oferta',
       '❄️ Aires acondicionados',
-      '🏠 Ver todos los productos',
       '📍 ¿Dónde están ubicados?',
     ],
 
@@ -200,9 +199,9 @@
       const chip = document.createElement('button');
       chip.className = 'chat-suggestion-chip';
       chip.textContent = text;
-      chip.addEventListener('click', () => {
+      chip.addEventListener('click', (e) => {
+        e.stopPropagation(); // Evita cerrar el chat al hacer click
         sendMessage(text);
-        suggestionsEl.innerHTML = ''; // Ocultar chips tras usar una
       });
       suggestionsEl.appendChild(chip);
     });
@@ -272,6 +271,10 @@
 
     const trimmed = (text || '').trim();
     if (!trimmed) return;
+
+    // Ocultar sugerencias al enviar cualquier mensaje
+    const suggestionsEl = document.getElementById('chat-suggestions');
+    if (suggestionsEl) suggestionsEl.innerHTML = '';
 
     // Mostrar mensaje del usuario
     addMessage(trimmed, 'user');
