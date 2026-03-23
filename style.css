@@ -1514,8 +1514,7 @@ html, body {
 @media (min-width: 750px) and (max-width: 1025px) {
     .material-symbols-outlined {
     font-size:40px !important;
-    margin-right: 30px !important;
-    margin-bottom: 30px;
+   
     }
 
     .nav_list_item_a{
