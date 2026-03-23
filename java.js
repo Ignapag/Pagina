@@ -58,7 +58,9 @@ const CATEGORIAS_VISIBLES_MAIN = [
   'aire',
   'lavarropas',
   'cocina',
-  'heladeras'   
+  'heladeras',
+  'celular',
+  'parlante'   
 ];
 
 const NOMBRES_CATEGORIAS = {
@@ -66,7 +68,9 @@ const NOMBRES_CATEGORIAS = {
   'aire':            'Aire acondicionado',
   'lavarropas':  'Lavarropas',
   'cocina': 'Cocinas',
-  'heladeras':  'Heladeras'  
+  'heladeras':  'Heladeras',
+  'celular' : 'Celulares',
+  'parlante' : 'Parlantes'
 };
 
 
