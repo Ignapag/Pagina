@@ -42,6 +42,13 @@ const SUBCATEGORIAS = {
   'celular':[
    'telefono-celular-telefonia',
    'celulares'
+  ],
+  'estanteria':[
+   'rack-de-tv',
+   'rack-de-microondas',
+   'despensero',
+   'comoda',
+   'biblioteca'
   ]
 
 };
