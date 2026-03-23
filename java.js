@@ -464,7 +464,7 @@ async function mostrarSoloCategoria(categoriaOriginal) {
     );
 
 
-    productosCategoria.sort((a, b) => b.precio - a.precio);
+    productosCategoria.sort((a, b) => a.precio - b.precio);
 
     if (productosCategoria.length === 0) {
       mainContainer.innerHTML = `
