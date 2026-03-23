@@ -101,7 +101,7 @@ html, body {
     display: none;
 }
 
-@media screen and (min-width:700px) {
+@media screen and (min-width:1025px) {
 
     .contact_bar{ 
         font-size: 13px; 
@@ -230,7 +230,7 @@ html, body {
 
 /*----NAV MEDIA QUERIES----*/
 
-@media screen and (min-width:700px){
+@media screen and (min-width:1025px){
     button.menu_btn{ /*Label por que le da mas especifidad, ya que el google icon lo sobreescribe*/
     display: none;
 }
@@ -442,7 +442,7 @@ html, body {
     }
 }
 
-@media  screen and (max-width:699px){
+@media  screen and (max-width:1025px){
 
 .nav_list_desktop{
     display: none;
@@ -681,7 +681,7 @@ html, body {
 }
 /*----MEDIA QUERIES MAIN----*/
 
-    @media (max-width: 699px) {
+    @media (max-width: 1025px) {
 
     .offers {
         padding: 16px;
@@ -690,7 +690,7 @@ html, body {
     }
 
 
-    @media screen and (min-width:700px) {
+    @media screen and (min-width:1025px) {
 
 /*----BODY----*/
 .body{
@@ -985,7 +985,7 @@ html, body {
     font-weight:bolder;
 }
 
-@media screen and (min-width:700px){
+@media screen and (min-width:1025px){
 
     .feature-label{
     min-width: 250px;
@@ -1237,7 +1237,7 @@ html, body {
         font-weight: 700;
     }
 
-    @media screen and (min-width:700px) {
+    @media screen and (min-width:1025px) {
         .footer_logo_img { 
         margin: auto;
         margin-left: 20px;
@@ -1358,7 +1358,7 @@ html, body {
                 display: none;
             }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1025px) {
             .busqueda_resultados{
                 grid-template-columns: repeat(2,170px);
                 gap:15px
@@ -1402,7 +1402,7 @@ html, body {
         }
 
 
-  @media (min-width: 768px){
+  @media (min-width: 1025px){
 
         .busqueda_container {
             min-width:1300px;
@@ -1501,7 +1501,7 @@ html, body {
     }
 
 
-@media (max-width:768px){
+@media (max-width:1025px){
     .busqueda_resultados{
         grid-template-columns: repeat(2,170px);
     }

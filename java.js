@@ -349,8 +349,8 @@ async function cargarTodasLasCategorias() {
         </button>
         <div class="main_product_container">
           <h3 class="main_product_show_tittle_secundary main_desktop">${nombreVisible}</h3>
-          <section class="main_product_show aire desktop">
-            <h3 class="main_product_show_tittle_secundary main_phone">${nombreVisible}</h3>
+          <section class="main_product_show aire desktop" id="${nombreVisible.toLowerCase().replace(/\s+/g, '-')}">
+            <h3 class="main_product_show_tittle_secundary main_phone"">${nombreVisible}</h3>
             <div class="main_product_show_list">
               ${prods.map(producto => {
                 let precioHTML = `<strong class="main_product_price">$${formatearPrecio(producto.precio)}</strong>`;
