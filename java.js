@@ -132,7 +132,7 @@ function mapearProductoWC(p) {
   const precio    = precioRaw;
   const precioRegular = parseInt(p.prices?.regular_price ?? '0', 10);
   const preciof   = parseInt(p.prices?.sale_price) || 0;
-
+  const stock = p.stock_quantity;
   const imagen = p.images?.[0]?.src ?? 'placeholder.jpg';
 
   const cats = p.categories ?? [];
@@ -161,7 +161,8 @@ function mapearProductoWC(p) {
     esOferta,
     descripcion,
     caracteristicas,
-    _slug:          p.slug ?? ''
+    _slug:          p.slug ?? '',
+    stock
   };
 }
 
@@ -279,6 +280,9 @@ async function cargarTodasLasCategorias() {
     const productosOfertas = [];
 
     productos.forEach(producto => {
+      // ✅ Ocultar productos sin stock
+      if (producto.stock === 0) return;
+
       const cat = producto.categoria.toLowerCase();
       
       // Ofertas
@@ -455,7 +459,8 @@ async function mostrarSoloCategoria(categoriaOriginal) {
       : [categoriaNormalizada];
     
     const productosCategoria = productos.filter(p =>
-      slugsAFiltrar.includes(p.categoria.toLowerCase().trim())
+      slugsAFiltrar.includes(p.categoria.toLowerCase().trim()) &&
+      p.stock !== 0 // ✅ Ocultar productos sin stock
     );
 
 

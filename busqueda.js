@@ -85,7 +85,7 @@ function mapearProductoWC_busqueda(p) {
   let preciof = parseInt(p.prices.sale_price);
   const descripcionHTML = p.description || p.short_description || '';
   const { descripcion, caracteristicas } = parsearDescripcionHTML_busqueda(descripcionHTML);
-
+  const stock = p.stock_quantity;
   return {
     id:             String(p.id),
     nombre:         p.name ?? 'Producto sin nombre',
@@ -94,7 +94,8 @@ function mapearProductoWC_busqueda(p) {
     categoria,
     descripcion,
     caracteristicas,
-    preciof
+    preciof,
+    stock
   };
 }
 
@@ -103,7 +104,7 @@ function mapearProductoWC_busqueda(p) {
 //  FETCH CON CACHÉ (reutiliza la del home si existe)
 // ============================================================
 
-const CACHE_VERSION_BUSQUEDA = 'v10';
+const CACHE_VERSION_BUSQUEDA = 'v11';
 const CACHE_KEY_BUSQUEDA = 'productosDB_busqueda_' + CACHE_VERSION_BUSQUEDA;
 
 async function fetchTodosProductos() {
@@ -166,6 +167,8 @@ async function realizarBusqueda() {
     const texto = terminoBusqueda.toLowerCase().trim().split(/\s+/).slice(0, 4).join(' ');
 
     resultados = productos.filter(producto => {
+      // ✅ Ocultar productos sin stock (stock === 0 o stock === null)
+      if (producto.stock !== null && producto.stock <= 0) return false;
       const enNombre = producto.nombre.toLowerCase().includes(texto);
       const enCategoria = producto.categoria.toLowerCase().includes(texto);
       return enNombre || enCategoria;
