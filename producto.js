@@ -238,25 +238,25 @@ function capitalizar(texto) {
 function configurarBotonesWhatsApp(producto) {
   const botonesWhatsApp = document.querySelectorAll('.whatsapp');
 
-  const mensaje           = `Hola! Me interesa el producto: ${producto.nombre} - $${producto.precio.toLocaleString('es-AR')}`;
+  const precio            = producto.preciof && producto.preciof !== producto.precio
+    ? producto.preciof
+    : producto.precio;
+  const mensaje           = `Hola! Me interesa el producto: ${producto.nombre} - $${precio.toLocaleString('es-AR')}`;
   const mensajeCodificado = encodeURIComponent(mensaje);
 
   const numeroLasFlores = '5491144018147';
-  const numeroMitre     = '5491187654321';
+  const numeroMitre     = '5491132330738';
 
   botonesWhatsApp.forEach(boton => {
-    const texto          = boton.textContent.toLowerCase();
-    const numeroWhatsApp = texto.includes('mitre') ? numeroMitre : numeroLasFlores;
-    const urlWhatsApp    = `https://wa.me/${numeroWhatsApp}?text=${mensajeCodificado}`;
+    // Detectar sucursal por data-sucursal o por texto
+    const sucursal = boton.dataset.sucursal || boton.textContent;
+    const esMitre  = sucursal.toLowerCase().includes('mitre');
+    const numero   = esMitre ? numeroMitre : numeroLasFlores;
+    const url      = `https://wa.me/${numero}?text=${mensajeCodificado}`;
 
-    if (boton.tagName === 'A') {
-      boton.href   = urlWhatsApp;
-      boton.target = '_blank';
-      boton.rel    = 'noopener noreferrer';
-    } else {
-      const btn = boton.closest('button') ?? boton;
-      btn.onclick = () => window.open(urlWhatsApp, '_blank', 'noopener,noreferrer');
-    }
+    boton.href   = url;
+    boton.target = '_blank';
+    boton.rel    = 'noopener noreferrer';
   });
 }
 

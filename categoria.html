@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Categoría - Positivo Hogar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+</head>
+<script src="chat-widget.js" defer></script>
+<body class="body">
+    <div id="site-header"></div>
+
+    <main class="main">
+        <div class="cat_page_wrapper">
+
+            <!-- ── SIDEBAR ── -->
+            <aside id="cat-sidebar" class="cat_sidebar">
+                <!-- Se rellena con JS -->
+            </aside>
+
+            <!-- ── Botón toggle mobile ── -->
+            <button id="sidebar-toggle" class="sidebar_toggle_btn">
+                <span class="material-symbols-outlined">filter_list</span>
+                Filtrar por subcategoría
+            </button>
+
+            <!-- ── CONTENIDO ── -->
+            <section class="cat_content">
+                <div class="busqueda_header">
+                    <h1 class="busqueda_titulo"></h1>
+                    <p class="busqueda_info"></p>
+                </div>
+
+                <div class="busqueda_resultados" id="resultados"></div>
+
+                <div class="sin_resultados" id="sin-resultados">
+                    <div class="sin_resultados_icono material-symbols-outlined">inventory_2</div>
+                    <p class="sin_resultados_texto">No hay productos disponibles</p>
+                    <p class="sin_resultados_sugerencia">
+                        Esta categoría no tiene productos en este momento.<br>
+                        <a href="index.html" style="color:#ff7700; font-weight:600;">Ver todas las categorías</a>
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <div id="site-footer"></div>
+
+    <script src="categoria.js"></script>
+    <script src="java.js"></script>
+</body>
+</html>

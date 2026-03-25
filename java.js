@@ -654,7 +654,7 @@ fetch("components/header.html?v=" + Date.now())
 
     inicializarBuscador();
 
-    const botonesWpp      = document.querySelectorAll('.contact_list .whatsapp');
+    const botonesWpp      = document.querySelectorAll('.whatsapp');
     const numeroLasFlores = '5491112345678';
     const numeroMitre     = '5491187654321';
 
