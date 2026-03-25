@@ -376,7 +376,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .header_wpp_sucursal { font-size: 14px; font-weight: 700; }
 
 .nav_wpp_item { border-top: 1px solid rgba(0,0,0,0.08); margin-top: 8px !important; padding-top: 8px !important; }
-.nav_wpp_link { color: #25D366 !important; font-weight: 600 !important; }
+.nav_wpp_link { margin-top: 20px; }
 
 @media screen and (min-width: 1025px) {
     .nav_container {
