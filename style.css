@@ -1399,3 +1399,64 @@ html, body { height: 100%; margin: 0; padding: 0; }
     font-weight: 400;
     text-decoration: line-through;
 }
+
+/* ---- ESTILO VISUAL PANEL CARACTERÍSTICAS (sin cambiar layout) ---- */
+ @media screen and (min-width: 1024px){
+/* Título del producto */
+.only_product_tittle {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #111;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    justify-content: center;
+}
+ 
+/* Subtítulo "Características:" */
+.only_product_tittle_secundary {
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    color: #aaa !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 12px !important;
+    border-bottom: 2px solid #f0f0f0 !important;
+}
+ 
+/* Ítems de la lista */
+.only_product_list {
+    gap: 0 !important;
+}
+ 
+.only_product_list_item {
+    padding: 13px 0 !important;
+    border-bottom: 1px solid #f2f2f2 !important;
+    border-top: none !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 16px !important;
+}
+ 
+.only_product_list_item:last-child {
+    border-bottom: none !important;
+}
+ 
+/* Label izquierdo: gris */
+.feature-label {
+    color: #999 !important;
+    font-weight: 500 !important;
+    font-size: 0.9rem !important;
+    flex-shrink: 0;
+}
+ 
+/* Valor derecho: negro */
+.product_strong {
+    color: #111 !important;
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+    text-align: center !important;
+    flex: 1 !important;
+}
+}
