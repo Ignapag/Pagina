@@ -3,7 +3,7 @@
 // ============================================================
 
 const CAT_API_URL   = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const CAT_CACHE_VER = 'v13';
+const CAT_CACHE_VER = 'v14';
 const CAT_CACHE_KEY = 'productosDB_' + CAT_CACHE_VER;
 
 const CATEGORIAS_PAGINA = {
