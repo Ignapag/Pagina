@@ -3,7 +3,7 @@
 // ============================================================
 
 const CAT_API_URL   = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
-const CAT_CACHE_VER = 'v14';
+const CAT_CACHE_VER = 'v15';
 const CAT_CACHE_KEY = 'productosDB_' + CAT_CACHE_VER;
 
 const CATEGORIAS_PAGINA = {
@@ -66,7 +66,7 @@ const CATEGORIAS_PAGINA = {
     nombre: 'Pequeños Electrodomésticos',
     icono:  'blender',
     slugs: [
-      'abrelatas-electrico','anafe-electrico','aspiradora','aspiradora-de-mano',
+      'abrelatas-electrico','pequenos-electrodomesticos','anafe-electrico','aspiradora','aspiradora-de-mano',
       'balanza-de-cocina','batidora-de-mano','batidora-planetaria',
       'cafetera-de-filtro','cafetera-expresso','cortador-de-verduras',
       'cuchillo-electrico','espumador-de-leche','exprimidor-electrico',
@@ -199,7 +199,9 @@ function mapearProductoCat(p) {
   if (cats.length > 0) {
     const sinOferta     = cats.filter(c => c.slug !== 'oferta');
     const catsFinal     = sinOferta.length > 0 ? sinOferta : cats;
-    const masEspecifica = [...catsFinal].sort((a, b) => b.id - a.id)[0];
+    const todosLosSlugsFlatMap = Object.values(CATEGORIAS_PAGINA).flatMap(c => c.slugs);
+    console.log(todosLosSlugsFlatMap,"slugs");
+    const masEspecifica =  [...catsFinal] .filter(c => todosLosSlugsFlatMap.includes(c.slug)).sort((a, b) => b.id - a.id)[0] || [...catsFinal].sort((a, b) => b.id - a.id)[0];
     categoria = masEspecifica.slug;
   }
   const { descripcion } = parsearDescCat(p.description || p.short_description || '');

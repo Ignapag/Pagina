@@ -504,7 +504,6 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .main_product_show_list {
     display: flex;
     gap: 35px;
-    overflow-x: auto;
     padding-bottom: 12px;
 }
 
@@ -521,6 +520,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
     gap: 10px;
     scroll-snap-align: start;
     min-height: 500px;
+    transition: 1s;
 }
 
 .product_card:hover { transform: translateY(-4px); box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
@@ -628,7 +628,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
     .product_card img { transition: transform 0.3s ease; cursor: zoom-in; }
-    .product_card img:hover { transform: scale(1.15); }
+    .product_card img:hover { transform: scale(1.13); }
     .product_card { overflow: hidden; }
 }
 
@@ -895,7 +895,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 @media (min-width: 1025px) {
     .busqueda_container { min-width: 1300px; }
     .precio-oferta { font-size: 22px; }
-
+    .titulo-ofertas{ color:#fff }
     .container-ofertas {
         display: block;
         width: 1460px;
@@ -907,7 +907,6 @@ html, body { height: 100%; margin: 0; padding: 0; }
         overflow: visible;
         border: 2px solid #ddd;
     }
-
     .grande { min-height: 540px; }
 }
 
