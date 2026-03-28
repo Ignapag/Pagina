@@ -800,11 +800,24 @@ function inicializarSliderBanners() {
   `;
 
   // Lógica del slider
-  const track  = document.getElementById('ph_track');
-  const dots   = document.querySelectorAll('.ph_dot');
-  const total  = 3;
-  let cur      = 0;
-  let timer    = null;
+  const track         = document.getElementById('ph_track');
+  const dotsContainer = document.getElementById('ph_dots');
+  const isMobile      = window.innerWidth < 768;
+
+  // En móvil: eliminar slide 0 del DOM y ajustar dots a 2
+  if (isMobile) {
+    const slide0 = track.querySelector('.ph_slide_img');
+    if (slide0) slide0.remove();
+    dotsContainer.innerHTML = `
+      <button class="ph_dot on"></button>
+      <button class="ph_dot"></button>
+    `;
+  }
+
+  const dots  = dotsContainer.querySelectorAll('.ph_dot');
+  const total = isMobile ? 2 : 3;
+  let cur     = 0;
+  let timer   = null;
 
   function goTo(n) {
     cur = ((n % total) + total) % total;
