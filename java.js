@@ -4,7 +4,7 @@
 
 const WC_API_URL = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
 const WC_PER_PAGE = 100;
-const CACHE_VERSION = 'v11';
+const CACHE_VERSION = 'v12';
 
 
 // ============================================================
