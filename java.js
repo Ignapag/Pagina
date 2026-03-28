@@ -689,6 +689,151 @@ fetch("components/footer.html?v=" + Date.now())
 
 
 // ============================================================
+//  SLIDER DE BANNERS PRINCIPAL
+// ============================================================
+
+function inicializarSliderBanners() {
+  const bannerContainer = document.querySelector('.banner_container');
+  if (!bannerContainer) return;
+
+  // HTML del slider
+  bannerContainer.innerHTML = `
+    <div class="ph_slider" id="ph_slider">
+
+      <div class="ph_slider_track" id="ph_track">
+
+      <!-- ── SLIDE 0: banner original ── -->
+        <div class="ph_slide ph_slide_img">
+          <img src="./banner_principal_1920x400.webp" alt="Positivo Hogar">
+        </div>
+
+       <!-- ── SLIDE 1: Los mejores precios - Personas ── -->
+        <div class="ph_slide" style="background:linear-gradient(105deg,#e85500 0%,#ff7200 35%,#ff8c1a 60%,#e85000 100%);overflow:hidden">
+          <!-- hex pattern -->
+          <div style="position:absolute;inset:0;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='52'%3E%3Cpolygon points='30,2 58,17 58,47 30,62 2,47 2,17' fill='none' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E");background-size:60px 52px"></div>
+          <!-- círculos deco -->
+          <div style="position:absolute;top:-40%;right:30%;width:25%;aspect-ratio:1;border-radius:50%;border:2.5vw solid rgba(255,255,255,.06)"></div>
+          <div style="position:absolute;top:-25%;left:-4%;width:19%;aspect-ratio:1;border-radius:50%;border:2vw solid rgba(255,255,255,.05)"></div>
+          <!-- líneas diagonales -->
+          <div style="position:absolute;inset:0;opacity:.05;background:repeating-linear-gradient(-55deg,transparent 0,transparent 18px,#fff 18px,#fff 20px)"></div>
+          <!-- imagen personas: ocupa el lado derecho y se funde -->
+          <div style="position:absolute;right:0;top:0;bottom:0;width:46%;overflow:hidden;z-index:1">
+            <div style="position:absolute;top:0;bottom:0;left:0;width:42%;background:linear-gradient(90deg,#f07200 0%,rgba(240,114,0,0) 100%);z-index:2"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(232,85,0,.28) 0%,transparent 18%,transparent 80%,rgba(232,85,0,.28) 100%);z-index:2"></div>
+            <img src="banner_principal.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+          </div>
+          <!-- SVG patrones -->
+          <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.08;z-index:1" viewBox="0 0 1920 400" preserveAspectRatio="xMidYMid slice">
+            <polygon points="580,40 620,110 580,180 540,110" fill="none" stroke="white" stroke-width="1.5"/>
+            <polygon points="580,65 610,110 580,155 550,110" fill="none" stroke="white" stroke-width="1"/>
+            <polygon points="300,60 320,100 280,100" fill="rgba(255,255,255,.45)"/>
+            <polygon points="700,310 720,350 680,350" fill="rgba(255,255,255,.35)"/>
+            <line x1="440" y1="28" x2="440" y2="78" stroke="white" stroke-width="2" opacity=".28"/>
+            <circle cx="580" cy="200" r="140" fill="none" stroke="white" stroke-width="1" opacity=".4"/>
+            <circle cx="580" cy="200" r="190" fill="none" stroke="white" stroke-width=".5" opacity=".25"/>
+          </svg>
+          <!-- texto lado izquierdo -->
+          <div style="position:relative;z-index:10;width:58%;display:flex;flex-direction:column;justify-content:center;padding:0 0 0 5%;gap:3%">
+            <span style="font-size:.68vw;font-weight:700;color:rgba(255,255,255,.72);letter-spacing:.3em;text-transform:uppercase">Electrodomésticos</span>
+            <div style="font-size:4.6vw;font-weight:900;color:#fff;line-height:.88;text-transform:uppercase;letter-spacing:-.1em;text-shadow:0 4px 24px rgba(0,0,0,.18)">Los mejores<br>precios</div>
+            <div style="width:3.75%;height:5px;background:rgba(255,255,255,.55);border-radius:3px"></div>
+            <div style="font-size:1.68vw;font-weight:800;color:rgba(255,255,255,.88);text-transform:uppercase;letter-spacing:.16em;text-shadow:0 2px 12px rgba(0,0,0,.15)">Los encontrás en</div>
+            <div style="display:inline-flex;align-items:center;gap:.6vw;background:rgba(0,0,0,.18);border:2px solid rgba(255,255,255,.35);border-radius:50px;padding:.5vw 1.25vw;width:fit-content">
+              <div style="width:.52vw;height:.52vw;min-width:7px;min-height:7px;border-radius:50%;background:#ffe066;flex-shrink:0"></div>
+              <span style="font-size:.78vw;font-weight:800;color:#fff;text-transform:uppercase;letter-spacing:.16em">Positivo Hogar</span>
+              <div style="width:.52vw;height:.52vw;min-width:7px;min-height:7px;border-radius:50%;background:#ffe066;flex-shrink:0"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── SLIDE 2: Crédito al instante ── -->
+        <div class="ph_slide ph_slide_orange">
+          <div class="ph_slide_overlay"></div>
+          <div class="ph_slide_inner">
+            <div class="ph_slide_left">
+              <span class="ph_tag">Positivo Hogar — Financiación propia</span>
+              <div class="ph_title">Crédito<br><span class="ac">al instante</span></div>
+              <div class="ph_sub">Aprobación en el momento</div>
+              <div class="ph_dni_badge">
+                <div class="ph_dni_icon"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><line x1="7" y1="10" x2="12" y2="10"/><line x1="7" y1="13" x2="10" y2="13"/><circle cx="16" cy="11" r="2"/><line x1="14" y1="15" x2="18" y2="15"/></svg></div>
+                <div class="ph_dni_txt">Solo necesitás tu <span>DNI</span></div>
+              </div>
+            </div>
+            <div class="ph_slide_right">
+              <div class="ph_appr">
+                <div class="ph_app">
+                  <svg width="7vw" height="13vw" style="min-width:55px;min-height:95px;max-width:130px;max-height:245px" viewBox="0 0 82 145" fill="none"><rect x="3" y="3" width="76" height="52" rx="7" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="3" y="57" width="76" height="82" rx="7" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="3" y="53" width="76" height="6" fill="rgba(255,255,255,0.15)"/><rect x="62" y="20" width="7" height="20" rx="3" fill="rgba(255,255,255,0.75)"/><rect x="62" y="72" width="7" height="32" rx="3" fill="rgba(255,255,255,0.75)"/><line x1="14" y1="92" x2="56" y2="92" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" stroke-dasharray="4 3"/><line x1="14" y1="110" x2="56" y2="110" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" stroke-dasharray="4 3"/><rect x="10" y="137" width="12" height="8" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="60" y="137" width="12" height="8" rx="2" fill="rgba(255,255,255,0.4)"/></svg>
+                  <span class="ph_albl">Heladera</span>
+                </div>
+                <div class="ph_app">
+                  <svg width="11vw" height="9.5vw" style="min-width:85px;min-height:70px;max-width:200px;max-height:175px" viewBox="0 0 140 110" fill="none"><rect x="3" y="3" width="134" height="82" rx="7" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="9" y="9" width="122" height="70" rx="4" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/><rect x="60" y="85" width="20" height="14" rx="2" fill="rgba(255,255,255,0.3)"/><rect x="36" y="99" width="68" height="9" rx="4" fill="rgba(255,255,255,0.3)"/><circle cx="128" cy="78" r="4" fill="rgba(255,230,102,0.9)"/></svg>
+                  <span class="ph_albl">Televisor</span>
+                </div>
+                <div class="ph_app">
+                  <svg width="6.5vw" height="11vw" style="min-width:50px;min-height:80px;max-width:120px;max-height:200px" viewBox="0 0 88 126" fill="none"><rect x="3" y="10" width="82" height="110" rx="9" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="3" y="10" width="82" height="24" rx="9" fill="rgba(255,255,255,0.18)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="3" y="24" width="82" height="10" fill="rgba(255,255,255,0.18)"/><circle cx="18" cy="22" r="5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/><circle cx="32" cy="22" r="5" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/><circle cx="44" cy="76" r="28" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.75)" stroke-width="2"/><circle cx="44" cy="76" r="19" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.3)" stroke-width="1.2"/><rect x="14" y="118" width="14" height="8" rx="2" fill="rgba(255,255,255,0.4)"/><rect x="60" y="118" width="14" height="8" rx="2" fill="rgba(255,255,255,0.4)"/></svg>
+                  <span class="ph_albl">Lavarropas</span>
+                </div>
+                <div class="ph_app">
+                  <svg width="9vw" height="5.5vw" style="min-width:70px;min-height:42px;max-width:165px;max-height:100px" viewBox="0 0 130 80" fill="none"><rect x="3" y="3" width="124" height="58" rx="11" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.85)" stroke-width="2"/><rect x="9" y="9" width="112" height="16" rx="5" fill="rgba(255,255,255,0.08)"/><line x1="10" y1="38" x2="120" y2="38" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/><line x1="10" y1="44" x2="120" y2="44" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/><line x1="10" y1="50" x2="120" y2="50" stroke="rgba(255,255,255,0.2)" stroke-width="1"/><circle cx="18" cy="17" r="4" fill="rgba(255,230,102,0.9)"/><rect x="3" y="59" width="124" height="12" rx="6" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/></svg>
+                  <span class="ph_albl">Aire acond.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+      </div><!-- /track -->
+
+      <!-- Flechas -->
+      <button class="ph_arrow pv" id="ph_prev"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <button class="ph_arrow nx" id="ph_next"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+
+      <!-- Dots -->
+      <div class="ph_dots" id="ph_dots">
+        <button class="ph_dot on"></button>
+        <button class="ph_dot"></button>
+        <button class="ph_dot"></button>  
+      </div>
+
+    </div><!-- /slider -->
+  `;
+
+  // Lógica del slider
+  const track  = document.getElementById('ph_track');
+  const dots   = document.querySelectorAll('.ph_dot');
+  const total  = 3;
+  let cur      = 0;
+  let timer    = null;
+
+  function goTo(n) {
+    cur = ((n % total) + total) % total;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('on', i === cur));
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(cur + 1), 4500);
+  }
+
+  document.getElementById('ph_prev').addEventListener('click', () => { goTo(cur - 1); startTimer(); });
+  document.getElementById('ph_next').addEventListener('click', () => { goTo(cur + 1); startTimer(); });
+  dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); startTimer(); }));
+
+  // Swipe táctil
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  track.addEventListener('touchend',   e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) { goTo(diff > 0 ? cur + 1 : cur - 1); startTimer(); }
+  }, { passive: true });
+
+  startTimer();
+}
+
+
+// ============================================================
 //  MAIN (sin no-cache forzado)
 // ============================================================
 
@@ -703,6 +848,9 @@ fetch("components/main.html")
     const siteMain = document.getElementById("site-main");
     console.log('📄 site-main encontrado:', !!siteMain);
     if (siteMain) siteMain.innerHTML = data;
+
+    // Inicializar slider de banners
+    inicializarSliderBanners();
 
     const isIndexPage = window.location.pathname === '/' ||
                         window.location.pathname.includes('index.html') ||

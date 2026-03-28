@@ -1465,3 +1465,167 @@ html, body { height: 100%; margin: 0; padding: 0; }
     flex: 1 !important;
 }
 }
+
+/* ---- SLIDER DE BANNERS PRINCIPAL ---- */
+
+.ph_slider {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1;
+}
+.ph_slider_track {
+  display: flex;
+  transition: transform 0.75s cubic-bezier(.77,0,.175,1);
+  will-change: transform;
+}
+.ph_slide {
+  min-width: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+/* Slide imagen (banner foto) */
+.ph_slide_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* Slides naranja */
+.ph_slide_orange {
+  min-height: 220px;
+  background: linear-gradient(105deg, #cc4d00 0%, #ff6a00 40%, #ff8533 70%, #cc4d00 100%);
+}
+@media (min-width:1025px) { .ph_slide_orange { min-height: 280px; } }
+
+.ph_slide_overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.18) 0%, transparent 14%, transparent 86%, rgba(0,0,0,.18) 100%);
+}
+.ph_slide_inner {
+  position: relative; z-index: 2;
+  width: 100%; height: 100%;
+  display: flex; align-items: center;
+  padding: 0 5%;
+  gap: 3%;
+}
+.ph_slide_left  { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+.ph_slide_right { flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; }
+
+/* Tipografía slider */
+.ph_tag   { font-size: clamp(9px, .65vw, 13px); font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .2em; text-transform: uppercase; }
+.ph_title { font-size: clamp(22px, 4.5vw, 82px); font-weight: 900; color: #fff; line-height: .92; text-transform: uppercase; letter-spacing: -.03em; }
+.ph_title .ac  { color: #ffe066; display: block; font-size: clamp(26px, 5.2vw, 96px); }
+.ph_title .big { color: #ffe066; }
+.ph_title .l2  { color: #ffe066; font-size: clamp(28px, 5.2vw, 96px); }
+.ph_title .l3  { font-size: clamp(16px, 3vw, 56px); color: rgba(255,255,255,.88); }
+.ph_sub   { font-size: clamp(10px, .9vw, 17px); font-weight: 600; color: rgba(255,255,255,.85); text-transform: uppercase; letter-spacing: .07em; }
+
+/* Badge DNI */
+.ph_dni_badge {
+  display: inline-flex; align-items: center; gap: .5em;
+  background: rgba(0,0,0,.22); border: 2px solid rgba(255,255,255,.5);
+  border-radius: 40px; padding: .35em 1em; width: fit-content;
+}
+.ph_dni_icon {
+  width: clamp(20px,1.7vw,32px); height: clamp(20px,1.7vw,32px);
+  background: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.ph_dni_icon svg { width: 55%; height: 55%; stroke: #e55c00; fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ph_dni_txt { font-size: clamp(9px,.75vw,14px); font-weight: 700; color: #fff; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.ph_dni_txt span { color: #ffe066; font-weight: 900; }
+
+/* Cards slider */
+.ph_cards { display: flex; gap: .6vw; flex-wrap: wrap; }
+.ph_card {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12);
+  border-radius: 6px; padding: .8em 1em; text-align: center; min-width: clamp(80px,7vw,150px);
+  position: relative; overflow: hidden;
+}
+.ph_card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background: linear-gradient(90deg,#ff6b1c,#ff9a00); }
+.ph_card.hl { background: rgba(255,107,28,.12); border-color: rgba(255,107,28,.38); }
+.ph_card.hl::before { height: 3px; }
+.ph_card_t { font-size: clamp(13px,1.8vw,30px); font-weight: 900; color: #fff; line-height: 1; text-transform: uppercase; }
+.ph_card.hl .ph_card_t { color: #ff6b1c; }
+.ph_card_s { font-size: clamp(7px,.6vw,11px); font-weight: 400; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .1em; margin-top: .3em; }
+.ph_card_d { font-size: clamp(7px,.62vw,12px); font-weight: 300; color: rgba(255,255,255,.65); margin-top: .4em; border-top: 1px solid rgba(255,255,255,.08); padding-top: .4em; }
+
+/* Benefits slider */
+.ph_bens { display: flex; gap: .7vw; flex-wrap: wrap; }
+.ph_ben {
+  background: rgba(0,0,0,.18); border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 5px; padding: .6em 1em;
+  display: flex; flex-direction: column; align-items: center; gap: .25em; min-width: clamp(55px,6vw,115px);
+}
+.ph_bv { font-size: clamp(13px,1.4vw,24px); font-weight: 900; color: #ffe066; line-height: 1; }
+.ph_bl { font-size: clamp(7px,.57vw,10px); font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .1em; text-transform: uppercase; text-align: center; }
+
+/* Siluetas slider */
+.ph_appr { display: flex; align-items: flex-end; gap: .6vw; }
+.ph_app  { display: flex; flex-direction: column; align-items: center; gap: .25em; }
+.ph_app svg { filter: drop-shadow(0 0 .5vw rgba(255,255,255,.3)); }
+.ph_albl { font-size: clamp(6px,.55vw,10px); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.5); }
+
+/* Flechas slider */
+.ph_arrow {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  z-index: 20; cursor: pointer; background: rgba(0,0,0,.12); border: none;
+  width: clamp(28px,2.4vw,46px); height: clamp(40px,4vw,72px);
+  display: flex; align-items: center; justify-content: center; transition: background .2s;
+}
+.ph_arrow:hover { background: rgba(0,0,0,.28); }
+.ph_arrow.pv { left: 0; border-radius: 0 8px 8px 0; }
+.ph_arrow.nx { right: 0; border-radius: 8px 0 0 8px; }
+.ph_arrow svg { stroke: #fff; fill: none; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; width: clamp(12px,1.1vw,20px); height: clamp(12px,1.1vw,20px); }
+
+/* Dots slider */
+.ph_dots { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 7px; z-index: 20; }
+.ph_dot {
+  width: clamp(7px,.55vw,11px); height: clamp(7px,.55vw,11px);
+  border-radius: 50%; background: rgba(255,255,255,.35); cursor: pointer; border: none; transition: all .3s;
+}
+.ph_dot.on { background: #fff; transform: scale(1.25); }
+
+/* DNI card visual */
+.ph_dcard {
+  width: clamp(130px,16vw,260px); aspect-ratio: 280/175;
+  background: linear-gradient(135deg,#fff5e6,#fff 60%,#ffe8cc);
+  border-radius: 1.8vw; position: relative;
+  box-shadow: 0 1vw 3vw rgba(0,0,0,.35);
+  overflow: hidden; padding: 6%;
+  flex-shrink: 0;
+}
+.ph_dcard::before { content:''; position:absolute; top:0; left:0; right:0; height:37%; background: linear-gradient(90deg,#0066b2,#003d7a); }
+.ph_dflag { position:absolute; top:7%; left:8%; display:flex; gap:.3vw; }
+.ph_dflag span { display:block; height:1.4vw; width:1.2vw; min-height:10px; min-width:9px; }
+.ph_dfa { background:#74b2e0; }
+.ph_dfb { background:#fff; }
+.ph_dfc { background:#74b2e0; }
+.ph_dcountry { position:absolute; top:9%; left:30%; font-size:clamp(5px,.45vw,8px); font-weight:800; color:#fff; letter-spacing:.2em; text-transform:uppercase; white-space:nowrap; }
+.ph_dcid { position:absolute; top:13%; right:6%; font-size:clamp(5px,.45vw,8px); font-weight:700; color:rgba(255,255,255,.9); letter-spacing:.15em; }
+.ph_dcphoto { position:absolute; top:40%; left:6%; width:26%; aspect-ratio:52/64; background:linear-gradient(160deg,#dde6f0,#c8d8e8); border-radius:.4vw; overflow:hidden; display:flex; align-items:flex-end; justify-content:center; }
+.ph_dcphoto svg { width:80%; fill:rgba(120,150,180,.7); }
+.ph_dcinfo { position:absolute; top:40%; left:36%; right:5%; font-size:clamp(4px,.5vw,9px); }
+.ph_dcinfo .lbl { color:#999; letter-spacing:.12em; text-transform:uppercase; margin-bottom:.1vw; }
+.ph_dcinfo .val { font-weight:700; color:#333; margin-bottom:.4vw; }
+.ph_dcnum { position:absolute; bottom:5%; left:5%; right:5%; font-size:clamp(7px,.85vw,16px); font-weight:700; color:#222; letter-spacing:.18em; text-align:center; border-top:1px solid #eee; padding-top:3%; font-family:monospace; }
+
+/* Steps slider */
+.ph_steps { display:flex; flex-direction:column; gap:6px; }
+.ph_step  { display:flex; align-items:center; gap:.7vw; }
+.ph_snum  { width:clamp(18px,1.5vw,28px); height:clamp(18px,1.5vw,28px); border-radius:50%; background:rgba(255,255,255,.2); border:2px solid rgba(255,255,255,.5); display:flex; align-items:center; justify-content:center; font-size:clamp(8px,.62vw,12px); font-weight:800; color:#fff; flex-shrink:0; }
+.ph_stxt  { font-size:clamp(9px,.76vw,14px); font-weight:600; color:rgba(255,255,255,.88); }
+
+/* Responsive slider: ocultar siluetas en móvil */
+@media (max-width:600px) {
+  .ph_slide_right { display: none !important; }
+  .ph_dcard_wrap  { display: none !important; }
+  .ph_title { font-size: clamp(22px, 9vw, 52px); }
+  .ph_title .ac, .ph_title .l2 { font-size: clamp(26px, 11vw, 60px); }
+}
