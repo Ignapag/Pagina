@@ -505,6 +505,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
     display: flex;
     gap: 35px;
     padding-bottom: 12px;
+    overflow-x: auto;
 }
 
 .product_card {
@@ -884,7 +885,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .precio_busqueda { font-size: 17px; color: #000; margin-right: 10px; }
 
 @media (max-width: 1025px) {
-    .busqueda_resultados { grid-template-columns: repeat(2, 170px); gap: 15px; }
+    .busqueda_resultados { gap: 15px; }
     .busqueda_container { min-width: 0; }
     .resultado_card { padding: 12px; }
     .resultado_imagen { height: 150px; }
@@ -1025,10 +1026,18 @@ html, body { height: 100%; margin: 0; padding: 0; }
     width: 240px;
     min-width: 240px;
     height: fit-content;
-    position: sticky;
+    max-height: calc(100vh - 170px);   /* ← pero nunca pasa de esto */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-color: var(--nav-color);
     top: 150px;
     align-self: flex-start;
     flex-shrink: 0;
+    position:sticky;
+}
+
+.cat_sidebar::-webkit-scrollbar{
+    width: 0px;
 }
 
 .cat_sidebar.sidebar_open { display: flex; width: 100%; position: static; margin-bottom: 16px; }
@@ -1132,10 +1141,8 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
     /* Botón volver */
     .only_product_button_back {
-        position: fixed;
         top: 70px;
         left: 12px;
-        z-index: 20;
         background: #fff;
         border: none;
         border-radius: 50%;
@@ -1144,7 +1151,6 @@ html, body { height: 100%; margin: 0; padding: 0; }
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         cursor: pointer;
     }
 

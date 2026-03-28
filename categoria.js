@@ -15,9 +15,9 @@ const CATEGORIAS_PAGINA = {
   },
 
   'celulares': {
-    nombre: 'Celulares',
+    nombre: 'Dispositivos',
     icono:  'smartphone',
-    slugs: ['telefono-celular','telefono-celular-telefonia','celulares','cargador-inalambrico','telefono-inalambrico']
+    slugs: ['telefono-celular','telefono-celular-telefonia','celulares','cargador-inalambrico','telefono-inalambrico','tablet','notebook',]
   },
 
   'climatizacion': {
@@ -41,13 +41,12 @@ const CATEGORIAS_PAGINA = {
     icono:  'bed',
     slugs: [
       'acolchado','almohada','colchon-espuma','colchon-resortes','respaldo-sommier','sommier',
-      'almohadilla-termica','balanza-de-bano',
-      'coche-de-bebe','silla-de-comer-para-bebes'
+      'almohadilla-termica'
     ]
   },
 
   'electrodomesticos': {
-    nombre: 'Electrodomésticos',
+    nombre: 'Linea Blanca',
     icono:  'kitchen',
     slugs: [
       'cocina-a-gas','cocina-industrial',
@@ -57,7 +56,6 @@ const CATEGORIAS_PAGINA = {
       'lavarropas-semiautomatico','lavasecarropas-automatico',
       'lavavajilla','purificador-de-cocina',
       'calefon','termotanque-a-gas','termotanque-electrico',
-      'notebook','impresora','tablet'
     ]
   },
 
@@ -66,7 +64,7 @@ const CATEGORIAS_PAGINA = {
     nombre: 'Pequeños Electrodomésticos',
     icono:  'blender',
     slugs: [
-      'abrelatas-electrico','pequenos-electrodomesticos','anafe-electrico','aspiradora','aspiradora-de-mano',
+      'abrelatas-electrico',  'anafe-electrico','aspiradora','aspiradora-de-mano',
       'balanza-de-cocina','batidora-de-mano','batidora-planetaria',
       'cafetera-de-filtro','cafetera-expresso','cortador-de-verduras',
       'cuchillo-electrico','espumador-de-leche','exprimidor-electrico',
@@ -75,7 +73,7 @@ const CATEGORIAS_PAGINA = {
       'maquina-de-coser','mixer','molinillo','panquequera','pava-electrica',
       'picadora','plancha-a-vapor','plancha-seca','pochoclera','procesadora',
       'rallador','sandwichera-electrica','sarten-electrica','sopera-electrica',
-      'termo','tostadora','vaporiera-arrocera','waflera','yogurtera'
+      'termo','tostadora','vaporiera-arrocera','waflera','yogurtera','impresora',
     ]
   },
 
@@ -87,7 +85,7 @@ const CATEGORIAS_PAGINA = {
       'cepillo-alisador','cortabarba','cortapelo','depiladora-electrica',
       'nebulizador','planchita-para-el-cabello','repuesto-afeitadora',
       'rizador-para-el-cabello','secador-de-cabello','secador-voluminizador',
-      'tensiometro-de-brazo','termometro','trimmer', 'afeitadora-femenina','afeitadora-masculina'
+      'tensiometro-de-brazo','termometro','trimmer', 'afeitadora-femenina','afeitadora-masculina','balanza-de-bano'
     ]
   }
 
