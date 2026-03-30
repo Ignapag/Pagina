@@ -55,7 +55,7 @@ const CATEGORIAS_PAGINA = {
       'lavarropas-automatico','lavarropas-automatico-linea-blanca-1',
       'lavarropas-semiautomatico','lavasecarropas-automatico',
       'lavavajilla','purificador-de-cocina',
-      'calefon','termotanque-a-gas','termotanque-electrico',
+      'calefon','termotanque-a-gas','termotanque-electrico','secarropas-centrifugo'
     ]
   },
 
