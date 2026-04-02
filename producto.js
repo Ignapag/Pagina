@@ -86,7 +86,7 @@ function mapearProductoWC(p) {
 //  OBTENER UN PRODUCTO: API individual → caché → descarga completa
 // ============================================================
 
-const WC_API_URL_PRODUCTO = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
+const WC_API_URL_PRODUCTO = 'https://positivohogar.com.ar/api/wp-json/positivo/v1/products';
 const CACHE_VERSION_PRODUCTO = 'v10';
 
 async function obtenerProductoPorId(productId) {

@@ -2,7 +2,7 @@
 //  CONFIGURACIÓN DE LA API
 // ============================================================
 
-const WC_API_URL_BUSQUEDA = 'https://olivedrab-deer-648705.hostingersite.com/api/wp-json/positivo/v1/products';
+const WC_API_URL_BUSQUEDA = 'https://positivohogar.com.ar/api/wp-json/positivo/v1/products';
 
 // ============================================================
 //  PARÁMETROS DE LA URL
