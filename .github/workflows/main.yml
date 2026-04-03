@@ -19,9 +19,8 @@ jobs:
           server: 147.93.39.145
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /public_html/
+          server-dir: /
           port: 21
-          dangerous-clean-slate: true
           exclude: |
             **/.git*
             **/.git*/**
