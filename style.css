@@ -911,6 +911,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
     .grande { min-height: 540px; }
 }
 
+
 @media (max-width: 1025px) {
     .busqueda_container { min-width: 400px; }
     .precio-oferta { font-size: 15px; }

@@ -380,6 +380,7 @@ async function cargarTodasLasCategorias() {
         </button>
       `;
 
+      
       mainContainer.appendChild(seccion);
     });
 
