@@ -911,6 +911,25 @@ html, body { height: 100%; margin: 0; padding: 0; }
     .grande { min-height: 540px; }
 }
 
+@media (max-width: 1025px) {
+    .busqueda_container { min-width: 400px; }
+    .precio-oferta { font-size: 15px; }
+    .titulo-ofertas{ color:#fff }
+    .container-ofertas {
+        display: flex;
+        
+        height: 600px;
+        background-color: #fff;
+        margin: auto;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        border: 2px solid #ddd;
+    }
+    .grande { min-height: 540px; }
+}
+
+
 @media (min-width: 750px) and (max-width: 1025px) {
     .material-symbols-outlined { font-size: 40px !important; }
     .nav_list_item_a { font-size: 30px; }
