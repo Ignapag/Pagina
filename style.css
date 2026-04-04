@@ -917,15 +917,17 @@ html, body { height: 100%; margin: 0; padding: 0; }
     .precio-oferta { font-size: 15px; }
     .titulo-ofertas{ color:#fff }
     .container-ofertas {
-        display: flex;
-        
-        height: 600px;
-        background-color: #fff;
-        margin: auto;
+        background: linear-gradient(105deg, #cc4d00 0%, #ff6a00 40%, #ff8533 70%, #cc4d00 100%);
         border-radius: 20px;
         margin-bottom: 20px;
         overflow-x: auto;
-        border: 2px solid #ddd;
+        border: 2px solid #e06000;
+    }
+    .container-ofertas .main_product_show {
+        background-color: transparent;
+    }
+    .container-ofertas .main_product_show_tittle_secundary {
+        color: #fff;
     }
     .grande { min-height: 540px; }
 }
