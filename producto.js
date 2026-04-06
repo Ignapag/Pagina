@@ -90,44 +90,35 @@ const WC_API_URL_PRODUCTO = 'https://positivohogar.com.ar/api/wp-json/positivo/v
 const CACHE_VERSION_PRODUCTO = 'v10';
 
 async function obtenerProductoPorId(productId) {
-  // 1) Intentar traer solo ese producto desde la API individual
-  try {
-    const url = `${WC_API_URL_PRODUCTO}/${productId}`;
-    const response = await fetch(url);
-    if (response.ok) {
-      const data = await response.json();
-      if (data && data.id) {
-        return mapearProductoWC(data);
-      }
-    }
-  } catch (e) {
-    console.warn('⚠️ No se pudo traer producto individual, intentando caché...');
-  }
-
-  // 2) Buscar en sessionStorage (caché del home)
+  // 1) Primero: buscar en sessionStorage (instantáneo)
   try {
     const cache = sessionStorage.getItem('productosDB_' + CACHE_VERSION_PRODUCTO);
     if (cache) {
       const productos = JSON.parse(cache);
       const encontrado = productos.find(p => p.id === productId);
-      if (encontrado) {
-        return encontrado;
-      }
+      if (encontrado) return encontrado; // ← sale aquí sin ningún fetch
+    }
+  } catch (e) {}
+
+  // 2) Si no está en caché: llamar a la API individual
+  try {
+    const url = `${WC_API_URL_PRODUCTO}/${productId}`;
+    const response = await fetch(url);
+    if (response.ok) {
+      const data = await response.json();
+      if (data && data.id) return mapearProductoWC(data);
     }
   } catch (e) {
-    console.warn('⚠️ Error leyendo caché');
+    console.warn('⚠️ No se pudo traer producto individual');
   }
 
-  // 3) Último recurso: descargar todo (una sola petición)
-  const url = WC_API_URL_PRODUCTO;
-  const response = await fetch(url);
+  // 3) Último recurso: descargar todo
+  const response = await fetch(WC_API_URL_PRODUCTO);
   if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
-
   const data = await response.json();
   const items = Array.isArray(data) ? data : (data.products ?? []);
   const productos = items.map(mapearProductoWC);
 
-  // Guardar en caché para futuras visitas
   try {
     sessionStorage.setItem('productosDB_' + CACHE_VERSION_PRODUCTO, JSON.stringify(productos));
   } catch (e) {}
@@ -142,21 +133,24 @@ async function obtenerProductoPorId(productId) {
 
 if (window.location.pathname.includes('muestra-producto')) {
 
+  // 🚀 Fetch arranca YA, sin esperar el DOM
+  const urlParams = new URLSearchParams(window.location.search);
+  const productId = urlParams.get('id');
+  const productoPromise = productId 
+    ? obtenerProductoPorId(productId) 
+    : Promise.resolve(null);
+
   window.addEventListener('DOMContentLoaded', async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
-
-
     if (!productId) {
       const cont = document.querySelector('.only_product_container');
       if (cont) cont.innerHTML = '<p>Producto no encontrado.</p>';
       return;
     }
 
-    const producto = await obtenerProductoPorId(productId);
+    // El fetch ya estaba corriendo, solo esperamos el resultado
+    const producto = await productoPromise;
 
     if (!producto) {
-      console.error('Producto no encontrado:', productId);
       const cont = document.querySelector('.only_product_container');
       if (cont) cont.innerHTML = '<p>Producto no encontrado.</p>';
       return;
