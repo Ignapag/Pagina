@@ -1540,7 +1540,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 .ph_slide_right { flex-shrink: 0; display: flex; align-items: flex-end; justify-content: center; }
 
 /* Tipografía slider */
-.ph_tag   { font-size: clamp(9px, .65vw, 13px); font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .2em; text-transform: uppercase; }
+.ph_tag   { font-size: clamp(9px, .65vw, 13px); font-weight: 700; color: rgba(255,255,255,.7); letter-spacing: .2em; text-transform: uppercase;margin-bottom: 20px; }
 .ph_title { font-size: clamp(22px, 4.5vw, 82px); font-weight: 900; color: #fff; line-height: .92; text-transform: uppercase; letter-spacing: -.03em; }
 .ph_title .ac  { color: #ffe066; display: block; font-size: clamp(26px, 5.2vw, 96px); }
 .ph_title .big { color: #ffe066; }

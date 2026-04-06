@@ -494,8 +494,8 @@ fetch("components/header.html?v=" + Date.now())
     inicializarBuscador();
 
     const botonesWpp      = document.querySelectorAll('.whatsapp');
-    const numeroLasFlores = '5491112345678';
-    const numeroMitre     = '5491187654321';
+    const numeroLasFlores = '5491132330738';
+    const numeroMitre     = '5491132904840';
 
     botonesWpp.forEach(boton => {
       const texto          = boton.textContent.toLowerCase();
@@ -590,7 +590,7 @@ function inicializarSliderBanners() {
           <div class="ph_slide_overlay"></div>
           <div class="ph_slide_inner">
             <div class="ph_slide_left">
-              <span class="ph_tag">Positivo Hogar — Financiación propia</span>
+              <span class="ph_tag">Positivo Hogar</span>
               <div class="ph_title">Crédito<br><span class="ac">al instante</span></div>
               <div class="ph_sub">Aprobación en el momento</div>
               <div class="ph_dni_badge">
