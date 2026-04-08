@@ -7,8 +7,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
-    <title>Positivo Hogar</title>
+
+    <!-- SEO: valores base (se actualizan dinámicamente cuando carga el producto) -->
+    <title>Producto - Positivo Hogar</title>
+    <meta name="description" content="Conocé los detalles del producto. Financiación propia al instante con solo tu DNI en Positivo Hogar, Wilde.">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph base -->
+    <meta property="og:type" content="product">
+    <meta property="og:site_name" content="Positivo Hogar">
+    <meta property="og:title" content="Producto - Positivo Hogar">
+    <meta property="og:description" content="Financiación propia al instante con solo tu DNI. Positivo Hogar, Wilde.">
+    <meta property="og:image" content="https://positivohogar.com.ar/banner_principal.png">
+    <meta property="og:url" content="https://positivohogar.com.ar/muestra-producto.html">
+    <meta property="og:locale" content="es_AR">
+
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- 
+        ACTUALIZACIÓN DINÁMICA DE META TAGS
+        Llama a window.actualizarMetaProducto({ nombre, imagen, descripcion, precio })
+        desde producto.js una vez que tengas los datos del producto.
+    -->
+    <script>
+        window.actualizarMetaProducto = function({ nombre, imagen, descripcion, precio }) {
+            const titulo = nombre + ' - Positivo Hogar';
+            const desc   = (descripcion ? descripcion.substring(0, 150) : 'Financiación propia al instante con solo tu DNI.') + ' | Positivo Hogar, Wilde.';
+            const img    = imagen || 'https://positivohogar.com.ar/banner_principal.png';
+            const url    = window.location.href;
+
+            // Title
+            document.title = titulo;
+
+            // Meta description
+            let metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) metaDesc.setAttribute('content', desc);
+
+            // Open Graph
+            const setOG = (prop, val) => {
+                let tag = document.querySelector(`meta[property="${prop}"]`);
+                if (tag) tag.setAttribute('content', val);
+            };
+            setOG('og:title',       titulo);
+            setOG('og:description', desc);
+            setOG('og:image',       img);
+            setOG('og:url',         url);
+
+            // Schema del producto
+            const schema = {
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": nombre,
+                "image": img,
+                "description": descripcion || '',
+                "offers": {
+                    "@type": "Offer",
+                    "price": precio || 0,
+                    "priceCurrency": "ARS",
+                    "availability": "https://schema.org/InStock",
+                    "seller": {
+                        "@type": "Store",
+                        "name": "Positivo Hogar"
+                    }
+                }
+            };
+            let schemaTag = document.getElementById('schema-producto');
+            if (!schemaTag) {
+                schemaTag = document.createElement('script');
+                schemaTag.type = 'application/ld+json';
+                schemaTag.id   = 'schema-producto';
+                document.head.appendChild(schemaTag);
+            }
+            schemaTag.textContent = JSON.stringify(schema);
+        };
+    </script>
+
     <script src="java.js" defer></script>
     <script src="producto.js?v=12" defer></script>
 </head>

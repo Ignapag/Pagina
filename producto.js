@@ -216,6 +216,16 @@ if (window.location.pathname.includes('muestra-producto')) {
     // Botones de WhatsApp
     configurarBotonesWhatsApp(producto);
 
+    // ✅ Actualizar meta tags con los datos reales del producto
+    if (typeof window.actualizarMetaProducto === 'function') {
+      window.actualizarMetaProducto({
+        nombre:      producto.nombre,
+        imagen:      producto.imagen,
+        descripcion: producto.descripcion,
+        precio:      producto.preciof && producto.preciof !== producto.precio ? producto.preciof : producto.precio
+      });
+    }
+
   });
 }
 
