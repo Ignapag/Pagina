@@ -238,8 +238,8 @@ function configurarBotonesWhatsApp(producto) {
   const mensaje           = `Hola! Me interesa el producto: ${producto.nombre} - $${precio.toLocaleString('es-AR')}`;
   const mensajeCodificado = encodeURIComponent(mensaje);
 
-  const numeroLasFlores = '5491144018147';
-  const numeroMitre     = '5491132330738';
+  const numeroLasFlores = '5491132330738';
+  const numeroMitre     = '5491132904840';
 
   botonesWhatsApp.forEach(boton => {
     // Detectar sucursal por data-sucursal o por texto
