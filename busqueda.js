@@ -75,12 +75,9 @@ function mapearProductoWC_busqueda(p) {
   if (cats.length > 0) {
     const sinOferta = cats.filter(c => c.slug !== 'oferta');
     const catsFinal = sinOferta.length > 0 ? sinOferta : cats;
-    const conLink = catsFinal.filter(c => c.link);
-    if (conLink.length > 0) {
-      categoria = [...conLink].sort((a, b) => b.link.length - a.link.length)[0].slug;
-    } else {
-      categoria = catsFinal[catsFinal.length - 1].slug;
-    }
+    // Tomar la categoría principal (ID más bajo = categoría padre)
+    const principal = [...catsFinal].sort((a, b) => a.id - b.id)[0];
+    categoria = principal.slug;
   }
   let preciof = parseInt(p.prices.sale_price);
   const descripcionHTML = p.description || p.short_description || '';

@@ -61,8 +61,9 @@ function mapearProductoWC(p) {
   if (cats.length > 0) {
     const sinOferta = cats.filter(c => c.slug !== 'oferta');
     const catsFinal = sinOferta.length > 0 ? sinOferta : cats;
-    const masEspecifica = [...catsFinal].sort((a, b) => b.id - a.id)[0];
-    categoria = masEspecifica.slug;
+    // Tomar la categoría principal (ID más bajo = categoría padre)
+    const principal = [...catsFinal].sort((a, b) => a.id - b.id)[0];
+    categoria = principal.slug;
   }
 
   const descripcionHTML = p.description || p.short_description || '';

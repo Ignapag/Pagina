@@ -1029,6 +1029,8 @@ html, body { height: 100%; margin: 0; padding: 0; }
     .categoria_icon_wrap { width: 76px; height: 76px; }
     .categoria_icon_wrap .material-symbols-outlined { font-size: 38px !important; }
     .categoria_nombre { font-size: 13px; }
+    /* Centrar últimas 2 cards cuando la fila queda incompleta */
+    .categorias_grid .categoria_card:nth-last-child(2) { grid-column-start: 2; }
 }
 
 @media screen and (min-width: 750px) and (max-width: 1024px) {
