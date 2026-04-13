@@ -3,7 +3,7 @@
 // ============================================================
 
 const CAT_API_URL   = 'https://positivohogar.com.ar/api/wp-json/positivo/v1/products';
-const CAT_CACHE_VER = 'v18';
+const CAT_CACHE_VER = 'v19';
 const CAT_CACHE_KEY = 'productosDB_' + CAT_CACHE_VER;
 
 // ============================================================
