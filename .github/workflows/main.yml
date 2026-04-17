@@ -28,5 +28,8 @@ jobs:
             **/.vscode/**
             **/DS_Store
             .github/**
+            .claude/**
             README.md
+            CLAUDE.md
+            LICENSE
             API/**
