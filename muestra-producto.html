@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <!-- SEO: valores base (se actualizan dinámicamente cuando carga el producto) -->
     <title>Producto - Positivo Hogar</title>
@@ -18,7 +18,7 @@
     <meta property="og:site_name" content="Positivo Hogar">
     <meta property="og:title" content="Producto - Positivo Hogar">
     <meta property="og:description" content="Crédito con tu DNI sin tarjeta de crédito. Positivo Hogar, Wilde.">
-    <meta property="og:image" content="https://positivohogar.com.ar/banner_principal.png">
+    <meta property="og:image" content="https://positivohogar.com.ar/assets/banners/banner_principal.png">
     <meta property="og:url" content="https://positivohogar.com.ar/muestra-producto.html">
     <meta property="og:locale" content="es_AR">
 
@@ -33,7 +33,7 @@
         window.actualizarMetaProducto = function({ nombre, imagen, descripcion, precio }) {
             const titulo = nombre + ' - Positivo Hogar';
             const desc   = (descripcion ? descripcion.substring(0, 150) : 'Crédito con tu DNI sin tarjeta de crédito.') + ' | Positivo Hogar, Wilde.';
-            const img    = imagen || 'https://positivohogar.com.ar/banner_principal.png';
+            const img    = imagen || 'https://positivohogar.com.ar/assets/banners/banner_principal.png';
             const url    = window.location.href;
 
             // Title
@@ -82,8 +82,8 @@
         };
     </script>
 
-    <script src="java.js" defer></script>
-    <script src="producto.js?v=12" defer></script>
+    <script src="js/main.js" defer></script>
+    <script src="js/producto.js?v=12" defer></script>
 </head>
 <script src="chat-widget.js" defer></script>
 <body class="body body_only_product">
@@ -123,13 +123,13 @@
                     <div class="only_product_contact_container main_desktop">
                         <a class="only_product_contact_a whatsapp" data-sucursal="Las Flores">
                             <button class="only_product_contact_button">
-                                <img class="contact_wpp_img" src="./whatsapp-logo.png" alt="WA">
+                                <img class="contact_wpp_img" src="./assets/logos/whatsapp-logo.png" alt="WA">
                                 Las Flores
                             </button>
                         </a>
                         <a class="only_product_contact_a whatsapp" data-sucursal="Mitre">
                             <button class="only_product_contact_button">
-                                <img class="contact_wpp_img" src="./whatsapp-logo.png" alt="WA">
+                                <img class="contact_wpp_img" src="./assets/logos/whatsapp-logo.png" alt="WA">
                                 Mitre
                             </button>
                         </a>
@@ -142,12 +142,12 @@
         <!-- Mobile: barra fija abajo con dos botones -->
         <div class="only_product_wpp_bar_mobile main_phone">
             <a class="only_product_wpp_mobile_btn whatsapp" data-sucursal="Las Flores">
-                <img src="./whatsapp-logo.png" alt="WA" class="only_product_wpp_mobile_icon">
+                <img src="./assets/logos/whatsapp-logo.png" alt="WA" class="only_product_wpp_mobile_icon">
                 <span>Las Flores</span>
             </a>
             <div class="only_product_wpp_mobile_sep"></div>
             <a class="only_product_wpp_mobile_btn whatsapp" data-sucursal="Mitre">
-                <img src="./whatsapp-logo.png" alt="WA" class="only_product_wpp_mobile_icon">
+                <img src="./assets/logos/whatsapp-logo.png" alt="WA" class="only_product_wpp_mobile_icon">
                 <span>Mitre</span>
             </a>
         </div>

@@ -543,7 +543,7 @@ function inicializarSliderBanners() {
 
       <!-- ── SLIDE 0: banner original ── -->
         <div class="ph_slide ph_slide_img">
-          <img src="./banner_principal_1920x400.webp" alt="Positivo Hogar">
+          <img src="./assets/banners/banner_principal_1920x400.webp" alt="Positivo Hogar">
         </div>
 
        <!-- ── SLIDE 1: Los mejores precios - Personas ── -->
@@ -559,7 +559,7 @@ function inicializarSliderBanners() {
           <div style="position:absolute;right:0;top:0;bottom:0;width:46%;overflow:hidden;z-index:1">
             <div style="position:absolute;top:0;bottom:0;left:0;width:42%;background:linear-gradient(90deg,#f07200 0%,rgba(240,114,0,0) 100%);z-index:2"></div>
             <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(232,85,0,.28) 0%,transparent 18%,transparent 80%,rgba(232,85,0,.28) 100%);z-index:2"></div>
-            <img src="banner_principal.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
+            <img src="assets/banners/banner_principal.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block;">
           </div>
           <!-- SVG patrones -->
           <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:.08;z-index:1" viewBox="0 0 1920 400" preserveAspectRatio="xMidYMid slice">
